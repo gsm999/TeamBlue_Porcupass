@@ -7,6 +7,24 @@ from AccountsUI import Ui_Widget as AccountUI
 from GenPassUI import Ui_Widget as GenPassUI
 from NuclearUI import Ui_Widget as NukeUI
 from SettingsUI import Ui_Widget as SettingsUI
+import pyrebase
+
+firebaseConfig = {
+    'apiKey': "AIzaSyBxRfpYsWe8Qf9t8x5-8KSfQKHC-_jFJhE",
+    'authDomain': "porcupass.firebaseapp.com",
+    'projectId': "porcupass",
+    'storageBucket': "porcupass.appspot.com",
+    'messagingSenderId': "1008087805547",
+    'appId': "1:1008087805547:web:eb9352b1ea097139310b2e",
+    'measurementId': "G-L0MSJPXK5S",
+    'databaseURL' : ""
+  }
+
+
+firebase = pyrebase.initialize_app(firebaseConfig)
+
+auth = firebase.auth()
+
 
 class MainWindow(QtWidgets.QMainWindow, MainUI):
     def __init__(self):
@@ -59,6 +77,9 @@ class MyWindow(QtWidgets.QMainWindow):
 
 
     def Enter_clicked(self):
+        email = self.loginscreen.LoginUser.toPlainText()
+        password = self.loginscreen.LoginPassword.toPlainText()
+        auth.create_user_with_email_and_password(email,password)
         LoginVerified = True
         if LoginVerified :
             self.HomeScreen = MainWindow()
