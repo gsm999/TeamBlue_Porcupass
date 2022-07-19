@@ -64,7 +64,7 @@ class Ui_Widget(object):
         self.pushButton.setGeometry(QtCore.QRect(230, 280, 281, 171))
         self.pushButton.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("NukeImage.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("res/NukeImage.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton.setIcon(icon)
         self.pushButton.setIconSize(QtCore.QSize(231, 171))
         self.pushButton.setAutoDefault(True)
