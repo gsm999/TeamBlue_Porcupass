@@ -6,6 +6,7 @@ from AccountsUI import Ui_Widget as AccountUI
 from GenPassUI import Ui_Widget as GenPassUI
 from NuclearUI import Ui_Widget as NukeUI
 from SettingsUI import Ui_Widget as SettingsUI
+from CreateAccountUI import Ui_Widget as CreateAccountUI
 import pyrebase
 
 # Your web app's Firebase configuration
@@ -17,7 +18,8 @@ firebaseConfig = {
   'storageBucket': "porcupass-1d1cb.appspot.com",
   'messagingSenderId': "798965436291",
   'appId': "1:798965436291:web:9b33dedac329461f3670b6",
-  'measurementId': "G-SBBX0HG3XR"
+  'measurementId': "G-SBBX0HG3XR",
+  'databaseURL': ""
 }
 
 
@@ -29,6 +31,11 @@ auth = firebase.auth()
 class MainWindow(QtWidgets.QMainWindow, MainUI):
     def __init__(self):
         super(MainWindow, self).__init__()
+        self.setupUi(self)
+
+class CreateAccountWindow(QtWidgets.QMainWindow, CreateAccountUI):
+    def __init__(self):
+        super(CreateAccountWindow, self).__init__()
         self.setupUi(self)
 
 class AccountsWindow(QtWidgets.QMainWindow, AccountUI):
@@ -73,6 +80,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.loginscreen = LoginWindow()
         self.loginscreen.show()
         self.loginscreen.LoginEnter.clicked.connect(self.Enter_clicked)
+        self.loginscreen.CreateNewUser.clicked.connect(self.Create_Account_Clicked)
       
     def close_screens(self, current):
         if (self.HomeScreen != current and self.HomeScreen.isVisible()):
@@ -126,7 +134,16 @@ class MyWindow(QtWidgets.QMainWindow):
             self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.nukeopt.Accounts_Button.clicked.connect(self.Accounts_Clicked)
+    
+    def Create_Account_Clicked(self):
+        self.CreateAccountScreen = CreateAccountWindow()
+        self.CreateAccountScreen.show()
+        self.loginscreen.hide()
+        self.CreateAccountScreen.CreationEnter.clicked.connect(self.Account_Created)
 
+    def Account_Created(self):
+        self.loginscreen.show()
+        self.CreateAccountScreen.hide()
             
 
     def Accounts_Clicked(self):
