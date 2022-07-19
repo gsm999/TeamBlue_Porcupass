@@ -8,16 +8,17 @@ from NuclearUI import Ui_Widget as NukeUI
 from SettingsUI import Ui_Widget as SettingsUI
 import pyrebase
 
+# Your web app's Firebase configuration
+# For Firebase JS SDK v7.20.0 and later, measurementId is optional
 firebaseConfig = {
-    'apiKey': "AIzaSyBxRfpYsWe8Qf9t8x5-8KSfQKHC-_jFJhE",
-    'authDomain': "porcupass.firebaseapp.com",
-    'projectId': "porcupass",
-    'storageBucket': "porcupass.appspot.com",
-    'messagingSenderId': "1008087805547",
-    'appId': "1:1008087805547:web:eb9352b1ea097139310b2e",
-    'measurementId': "G-L0MSJPXK5S",
-    'databaseURL' : ""
-  }
+  'apiKey': "AIzaSyA1NFf0XKFE3ItD3M5LYMGv3FKbm2mQwSs",
+  'authDomain': "porcupass-1d1cb.firebaseapp.com",
+  'projectId': "porcupass-1d1cb",
+  'storageBucket': "porcupass-1d1cb.appspot.com",
+  'messagingSenderId': "798965436291",
+  'appId': "1:798965436291:web:9b33dedac329461f3670b6",
+  'measurementId': "G-SBBX0HG3XR"
+}
 
 
 firebase = pyrebase.initialize_app(firebaseConfig)
