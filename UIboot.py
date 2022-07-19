@@ -1,5 +1,4 @@
 import sys
-from turtle import isvisible
 from LoginUI import Ui_Widget as LoginWidget
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from Main_WindowUI import Ui_Widget as MainUI
@@ -22,6 +21,17 @@ class GenPassWindow(QtWidgets.QMainWindow, GenPassUI):
     def __init__(self):
         super(GenPassWindow, self).__init__()
         self.setupUi(self)
+
+    def Generate_Password(self):
+        FakePassword = ''
+        if self.NumericPass.isChecked():
+            FakePassword += "numerical "
+        if self.CapPass.isChecked():
+            FakePassword += "capatilization "
+        if self.SpecCharPass.isChecked():
+            FakePassword += "special characters "
+        FakePassword += "{} characters".format(self.PassCharLim.toPlainText())
+        self.GenPassOut.setPlainText(FakePassword)
 
 class NukeWindow(QtWidgets.QMainWindow, NukeUI):
     def __init__(self):
@@ -73,18 +83,23 @@ class MyWindow(QtWidgets.QMainWindow):
             self.HomeScreen.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.HomeScreen.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.HomeScreen.Nuke_Button.clicked.connect(self.Nuke_Clicked)
+
             self.accounts.Home_Button.clicked.connect(self.Home_Clicked)
             self.accounts.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.accounts.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.accounts.Nuke_Button.clicked.connect(self.Nuke_Clicked)
+
             self.genpass.Home_Button.clicked.connect(self.Home_Clicked)
             self.genpass.Accounts_Button.clicked.connect(self.Accounts_Clicked)
             self.genpass.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.genpass.Nuke_Button.clicked.connect(self.Nuke_Clicked)
+            self.genpass.GeneratePass.clicked.connect(self.genpass.Generate_Password)
+
             self.settings.Home_Button.clicked.connect(self.Home_Clicked)
             self.settings.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.settings.Accounts_Button.clicked.connect(self.Accounts_Clicked)
             self.settings.Nuke_Button.clicked.connect(self.Nuke_Clicked)
+
             self.nukeopt.Home_Button.clicked.connect(self.Home_Clicked)
             self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
