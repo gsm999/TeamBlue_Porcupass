@@ -81,6 +81,9 @@ class Ui_Widget(object):
         self.label = QtWidgets.QLabel(Widget)
         self.label.setGeometry(QtCore.QRect(590, 330, 111, 20))
         self.label.setObjectName("label")
+        self.SaveGenPassSet = QtWidgets.QCheckBox(Widget)
+        self.SaveGenPassSet.setGeometry(QtCore.QRect(530, 430, 161, 24))
+        self.SaveGenPassSet.setObjectName("SaveGenPassSet")
 
         self.retranslateUi(Widget)
         self.Menu.setCurrentIndex(1)
@@ -102,6 +105,7 @@ class Ui_Widget(object):
         self.CapPass.setText(_translate("Widget", "Capatilization"))
         self.SpecCharPass.setText(_translate("Widget", "Special Characters"))
         self.label.setText(_translate("Widget", "Character Limit"))
+        self.SaveGenPassSet.setText(_translate("Widget", "Save these settings?"))
 
 
 if __name__ == "__main__":

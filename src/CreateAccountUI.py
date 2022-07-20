@@ -35,8 +35,27 @@ class Ui_Widget(object):
         self.label_2.setGeometry(QtCore.QRect(380, 370, 71, 20))
         self.label_2.setObjectName("label_2")
         self.label_3 = QtWidgets.QLabel(Widget)
-        self.label_3.setGeometry(QtCore.QRect(270, 170, 291, 101))
+        self.label_3.setGeometry(QtCore.QRect(250, 0, 291, 101))
         self.label_3.setObjectName("label_3")
+        self.NewEmail = QtWidgets.QTextEdit(Widget)
+        self.NewEmail.setGeometry(QtCore.QRect(280, 250, 251, 31))
+        self.NewEmail.setObjectName("NewEmail")
+        self.LastName = QtWidgets.QTextEdit(Widget)
+        self.LastName.setGeometry(QtCore.QRect(280, 190, 251, 31))
+        self.LastName.setObjectName("LastName")
+        self.FirstName = QtWidgets.QTextEdit(Widget)
+        self.FirstName.setGeometry(QtCore.QRect(280, 130, 251, 31))
+        self.FirstName.setObjectName("FirstName")
+        self.label_4 = QtWidgets.QLabel(Widget)
+        self.label_4.setGeometry(QtCore.QRect(380, 100, 81, 20))
+        self.label_4.setObjectName("label_4")
+        self.label_5 = QtWidgets.QLabel(Widget)
+        self.label_5.setGeometry(QtCore.QRect(380, 170, 81, 20))
+        self.label_5.setObjectName("label_5")
+        self.label_6 = QtWidgets.QLabel(Widget)
+        self.label_6.setGeometry(QtCore.QRect(390, 230, 63, 20))
+        self.label_6.setObjectName("label_6")
+
 
         self.retranslateUi(Widget)
         QtCore.QMetaObject.connectSlotsByName(Widget)
@@ -48,6 +67,10 @@ class Ui_Widget(object):
         self.label.setText(_translate("Widget", "Username:"))
         self.label_2.setText(_translate("Widget", "Password"))
         self.label_3.setText(_translate("Widget", "<html><head/><body><p><span style=\" font-size:24pt; font-weight:700;\">Create Account</span></p></body></html>"))
+        self.label_4.setText(_translate("Widget", "First Name"))
+        self.label_5.setText(_translate("Widget", "Last Name"))
+        self.label_6.setText(_translate("Widget", "Email"))
+
 
 
 if __name__ == "__main__":
