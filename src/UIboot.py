@@ -1,3 +1,4 @@
+from json import JSONDecodeError
 import sys
 from LoginUI import Ui_Widget as LoginWidget
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
@@ -17,7 +18,12 @@ firebaseConfig = {
   'storageBucket': "porcupass-1d1cb.appspot.com",
   'messagingSenderId': "798965436291",
   'appId': "1:798965436291:web:9b33dedac329461f3670b6",
+<<<<<<< Updated upstream
   'measurementId': "G-SBBX0HG3XR"
+=======
+  'measurementId': "G-SBBX0HG3XR",
+  'databaseURL': "https://porcupass-1d1cb-default-rtdb.firebaseio.com"
+>>>>>>> Stashed changes
 }
 
 
@@ -41,16 +47,7 @@ class GenPassWindow(QtWidgets.QMainWindow, GenPassUI):
         super(GenPassWindow, self).__init__()
         self.setupUi(self)
 
-    def Generate_Password(self):
-        FakePassword = ''
-        if self.NumericPass.isChecked():
-            FakePassword += "numerical "
-        if self.CapPass.isChecked():
-            FakePassword += "capatilization "
-        if self.SpecCharPass.isChecked():
-            FakePassword += "special characters "
-        FakePassword += "{} characters".format(self.PassCharLim.toPlainText())
-        self.GenPassOut.setPlainText(FakePassword)
+
 
 class NukeWindow(QtWidgets.QMainWindow, NukeUI):
     def __init__(self):
@@ -73,6 +70,19 @@ class MyWindow(QtWidgets.QMainWindow):
         self.loginscreen = LoginWindow()
         self.loginscreen.show()
         self.loginscreen.LoginEnter.clicked.connect(self.Enter_clicked)
+<<<<<<< Updated upstream
+=======
+        self.loginscreen.CreateNewUser.clicked.connect(self.Create_Account_Clicked)
+        self.UserInfo = firebase.database()
+        self._username = ""
+        
+    @property
+    def username(self):
+        return self._username
+    @username.setter
+    def username(self, new):
+        self._username = new
+>>>>>>> Stashed changes
       
     def close_screens(self, current):
         if (self.HomeScreen != current and self.HomeScreen.isVisible()):
@@ -90,7 +100,7 @@ class MyWindow(QtWidgets.QMainWindow):
     def Enter_clicked(self):
         email = self.loginscreen.LoginUser.toPlainText()
         password = self.loginscreen.LoginPassword.toPlainText()
-        auth.create_user_with_email_and_password(email,password)
+        user = auth.sign_in_with_email_and_password(email,password)
         LoginVerified = True
         if LoginVerified :
             self.HomeScreen = MainWindow()
@@ -100,6 +110,14 @@ class MyWindow(QtWidgets.QMainWindow):
             self.genpass = GenPassWindow()
             self.settings = SettingsWindow()
             self.nukeopt = NukeWindow()
+
+            userinf = auth.get_account_info(user['idToken'])
+            userid = userinf['users'][0]['localId']
+            self.username = self.UserInfo.child("users").get()
+            for user in self.username.each():
+                if user.val()['userinfo']['UID'] == userid:
+                    self.username = user.key()
+            print(self.username)
             
             self.HomeScreen.Accounts_Button.clicked.connect(self.Accounts_Clicked)
             self.HomeScreen.GenPass_Button.clicked.connect(self.GenPass_Clicked)
@@ -115,7 +133,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.genpass.Accounts_Button.clicked.connect(self.Accounts_Clicked)
             self.genpass.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.genpass.Nuke_Button.clicked.connect(self.Nuke_Clicked)
-            self.genpass.GeneratePass.clicked.connect(self.genpass.Generate_Password)
+            self.genpass.GeneratePass.clicked.connect(self.Generate_Password)
 
             self.settings.Home_Button.clicked.connect(self.Home_Clicked)
             self.settings.GenPass_Button.clicked.connect(self.GenPass_Clicked)
@@ -126,8 +144,57 @@ class MyWindow(QtWidgets.QMainWindow):
             self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.nukeopt.Accounts_Button.clicked.connect(self.Accounts_Clicked)
+<<<<<<< Updated upstream
 
             
+=======
+    
+    def Create_Account_Clicked(self):
+
+        self.CreateAccountScreen = CreateAccountWindow()
+        self.CreateAccountScreen.show()
+        self.loginscreen.hide()
+        self.CreateAccountScreen.CreationEnter.clicked.connect(self.Account_Created)
+
+        
+
+    def Account_Created(self):
+        self.username = (self.CreateAccountScreen.NewUser.toPlainText())
+        password = self.CreateAccountScreen.NewPassword.toPlainText()
+        firstname = self.CreateAccountScreen.FirstName.toPlainText()
+        lastname = self.CreateAccountScreen.LastName.toPlainText()
+        email = self.CreateAccountScreen.NewEmail.toPlainText()
+
+        newuser = auth.create_user_with_email_and_password(email,password)
+        self.loginscreen.show()
+        self.CreateAccountScreen.hide()
+
+        userinf = auth.get_account_info(newuser['idToken'])
+        userid = userinf['users'][0]['localId']
+       
+
+        data = {self._username: {"userinfo" : {"firstname" : firstname, "lastname": lastname, "email" : email, "UID": userid}}}
+        try:
+            self.UserInfo.child("users").update(data, newuser['idToken'])    
+        except (JSONDecodeError):
+            print("unsuccessful")
+
+    def Generate_Password(self):
+        FakePassword = ''
+        if self.genpass.SaveGenPassSet.isChecked():
+            data = {"Capatilization": self.genpass.CapPass.isChecked(), "Numerical": self.genpass.NumericPass.isChecked(), "SpecChar" : self.genpass.SpecCharPass.isChecked(), "CharLim" : int(self.genpass.PassCharLim.toPlainText())}
+            self.UserInfo.child("users").child(self.username).child("PasswordSettings").update(data)
+        if self.genpass.NumericPass.isChecked():
+            FakePassword += "numerical "
+        if self.genpass.CapPass.isChecked():
+            FakePassword += "capatilization "
+        if self.genpass.SpecCharPass.isChecked():
+            FakePassword += "special characters "
+        FakePassword += "{} characters".format(self.genpass.PassCharLim.toPlainText())
+        self.genpass.GenPassOut.setPlainText(FakePassword)
+
+       
+>>>>>>> Stashed changes
 
     def Accounts_Clicked(self):
         self.close_screens(self.accounts)
