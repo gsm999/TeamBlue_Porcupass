@@ -56,6 +56,7 @@ class Ui_Widget(object):
         self.label_6.setGeometry(QtCore.QRect(390, 230, 63, 20))
         self.label_6.setObjectName("label_6")
 
+
         self.retranslateUi(Widget)
         QtCore.QMetaObject.connectSlotsByName(Widget)
 
@@ -69,6 +70,7 @@ class Ui_Widget(object):
         self.label_4.setText(_translate("Widget", "First Name"))
         self.label_5.setText(_translate("Widget", "Last Name"))
         self.label_6.setText(_translate("Widget", "Email"))
+
 
 
 if __name__ == "__main__":

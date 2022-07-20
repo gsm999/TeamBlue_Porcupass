@@ -21,7 +21,7 @@ firebaseConfig = {
   'appId': "1:798965436291:web:9b33dedac329461f3670b6",
   'measurementId': "G-SBBX0HG3XR",
   'databaseURL': "https://porcupass-1d1cb-default-rtdb.firebaseio.com"
-}
+
 
 
 firebase = pyrebase.initialize_app(firebaseConfig)
@@ -144,6 +144,12 @@ class MyWindow(QtWidgets.QMainWindow):
             self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.nukeopt.Accounts_Button.clicked.connect(self.Accounts_Clicked)
+    
+    def Create_Account_Clicked(self):
+        self.CreateAccountScreen = CreateAccountWindow()
+        self.CreateAccountScreen.show()
+        self.loginscreen.hide()
+        self.CreateAccountScreen.CreationEnter.clicked.connect(self.Account_Created)
 
     
     def Create_Account_Clicked(self):
@@ -190,7 +196,7 @@ class MyWindow(QtWidgets.QMainWindow):
         FakePassword += "{} characters".format(self.genpass.PassCharLim.toPlainText())
         self.genpass.GenPassOut.setPlainText(FakePassword)
 
-       
+      
 
     def Accounts_Clicked(self):
         self.close_screens(self.accounts)
