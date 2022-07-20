@@ -1,0 +1,25 @@
+{
+  "name": "Porcupass",
+  "description": "Porcupass Extension!",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "./background.js"},
+  "options_page": "options.html",
+  "permissions": ["storage", "tabs", "scripting"],
+  "action": {
+    "default_popup": "window-popup.html",
+    "default_icon": {
+      "16": "/pics/icon16.png",
+      "32": "/pics/icon32.png",
+      "48": "/pics/icon48.png",
+      "128": "/pics/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "/pics/icon16.png",
+    "32": "/pics/icon32.png",
+    "48": "/pics/icon48.png",
+    "128": "/pics/icon128.png"
+  }
+}

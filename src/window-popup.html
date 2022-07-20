@@ -1,0 +1,77 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            width: 300px;
+            height: 300px;
+            margin: 0;
+            padding: 0;
+            overflow: 0;
+        }
+
+        form {
+            align-items: center;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            box-sizing: border-box;
+            background-color: #d6d6d6;
+            flex-wrap: wrap;
+        }
+
+        input {
+            margin: 10px;
+            font-size: 120%;
+            width: 75%;
+            height: 5%;
+            padding: 10px;
+            border: black;
+            font-family: monospace;
+            transition-duration: 0.3s;
+        }
+
+        input:focus {
+            transform: scale(1.2);
+        }
+
+        button {
+            font-size: 200%;
+            background-color: #aaaaaa;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+            color: black;
+            font-family: monospace;
+            font-weight: bold;
+            transition-duration: 0.3s;
+            padding: 10px;
+            margin-top: 1%;
+            cursor: pointer;
+        }
+
+        .white_placeholder::placeholder {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <header class="user__header">
+        <h1 class="user__title">Add your new account to Porcupass!</h1>
+        </header>
+        <input type="email" name="email" id="email" placeholder="Email">
+        <input type="password" name="password" id="password" placeholder="Password">
+        <button type="confirm" class="confirmBtn">Confirm</button>
+    </form>
+    <script src="./window-popup.js"></script>
+</body>
+
+</html>
