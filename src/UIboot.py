@@ -21,7 +21,7 @@ firebaseConfig = {
   'appId': "1:798965436291:web:9b33dedac329461f3670b6",
   'measurementId': "G-SBBX0HG3XR",
   'databaseURL': "https://porcupass-1d1cb-default-rtdb.firebaseio.com"
-
+}
 
 
 firebase = pyrebase.initialize_app(firebaseConfig)
