@@ -15,6 +15,10 @@ class Ui_Widget(object):
     def setupUi(self, Widget):
         Widget.setObjectName("Widget")
         Widget.resize(472, 552)
+        font = QtGui.QFont()
+        font.setItalic(True)
+        font.setKerning(True)
+        Widget.setFont(font)
         self.LoginUser = QtWidgets.QTextEdit(Widget)
         self.LoginUser.setGeometry(QtCore.QRect(103, 286, 251, 31))
         self.LoginUser.setObjectName("LoginUser")
@@ -34,6 +38,17 @@ class Ui_Widget(object):
         self.LoginEnter.setDefault(True)
         self.LoginEnter.setFlat(False)
         self.LoginEnter.setObjectName("LoginEnter")
+        self.CreateNewUser = QtWidgets.QCommandLinkButton(Widget)
+        self.CreateNewUser.setGeometry(QtCore.QRect(120, 470, 241, 41))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(8)
+        font.setItalic(True)
+        font.setKerning(False)
+        self.CreateNewUser.setFont(font)
+        self.CreateNewUser.setIconSize(QtCore.QSize(0, 0))
+        self.CreateNewUser.setCheckable(False)
+        self.CreateNewUser.setObjectName("CreateNewUser")
 
         self.retranslateUi(Widget)
         QtCore.QMetaObject.connectSlotsByName(Widget)
@@ -44,6 +59,7 @@ class Ui_Widget(object):
         self.label.setText(_translate("Widget", "Username:"))
         self.label_2.setText(_translate("Widget", "Password"))
         self.LoginEnter.setText(_translate("Widget", "Enter"))
+        self.CreateNewUser.setText(_translate("Widget", "No account? Click here to create."))
 
 
 if __name__ == "__main__":

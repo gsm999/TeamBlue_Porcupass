@@ -7,6 +7,7 @@ from AccountsUI import Ui_Widget as AccountUI
 from GenPassUI import Ui_Widget as GenPassUI
 from NuclearUI import Ui_Widget as NukeUI
 from SettingsUI import Ui_Widget as SettingsUI
+from CreateAccountUI import Ui_Widget as CreateAccountUI
 import pyrebase
 
 # Your web app's Firebase configuration
@@ -18,12 +19,8 @@ firebaseConfig = {
   'storageBucket': "porcupass-1d1cb.appspot.com",
   'messagingSenderId': "798965436291",
   'appId': "1:798965436291:web:9b33dedac329461f3670b6",
-<<<<<<< Updated upstream
-  'measurementId': "G-SBBX0HG3XR"
-=======
   'measurementId': "G-SBBX0HG3XR",
   'databaseURL': "https://porcupass-1d1cb-default-rtdb.firebaseio.com"
->>>>>>> Stashed changes
 }
 
 
@@ -35,6 +32,11 @@ auth = firebase.auth()
 class MainWindow(QtWidgets.QMainWindow, MainUI):
     def __init__(self):
         super(MainWindow, self).__init__()
+        self.setupUi(self)
+
+class CreateAccountWindow(QtWidgets.QMainWindow, CreateAccountUI): 
+    def __init__(self):
+        super(CreateAccountWindow, self).__init__()
         self.setupUi(self)
 
 class AccountsWindow(QtWidgets.QMainWindow, AccountUI):
@@ -70,8 +72,6 @@ class MyWindow(QtWidgets.QMainWindow):
         self.loginscreen = LoginWindow()
         self.loginscreen.show()
         self.loginscreen.LoginEnter.clicked.connect(self.Enter_clicked)
-<<<<<<< Updated upstream
-=======
         self.loginscreen.CreateNewUser.clicked.connect(self.Create_Account_Clicked)
         self.UserInfo = firebase.database()
         self._username = ""
@@ -82,7 +82,7 @@ class MyWindow(QtWidgets.QMainWindow):
     @username.setter
     def username(self, new):
         self._username = new
->>>>>>> Stashed changes
+
       
     def close_screens(self, current):
         if (self.HomeScreen != current and self.HomeScreen.isVisible()):
@@ -144,10 +144,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.nukeopt.Accounts_Button.clicked.connect(self.Accounts_Clicked)
-<<<<<<< Updated upstream
 
-            
-=======
     
     def Create_Account_Clicked(self):
 
@@ -194,7 +191,6 @@ class MyWindow(QtWidgets.QMainWindow):
         self.genpass.GenPassOut.setPlainText(FakePassword)
 
        
->>>>>>> Stashed changes
 
     def Accounts_Clicked(self):
         self.close_screens(self.accounts)
