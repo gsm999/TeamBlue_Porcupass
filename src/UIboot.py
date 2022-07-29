@@ -10,6 +10,8 @@ from SettingsUI import Ui_Widget as SettingsUI
 from CreateAccountUI import Ui_Widget as CreateAccountUI
 import pyrebase
 
+from password_generation import *
+
 # Your web app's Firebase configuration
 # For Firebase JS SDK v7.20.0 and later, measurementId is optional
 firebaseConfig = {
@@ -183,18 +185,10 @@ class MyWindow(QtWidgets.QMainWindow):
             print("unsuccessful")
 
     def Generate_Password(self):
-        FakePassword = ''
         if self.genpass.SaveGenPassSet.isChecked():
             data = {"Capatilization": self.genpass.CapPass.isChecked(), "Numerical": self.genpass.NumericPass.isChecked(), "SpecChar" : self.genpass.SpecCharPass.isChecked(), "CharLim" : int(self.genpass.PassCharLim.toPlainText())}
             self.UserInfo.child("users").child(self.username).child("PasswordSettings").update(data)
-        if self.genpass.NumericPass.isChecked():
-            FakePassword += "numerical "
-        if self.genpass.CapPass.isChecked():
-            FakePassword += "capatilization "
-        if self.genpass.SpecCharPass.isChecked():
-            FakePassword += "special characters "
-        FakePassword += "{} characters".format(self.genpass.PassCharLim.toPlainText())
-        self.genpass.GenPassOut.setPlainText(FakePassword)
+        self.genpass.GenPassOut.setPlainText(passwordGenerator(self.genpass.NumericPass.isChecked(), self.genpass.SpecCharPass.isChecked(), False, self.genpass.CapPass.isChecked(), self.genpass.PassCharLim.toPlainText()))
 
       
 
