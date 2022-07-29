@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Widget</class>
+ <widget class="QWidget" name="Widget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Widget</string>
+  </property>
+  <widget class="QToolBox" name="Menu">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>85</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="lineWidth">
+    <number>1</number>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <property name="tabSpacing">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="Dropdown">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>85</width>
+      <height>125</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Menu</string>
+    </attribute>
+    <widget class="QPushButton" name="Home_Button">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>-2</y>
+       <width>85</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;ui version=&quot;4.0&quot;&gt;
+ &lt;widget name=&quot;__qt_fake_top_level&quot;&gt;
+  &lt;widget class=&quot;QPushButton&quot; name=&quot;pushButton_2&quot;&gt;
+   &lt;property name=&quot;geometry&quot;&gt;
+    &lt;rect&gt;
+     &lt;x&gt;0&lt;/x&gt;
+     &lt;y&gt;0&lt;/y&gt;
+     &lt;width&gt;85&lt;/width&gt;
+     &lt;height&gt;29&lt;/height&gt;
+    &lt;/rect&gt;
+   &lt;/property&gt;
+   &lt;property name=&quot;text&quot;&gt;
+    &lt;string&gt;PushButton&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/widget&gt;
+ &lt;/widget&gt;
+ &lt;resources/&gt;
+&lt;/ui&gt;
+</string>
+     </property>
+     <property name="text">
+      <string>Home</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="GenPass_Button">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>50</y>
+       <width>85</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::TabFocus</enum>
+     </property>
+     <property name="text">
+      <string>Generate 
+Password</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Nuke_Button">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>88</y>
+       <width>85</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Nuclear 
+Option</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Accounts_Button">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>24</y>
+       <width>85</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Accounts</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>85</width>
+      <height>125</height>
+     </rect>
+    </property>
+    <attribute name="label">
+     <string>Close</string>
+    </attribute>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>220</y>
+     <width>541</width>
+     <height>231</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:48pt; font-weight:700;&quot;&gt;Settings &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:48pt; font-weight:700;&quot;&gt;stuff here&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
