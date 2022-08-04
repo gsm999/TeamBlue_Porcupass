@@ -71,7 +71,7 @@ class Ui_Widget(object):
         self.pushButton.setDefault(True)
         self.pushButton.setFlat(False)
         self.pushButton.setObjectName("pushButton")
-
+        
         self.retranslateUi(Widget)
         self.Menu.setCurrentIndex(1)
         self.Menu.layout().setSpacing(0)
