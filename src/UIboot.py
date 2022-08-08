@@ -1,3 +1,5 @@
+from collections import UserDict
+from gc import isenabled
 from json import JSONDecodeError
 import sys
 from LoginUI import Ui_Widget as LoginWidget
@@ -9,8 +11,8 @@ from NuclearUI import Ui_Widget as NukeUI
 from SettingsUI import Ui_Widget as SettingsUI
 from CreateAccountUI import Ui_Widget as CreateAccountUI
 import pyrebase
-
 from password_generation import *
+
 
 # Your web app's Firebase configuration
 # For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -69,6 +71,7 @@ class SettingsWindow(QtWidgets.QMainWindow, SettingsUI):
         self.setupUi(self)
 
 class MyWindow(QtWidgets.QMainWindow):
+
     def __init__(self):
         super(MyWindow, self).__init__()
         self.loginscreen = LoginWindow()
@@ -76,8 +79,15 @@ class MyWindow(QtWidgets.QMainWindow):
         self.loginscreen.LoginEnter.clicked.connect(self.Enter_clicked)
         self.loginscreen.CreateNewUser.clicked.connect(self.Create_Account_Clicked)
         self.UserInfo = firebase.database()
-        self._username = ""
+        self._userid = ""
         
+    @property
+    def userid(self):
+        return self._userid
+    @userid.setter
+    def userid(self, new):
+        self._userid = new
+    
     @property
     def username(self):
         return self._username
@@ -85,7 +95,6 @@ class MyWindow(QtWidgets.QMainWindow):
     def username(self, new):
         self._username = new
 
-      
     def close_screens(self, current):
         if (self.HomeScreen != current and self.HomeScreen.isVisible()):
             self.HomeScreen.hide()
@@ -112,12 +121,12 @@ class MyWindow(QtWidgets.QMainWindow):
             self.genpass = GenPassWindow()
             self.settings = SettingsWindow()
             self.nukeopt = NukeWindow()
-
             userinf = auth.get_account_info(user['idToken'])
-            userid = userinf['users'][0]['localId']
+            self.userid = userinf['users'][0]['localId']
             self.username = self.UserInfo.child("users").get()
+            
             for user in self.username.each():
-                if user.val()['userinfo']['UID'] == userid:
+                if user.val()['userinfo']['UID'] == self.userid:
                     self.username = user.key()
             print(self.username)
             
@@ -146,6 +155,8 @@ class MyWindow(QtWidgets.QMainWindow):
             self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.nukeopt.Accounts_Button.clicked.connect(self.Accounts_Clicked)
+            self.nukeopt.pushButton.clicked.connect(self.Nuke_Info)
+
     
     def Create_Account_Clicked(self):
         self.CreateAccountScreen = CreateAccountWindow()
@@ -214,6 +225,16 @@ class MyWindow(QtWidgets.QMainWindow):
     def Nuke_Clicked(self):
         self.close_screens(self.nukeopt)
         self.nukeopt.show()
+        
+    
+    def Nuke_Info(self):
+        self.UserInfo.child("users").child(self.username).remove()
+        auth.delete_user_account(auth.current_user['idToken'])
+        
+    
+      
+    
+
 
             
 
