@@ -9,8 +9,10 @@ from NuclearUI import Ui_Widget as NukeUI
 from SettingsUI import Ui_Widget as SettingsUI
 from CreateAccountUI import Ui_Widget as CreateAccountUI
 import pyrebase
-
 from password_generation import *
+
+
+
 
 # Your web app's Firebase configuration
 # For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -25,10 +27,9 @@ firebaseConfig = {
   'databaseURL': "https://porcupass-1d1cb-default-rtdb.firebaseio.com"
 }
 
-
 firebase = pyrebase.initialize_app(firebaseConfig)
-
 auth = firebase.auth()
+
 
 
 class MainWindow(QtWidgets.QMainWindow, MainUI):
