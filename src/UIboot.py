@@ -10,6 +10,7 @@ from GenPassUI import Ui_Widget as GenPassUI
 from NuclearUI import Ui_Widget as NukeUI
 from SettingsUI import Ui_Widget as SettingsUI
 from CreateAccountUI import Ui_Widget as CreateAccountUI
+from NewStoreUI import Ui_MainWindow as NewStoreUI
 import pyrebase
 from password_generation import *
 
@@ -53,7 +54,10 @@ class GenPassWindow(QtWidgets.QMainWindow, GenPassUI):
         super(GenPassWindow, self).__init__()
         self.setupUi(self)
 
-
+class AddStoreWindow(QtWidgets.QMainWindow, NewStoreUI):
+    def __init__(self):
+        super(AddStoreWindow, self).__init__()
+        self.setupUI(self)
 
 class NukeWindow(QtWidgets.QMainWindow, NukeUI):
     def __init__(self):
@@ -139,6 +143,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.accounts.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.accounts.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.accounts.Nuke_Button.clicked.connect(self.Nuke_Clicked)
+            self.accounts.commandLinkButton.clicked.connect(self.Add_Store_Clicked)
 
             self.genpass.Home_Button.clicked.connect(self.Home_Clicked)
             self.genpass.Accounts_Button.clicked.connect(self.Accounts_Clicked)
@@ -163,15 +168,6 @@ class MyWindow(QtWidgets.QMainWindow):
         self.CreateAccountScreen.show()
         self.loginscreen.hide()
         self.CreateAccountScreen.CreationEnter.clicked.connect(self.Account_Created)
-
-    
-    def Create_Account_Clicked(self):
-
-        self.CreateAccountScreen = CreateAccountWindow()
-        self.CreateAccountScreen.show()
-        self.loginscreen.hide()
-        self.CreateAccountScreen.CreationEnter.clicked.connect(self.Account_Created)
-
         
 
     def Account_Created(self):
@@ -201,7 +197,60 @@ class MyWindow(QtWidgets.QMainWindow):
             self.UserInfo.child("users").child(self.username).child("PasswordSettings").update(data)
         self.genpass.GenPassOut.setPlainText(passwordGenerator(self.genpass.NumericPass.isChecked(), self.genpass.SpecCharPass.isChecked(), False, self.genpass.CapPass.isChecked(), self.genpass.PassCharLim.toPlainText()))
 
-      
+    def Add_Store_Clicked(self):
+        self.AddStoreScreen = AddStoreWindow()
+        self.AddStoreScreen.show()
+        self.accounts.hide()
+        self.AddStoreScreen.pushButton.clicked.connect(self.Store_Added)
+
+    def Store_Added(self):
+        self.accounts.show()
+        self.AddStoreScren.hide()
+
+    def Add_Store_Enter_Clicked(self):
+        self.addstorescreen = AddStoreWindow()
+        self.addstorescreen.hide()
+        self.HomeScreen = MainWindow()
+        self.accounts = AccountsWindow()
+        self.accounts.show()
+        self.genpass = GenPassWindow()
+        self.settings = SettingsWindow()
+        self.nukeopt = NukeWindow()
+        userinf = auth.get_account_info(user['idToken'])
+        self.userid = userinf['users'][0]['localId']
+        self.username = self.UserInfo.child("users").get()
+            
+        for user in self.username.each():
+            if user.val()['userinfo']['UID'] == self.userid:
+                self.username = user.key()
+        print(self.username)
+            
+        self.HomeScreen.Accounts_Button.clicked.connect(self.Accounts_Clicked)
+        self.HomeScreen.GenPass_Button.clicked.connect(self.GenPass_Clicked)
+        self.HomeScreen.Settings_Button.clicked.connect(self.Settings_Clicked)
+        self.HomeScreen.Nuke_Button.clicked.connect(self.Nuke_Clicked)
+
+        self.accounts.Home_Button.clicked.connect(self.Home_Clicked)
+        self.accounts.GenPass_Button.clicked.connect(self.GenPass_Clicked)
+        self.accounts.Settings_Button.clicked.connect(self.Settings_Clicked)
+        self.accounts.Nuke_Button.clicked.connect(self.Nuke_Clicked)
+
+        self.genpass.Home_Button.clicked.connect(self.Home_Clicked)
+        self.genpass.Accounts_Button.clicked.connect(self.Accounts_Clicked)
+        self.genpass.Settings_Button.clicked.connect(self.Settings_Clicked)
+        self.genpass.Nuke_Button.clicked.connect(self.Nuke_Clicked)
+        self.genpass.GeneratePass.clicked.connect(self.Generate_Password)
+
+        self.settings.Home_Button.clicked.connect(self.Home_Clicked)
+        self.settings.GenPass_Button.clicked.connect(self.GenPass_Clicked)
+        self.settings.Accounts_Button.clicked.connect(self.Accounts_Clicked)
+        self.settings.Nuke_Button.clicked.connect(self.Nuke_Clicked)
+
+        self.nukeopt.Home_Button.clicked.connect(self.Home_Clicked)
+        self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
+        self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
+        self.nukeopt.Accounts_Button.clicked.connect(self.Accounts_Clicked)
+        self.nukeopt.pushButton.clicked.connect(self.Nuke_Info)
 
     def Accounts_Clicked(self):
         self.close_screens(self.accounts)
