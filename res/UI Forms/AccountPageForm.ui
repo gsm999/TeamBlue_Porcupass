@@ -13,19 +13,6 @@
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>180</y>
-     <width>551</width>
-     <height>321</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:48pt; font-weight:700;&quot;&gt;Accounts stuff &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:48pt; font-weight:700;&quot;&gt;goes here&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </widget>
   <widget class="QToolBox" name="Menu">
    <property name="geometry">
     <rect>
@@ -50,7 +37,7 @@
       <x>0</x>
       <y>0</y>
       <width>85</width>
-      <height>125</height>
+      <height>133</height>
      </rect>
     </property>
     <attribute name="label">
@@ -142,13 +129,26 @@ Option</string>
       <x>0</x>
       <y>0</y>
       <width>85</width>
-      <height>125</height>
+      <height>133</height>
      </rect>
     </property>
     <attribute name="label">
      <string>Close</string>
     </attribute>
    </widget>
+  </widget>
+  <widget class="QCommandLinkButton" name="commandLinkButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>540</y>
+     <width>331</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>New store account? Click here to add it</string>
+   </property>
   </widget>
  </widget>
  <resources/>
