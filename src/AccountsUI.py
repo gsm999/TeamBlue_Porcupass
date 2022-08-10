@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'form.ui'
+# Form implementation generated from reading ui file 'AccountPageForm.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.7
 #
@@ -15,15 +15,12 @@ class Ui_Widget(object):
     def setupUi(self, Widget):
         Widget.setObjectName("Widget")
         Widget.resize(800, 600)
-        self.label = QtWidgets.QLabel(Widget)
-        self.label.setGeometry(QtCore.QRect(170, 180, 551, 321))
-        self.label.setObjectName("label")
         self.Menu = QtWidgets.QToolBox(Widget)
         self.Menu.setGeometry(QtCore.QRect(20, 10, 85, 181))
         self.Menu.setLineWidth(1)
         self.Menu.setObjectName("Menu")
         self.Dropdown = QtWidgets.QWidget()
-        self.Dropdown.setGeometry(QtCore.QRect(0, 0, 85, 125))
+        self.Dropdown.setGeometry(QtCore.QRect(0, 0, 85, 133))
         self.Dropdown.setObjectName("Dropdown")
         self.Home_Button = QtWidgets.QPushButton(self.Dropdown)
         self.Home_Button.setGeometry(QtCore.QRect(0, -2, 85, 29))
@@ -60,9 +57,12 @@ class Ui_Widget(object):
         self.Nuke_Button.setObjectName("Nuke_Button")
         self.Menu.addItem(self.Dropdown, "")
         self.page = QtWidgets.QWidget()
-        self.page.setGeometry(QtCore.QRect(0, 0, 85, 125))
+        self.page.setGeometry(QtCore.QRect(0, 0, 85, 133))
         self.page.setObjectName("page")
         self.Menu.addItem(self.page, "")
+        self.commandLinkButton = QtWidgets.QCommandLinkButton(Widget)
+        self.commandLinkButton.setGeometry(QtCore.QRect(10, 540, 331, 41))
+        self.commandLinkButton.setObjectName("commandLinkButton")
 
         self.retranslateUi(Widget)
         self.Menu.setCurrentIndex(1)
@@ -72,7 +72,6 @@ class Ui_Widget(object):
     def retranslateUi(self, Widget):
         _translate = QtCore.QCoreApplication.translate
         Widget.setWindowTitle(_translate("Widget", "Widget"))
-        self.label.setText(_translate("Widget", "<html><head/><body><p><span style=\" font-size:48pt; font-weight:700;\">Accounts stuff </span></p><p><span style=\" font-size:48pt; font-weight:700;\">goes here</span></p></body></html>"))
         self.Home_Button.setText(_translate("Widget", "Home"))
         self.GenPass_Button.setText(_translate("Widget", "Generate \n"
 "Password"))
@@ -81,6 +80,7 @@ class Ui_Widget(object):
 "Option"))
         self.Menu.setItemText(self.Menu.indexOf(self.Dropdown), _translate("Widget", "Menu"))
         self.Menu.setItemText(self.Menu.indexOf(self.page), _translate("Widget", "Close"))
+        self.commandLinkButton.setText(_translate("Widget", "New store account? Click here to add it"))
 
 
 if __name__ == "__main__":
