@@ -10,7 +10,7 @@ from GenPassUI import Ui_Widget as GenPassUI
 from NuclearUI import Ui_Widget as NukeUI
 from SettingsUI import Ui_Widget as SettingsUI
 from CreateAccountUI import Ui_Widget as CreateAccountUI
-from NewStoreUI import Ui_MainWindow as NewStoreUI
+from NewStoreUI import Ui_Widget as NewStoreUI
 import pyrebase
 from password_generation import *
 
@@ -57,7 +57,7 @@ class GenPassWindow(QtWidgets.QMainWindow, GenPassUI):
 class AddStoreWindow(QtWidgets.QMainWindow, NewStoreUI):
     def __init__(self):
         super(AddStoreWindow, self).__init__()
-        self.setupUI(self)
+        self.setupUi(self)
 
 class NukeWindow(QtWidgets.QMainWindow, NukeUI):
     def __init__(self):
@@ -205,25 +205,16 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def Store_Added(self):
         self.accounts.show()
-        self.AddStoreScren.hide()
+        self.AddStoreScreen.hide()
 
     def Add_Store_Enter_Clicked(self):
-        self.addstorescreen = AddStoreWindow()
         self.addstorescreen.hide()
-        self.HomeScreen = MainWindow()
         self.accounts = AccountsWindow()
         self.accounts.show()
-        self.genpass = GenPassWindow()
-        self.settings = SettingsWindow()
-        self.nukeopt = NukeWindow()
+      
         userinf = auth.get_account_info(user['idToken'])
         self.userid = userinf['users'][0]['localId']
         self.username = self.UserInfo.child("users").get()
-            
-        for user in self.username.each():
-            if user.val()['userinfo']['UID'] == self.userid:
-                self.username = user.key()
-        print(self.username)
             
         self.HomeScreen.Accounts_Button.clicked.connect(self.Accounts_Clicked)
         self.HomeScreen.GenPass_Button.clicked.connect(self.GenPass_Clicked)
