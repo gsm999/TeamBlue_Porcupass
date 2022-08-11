@@ -132,6 +132,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.HomeScreen.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.HomeScreen.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.HomeScreen.Nuke_Button.clicked.connect(self.Nuke_Clicked)
+            self.HomeScreen.commandLinkButton.clicked.connect(self.Add_Store_Clicked)
 
             self.genpass.Home_Button.clicked.connect(self.Home_Clicked)
             self.genpass.Settings_Button.clicked.connect(self.Settings_Clicked)
@@ -186,6 +187,12 @@ class MyWindow(QtWidgets.QMainWindow):
         self.AddStoreScreen = AddStoreWindow()
         self.AddStoreScreen.show()
         self.HomeScreen.hide()
+        store = self.AddStoreScreen.textEdit.toPlainText()
+        storeusername = self.AddStoreScreen.textEdit_2.toPlainText()
+        storeemail = self.AddStoreScreen.textEdit_3.toPlainText()
+        storepassword = self.AddStoreScreen.textEdit_4.toPlainText()
+        data = {"Store" : store, "StoreUsername" : storeusername, "StoreEmail" : storeemail, "StorePassword" : storepassword}
+        self.UserInfo.child("users").child(self.username).child("Stores").update(data)
         self.AddStoreScreen.pushButton.clicked.connect(self.Store_Added)
 
     def Store_Added(self):
