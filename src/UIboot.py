@@ -77,6 +77,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.loginscreen.CreateNewUser.clicked.connect(self.Create_Account_Clicked)
         self.UserInfo = firebase.database()
         self._userid = ""
+        self.username = ""
         
     @property
     def userid(self):
@@ -95,8 +96,6 @@ class MyWindow(QtWidgets.QMainWindow):
     def close_screens(self, current):
         if (self.HomeScreen != current and self.HomeScreen.isVisible()):
             self.HomeScreen.hide()
-        elif (self.accounts != current and self.accounts.isVisible()):
-            self.accounts.hide()
         elif (self.genpass != current and self.genpass.isVisible()):
             self.genpass.hide()
         elif (self.settings != current and self.settings.isVisible()):
@@ -122,9 +121,12 @@ class MyWindow(QtWidgets.QMainWindow):
             self.username = self.UserInfo.child("users").get()
             
             for user in self.username.each():
-                if user.val()['userinfo']['UID'] == self.userid:
-                    self.username = user.key()
-            print(self.username)
+                try:
+                    if user.val()['userinfo']['UID'] == self.userid:
+                        self.username = user.key()
+                except (KeyError):
+                    pass
+
             
           
             self.HomeScreen.GenPass_Button.clicked.connect(self.GenPass_Clicked)
@@ -200,6 +202,36 @@ class MyWindow(QtWidgets.QMainWindow):
 
 
     def Settings_Clicked(self):
+        accountinfo = QtWidgets.QWidget()
+        emailInfo = QtWidgets.QWidget()
+        passwordInfo = QtWidgets.QWidget()
+        nameInfo = QtWidgets.QWidget()
+        self.settings.changeEmail = QtWidgets.QPushButton("Change Email")
+        self.settings.changePassword = QtWidgets.QPushButton("Change Password")
+        self.settings.changeName = QtWidgets.QPushButton("Change Name")
+        hLayout = QtWidgets.QHBoxLayout()
+        hLayout.addWidget(QtWidgets.QLabel("Email: {}"))
+        hLayout.addWidget(self.settings.changeEmail)
+        emailInfo.setLayout(hLayout)
+        hLayout = QtWidgets.QHBoxLayout()
+        hLayout.addWidget(QtWidgets.QLabel("Password: {}"))
+        hLayout.addWidget(self.settings.changePassword)
+        passwordInfo.setLayout(hLayout)
+        hLayout = QtWidgets.QHBoxLayout()
+        hLayout.addWidget(QtWidgets.QLabel("Name: {}"))
+        hLayout.addWidget(self.settings.changeName)
+        nameInfo.setLayout(hLayout)
+        vLayout = QtWidgets.QVBoxLayout()
+        vLayout.addWidget(emailInfo)
+        vLayout.addWidget(passwordInfo)
+        vLayout.addWidget(nameInfo)
+        accountinfo.setLayout(vLayout)
+        newItem = QtWidgets.QTreeWidgetItem()
+        self.settings.SettingsTree.addTopLevelItem(newItem)
+        self.settings.SettingsTree.setItemWidget(newItem,0,accountinfo)
+
+        
+        
         self.close_screens(self.settings)
         self.settings.show()
         

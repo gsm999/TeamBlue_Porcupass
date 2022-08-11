@@ -26,7 +26,7 @@
     <number>1</number>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <property name="tabSpacing">
     <number>0</number>
@@ -82,7 +82,7 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>50</y>
+       <y>20</y>
        <width>85</width>
        <height>41</height>
       </rect>
@@ -99,7 +99,7 @@ Password</string>
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>88</y>
+       <y>60</y>
        <width>85</width>
        <height>41</height>
       </rect>
@@ -107,19 +107,6 @@ Password</string>
      <property name="text">
       <string>Nuclear 
 Option</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="Accounts_Button">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>24</y>
-       <width>85</width>
-       <height>29</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Accounts</string>
      </property>
     </widget>
    </widget>
@@ -137,18 +124,26 @@ Option</string>
     </attribute>
    </widget>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QTreeWidget" name="SettingsTree">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>220</y>
-     <width>541</width>
-     <height>231</height>
+     <x>150</x>
+     <y>0</y>
+     <width>651</width>
+     <height>581</height>
     </rect>
    </property>
-   <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:48pt; font-weight:700;&quot;&gt;Settings &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:48pt; font-weight:700;&quot;&gt;stuff here&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   <property name="autoFillBackground">
+    <bool>true</bool>
    </property>
+   <attribute name="headerVisible">
+    <bool>false</bool>
+   </attribute>
+   <column>
+    <property name="text">
+     <string/>
+    </property>
+   </column>
   </widget>
  </widget>
  <resources/>
