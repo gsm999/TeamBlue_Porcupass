@@ -1,5 +1,7 @@
 from collections import UserDict
 from gc import isenabled
+import requests
+import json
 from json import JSONDecodeError
 import sys
 from LoginUI import Ui_Widget as LoginWidget
@@ -93,6 +95,19 @@ class MyWindow(QtWidgets.QMainWindow):
     def username(self, new):
         self._username = new
 
+    def errorWindow(self,errormessage, window):
+        errordict = {"EMAIL_EXISTS":"This email is already in use",
+                     "MISSING_PASSWORD":"Please enter a password",
+                     "MISSING_FIRSTNAME": "Please enter a firstname",
+                     "MISSING_LASTNAME": "Please enter a lastname",
+                     "MISSING_USERNAME": "Please enter a username",
+                     "INVALID_EMAIL": "Please ennter a valid email adress",
+                     "MISSING_EMAIL": "Please enter an email adress"}
+        q = QtWidgets.QMessageBox()
+        q.setWindowTitle("Error Occured")
+        q.setText(errordict[errormessage])
+        finish = q.exec_()
+
     def close_screens(self, current):
         if (self.HomeScreen != current and self.HomeScreen.isVisible()):
             self.HomeScreen.hide()
@@ -107,7 +122,13 @@ class MyWindow(QtWidgets.QMainWindow):
     def Enter_clicked(self):
         email = self.loginscreen.LoginUser.toPlainText()
         password = self.loginscreen.LoginPassword.toPlainText()
-        user = auth.sign_in_with_email_and_password(email,password)
+        try:
+            user = auth.sign_in_with_email_and_password(email,password)
+        except requests.HTTPError as e:
+            error_json = e.args[1]
+            error = json.loads(error_json)['error']['message']
+            self.errorWindow(error, self.loginscreen)
+                
         LoginVerified = True
         if LoginVerified :
             self.HomeScreen = AccountsWindow()
@@ -156,13 +177,28 @@ class MyWindow(QtWidgets.QMainWindow):
         
 
     def Account_Created(self):
-        self.username = (self.CreateAccountScreen.NewUser.toPlainText())
+        self.username = self.CreateAccountScreen.NewUser.toPlainText()
+        if self.username == "":
+            self.errorWindow("MISSING_USERNAME", self.CreateAccountScreen)
+            return
         password = self.CreateAccountScreen.NewPassword.toPlainText()
         firstname = self.CreateAccountScreen.FirstName.toPlainText()
+        if firstname == "":
+            self.errorWindow("MISSING_FIRSTNAME", self.CreateAccountScreen)
+            return
         lastname = self.CreateAccountScreen.LastName.toPlainText()
+        if lastname == "":
+            self.errorWindow("MISSING_LASTNAME", self.CreateAccountScreen)
+            return
         email = self.CreateAccountScreen.NewEmail.toPlainText()
 
-        newuser = auth.create_user_with_email_and_password(email,password)
+        try:
+            newuser = auth.create_user_with_email_and_password(email,password)
+        except requests.HTTPError as e:
+            error_json = e.args[1]
+            error = json.loads(error_json)['error']['message']
+            self.errorWindow(error, self.CreateAccountScreen)
+            return
         self.loginscreen.show()
         self.CreateAccountScreen.hide()
 
