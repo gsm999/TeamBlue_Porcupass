@@ -4,7 +4,6 @@ from json import JSONDecodeError
 import sys
 from LoginUI import Ui_Widget as LoginWidget
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
-from Main_WindowUI import Ui_Widget as MainUI
 from AccountsUI import Ui_Widget as AccountUI
 from GenPassUI import Ui_Widget as GenPassUI
 from NuclearUI import Ui_Widget as NukeUI
@@ -32,12 +31,6 @@ firebaseConfig = {
 firebase = pyrebase.initialize_app(firebaseConfig)
 
 auth = firebase.auth()
-
-
-class MainWindow(QtWidgets.QMainWindow, MainUI):
-    def __init__(self):
-        super(MainWindow, self).__init__()
-        self.setupUi(self)
 
 class CreateAccountWindow(QtWidgets.QMainWindow, CreateAccountUI): 
     def __init__(self):
@@ -84,6 +77,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.loginscreen.CreateNewUser.clicked.connect(self.Create_Account_Clicked)
         self.UserInfo = firebase.database()
         self._userid = ""
+        self.username = ""
         
     @property
     def userid(self):
@@ -102,8 +96,6 @@ class MyWindow(QtWidgets.QMainWindow):
     def close_screens(self, current):
         if (self.HomeScreen != current and self.HomeScreen.isVisible()):
             self.HomeScreen.hide()
-        elif (self.accounts != current and self.accounts.isVisible()):
-            self.accounts.hide()
         elif (self.genpass != current and self.genpass.isVisible()):
             self.genpass.hide()
         elif (self.settings != current and self.settings.isVisible()):
@@ -118,10 +110,9 @@ class MyWindow(QtWidgets.QMainWindow):
         user = auth.sign_in_with_email_and_password(email,password)
         LoginVerified = True
         if LoginVerified :
-            self.HomeScreen = MainWindow()
+            self.HomeScreen = AccountsWindow()
             self.loginscreen.hide()
             self.HomeScreen.show()
-            self.accounts = AccountsWindow()
             self.genpass = GenPassWindow()
             self.settings = SettingsWindow()
             self.nukeopt = NukeWindow()
@@ -130,36 +121,30 @@ class MyWindow(QtWidgets.QMainWindow):
             self.username = self.UserInfo.child("users").get()
             
             for user in self.username.each():
-                if user.val()['userinfo']['UID'] == self.userid:
-                    self.username = user.key()
-            print(self.username)
+                try:
+                    if user.val()['userinfo']['UID'] == self.userid:
+                        self.username = user.key()
+                except (KeyError):
+                    pass
+
             
-            self.HomeScreen.Accounts_Button.clicked.connect(self.Accounts_Clicked)
+          
             self.HomeScreen.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.HomeScreen.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.HomeScreen.Nuke_Button.clicked.connect(self.Nuke_Clicked)
 
-            self.accounts.Home_Button.clicked.connect(self.Home_Clicked)
-            self.accounts.GenPass_Button.clicked.connect(self.GenPass_Clicked)
-            self.accounts.Settings_Button.clicked.connect(self.Settings_Clicked)
-            self.accounts.Nuke_Button.clicked.connect(self.Nuke_Clicked)
-            self.accounts.commandLinkButton.clicked.connect(self.Add_Store_Clicked)
-
             self.genpass.Home_Button.clicked.connect(self.Home_Clicked)
-            self.genpass.Accounts_Button.clicked.connect(self.Accounts_Clicked)
             self.genpass.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.genpass.Nuke_Button.clicked.connect(self.Nuke_Clicked)
             self.genpass.GeneratePass.clicked.connect(self.Generate_Password)
 
             self.settings.Home_Button.clicked.connect(self.Home_Clicked)
             self.settings.GenPass_Button.clicked.connect(self.GenPass_Clicked)
-            self.settings.Accounts_Button.clicked.connect(self.Accounts_Clicked)
             self.settings.Nuke_Button.clicked.connect(self.Nuke_Clicked)
 
             self.nukeopt.Home_Button.clicked.connect(self.Home_Clicked)
             self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
-            self.nukeopt.Accounts_Button.clicked.connect(self.Accounts_Clicked)
             self.nukeopt.pushButton.clicked.connect(self.Nuke_Info)
 
     
@@ -200,60 +185,53 @@ class MyWindow(QtWidgets.QMainWindow):
     def Add_Store_Clicked(self):
         self.AddStoreScreen = AddStoreWindow()
         self.AddStoreScreen.show()
-        self.accounts.hide()
+        self.HomeScreen.hide()
         self.AddStoreScreen.pushButton.clicked.connect(self.Store_Added)
 
     def Store_Added(self):
-        self.accounts.show()
+        self.HomeScreen.show()
         self.AddStoreScreen.hide()
 
     def Add_Store_Enter_Clicked(self):
         self.addstorescreen.hide()
-        self.accounts = AccountsWindow()
-        self.accounts.show()
-      
-        userinf = auth.get_account_info(user['idToken'])
-        self.userid = userinf['users'][0]['localId']
-        self.username = self.UserInfo.child("users").get()
-            
-        self.HomeScreen.Accounts_Button.clicked.connect(self.Accounts_Clicked)
-        self.HomeScreen.GenPass_Button.clicked.connect(self.GenPass_Clicked)
-        self.HomeScreen.Settings_Button.clicked.connect(self.Settings_Clicked)
-        self.HomeScreen.Nuke_Button.clicked.connect(self.Nuke_Clicked)
-
-        self.accounts.Home_Button.clicked.connect(self.Home_Clicked)
-        self.accounts.GenPass_Button.clicked.connect(self.GenPass_Clicked)
-        self.accounts.Settings_Button.clicked.connect(self.Settings_Clicked)
-        self.accounts.Nuke_Button.clicked.connect(self.Nuke_Clicked)
-
-        self.genpass.Home_Button.clicked.connect(self.Home_Clicked)
-        self.genpass.Accounts_Button.clicked.connect(self.Accounts_Clicked)
-        self.genpass.Settings_Button.clicked.connect(self.Settings_Clicked)
-        self.genpass.Nuke_Button.clicked.connect(self.Nuke_Clicked)
-        self.genpass.GeneratePass.clicked.connect(self.Generate_Password)
-
-        self.settings.Home_Button.clicked.connect(self.Home_Clicked)
-        self.settings.GenPass_Button.clicked.connect(self.GenPass_Clicked)
-        self.settings.Accounts_Button.clicked.connect(self.Accounts_Clicked)
-        self.settings.Nuke_Button.clicked.connect(self.Nuke_Clicked)
-
-        self.nukeopt.Home_Button.clicked.connect(self.Home_Clicked)
-        self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
-        self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
-        self.nukeopt.Accounts_Button.clicked.connect(self.Accounts_Clicked)
-        self.nukeopt.pushButton.clicked.connect(self.Nuke_Info)
-
-    def Accounts_Clicked(self):
-        self.close_screens(self.accounts)
-        self.accounts.show()
+        self.HomeScreen.show()
         
-
     def Home_Clicked(self):
         self.close_screens(self.HomeScreen)
         self.HomeScreen.show()
 
 
     def Settings_Clicked(self):
+        accountinfo = QtWidgets.QWidget()
+        emailInfo = QtWidgets.QWidget()
+        passwordInfo = QtWidgets.QWidget()
+        nameInfo = QtWidgets.QWidget()
+        self.settings.changeEmail = QtWidgets.QPushButton("Change Email")
+        self.settings.changePassword = QtWidgets.QPushButton("Change Password")
+        self.settings.changeName = QtWidgets.QPushButton("Change Name")
+        hLayout = QtWidgets.QHBoxLayout()
+        hLayout.addWidget(QtWidgets.QLabel("Email: {}"))
+        hLayout.addWidget(self.settings.changeEmail)
+        emailInfo.setLayout(hLayout)
+        hLayout = QtWidgets.QHBoxLayout()
+        hLayout.addWidget(QtWidgets.QLabel("Password: {}"))
+        hLayout.addWidget(self.settings.changePassword)
+        passwordInfo.setLayout(hLayout)
+        hLayout = QtWidgets.QHBoxLayout()
+        hLayout.addWidget(QtWidgets.QLabel("Name: {}"))
+        hLayout.addWidget(self.settings.changeName)
+        nameInfo.setLayout(hLayout)
+        vLayout = QtWidgets.QVBoxLayout()
+        vLayout.addWidget(emailInfo)
+        vLayout.addWidget(passwordInfo)
+        vLayout.addWidget(nameInfo)
+        accountinfo.setLayout(vLayout)
+        newItem = QtWidgets.QTreeWidgetItem()
+        self.settings.SettingsTree.addTopLevelItem(newItem)
+        self.settings.SettingsTree.setItemWidget(newItem,0,accountinfo)
+
+        
+        
         self.close_screens(self.settings)
         self.settings.show()
         
