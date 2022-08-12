@@ -150,7 +150,7 @@ Password</string>
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>NukeImage.jpg</normaloff>NukeImage.jpg</iconset>
+     <normaloff>../NukeImage.jpg</normaloff>../NukeImage.jpg</iconset>
    </property>
    <property name="iconSize">
     <size>
