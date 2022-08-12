@@ -1,10 +1,12 @@
 from collections import UserDict
 from gc import isenabled
+import requests
+import json
 from json import JSONDecodeError
 import sys
 from LoginUI import Ui_Widget as LoginWidget
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
-from AccountsUI import Ui_Widget as AccountUI
+from PyQt5 import QtWidgets, QtCore
+from AccountUI import Ui_Widget as AccountUI
 from GenPassUI import Ui_Widget as GenPassUI
 from NuclearUI import Ui_Widget as NukeUI
 from SettingsUI import Ui_Widget as SettingsUI
@@ -93,6 +95,20 @@ class MyWindow(QtWidgets.QMainWindow):
     def username(self, new):
         self._username = new
 
+    def errorWindow(self,errormessage, window):
+        errordict = {"EMAIL_EXISTS":"This email is already in use",
+                     "MISSING_PASSWORD":"Please enter a password",
+                     "MISSING_FIRSTNAME": "Please enter a firstname",
+                     "MISSING_LASTNAME": "Please enter a lastname",
+                     "MISSING_USERNAME": "Please enter a username",
+                     "INVALID_EMAIL": "Please ennter a valid email adress",
+                     "MISSING_EMAIL": "Please enter an email adress",
+                     "INVALID_PASSWORD": "Pleasse enter a valid password"}
+        q = QtWidgets.QMessageBox()
+        q.setWindowTitle("Error Occured")
+        q.setText(errordict[errormessage])
+        finish = q.exec_()
+
     def close_screens(self, current):
         if (self.HomeScreen != current and self.HomeScreen.isVisible()):
             self.HomeScreen.hide()
@@ -107,16 +123,17 @@ class MyWindow(QtWidgets.QMainWindow):
     def Enter_clicked(self):
         email = self.loginscreen.LoginUser.toPlainText()
         password = self.loginscreen.LoginPassword.toPlainText()
-        user = auth.sign_in_with_email_and_password(email,password)
+        try:
+            user = auth.sign_in_with_email_and_password(email,password)
+        except requests.HTTPError as e:
+            error_json = e.args[1]
+            error = json.loads(error_json)['error']['message']
+            self.errorWindow(error, self.loginscreen)
+            return
+                
         LoginVerified = True
         if LoginVerified :
-            self.HomeScreen = AccountsWindow()
-            self.loginscreen.hide()
-            self.HomeScreen.show()
-            self.genpass = GenPassWindow()
-            self.settings = SettingsWindow()
-            self.nukeopt = NukeWindow()
-            self.AddStoreScreen = AddStoreWindow()
+
             userinf = auth.get_account_info(user['idToken'])
             self.userid = userinf['users'][0]['localId']
             self.username = self.UserInfo.child("users").get()
@@ -128,11 +145,38 @@ class MyWindow(QtWidgets.QMainWindow):
                 except (KeyError):
                     pass
 
+            self.HomeScreen = AccountsWindow()
+            accounts = self.UserInfo.child("users").child(self.username).child("Accounts").get()
             
+            self.account_widgetsG = []
+            self.account_widgetsV = []
+            for account in accounts.each():
+                self.newG = QtWidgets.QPushButton(account.key())
+                self.newG.clicked.connect(lambda:self.accountPopup(account.val()))
+                self.newV = QtWidgets.QPushButton(account.key())
+                self.newV.clicked.connect(lambda:self.accountPopup(account.val()))
+                self.account_widgetsG.append(self.newG)
+                self.account_widgetsV.append(self.newV)
+            self.createAccountDisplay()
+            
+            if self.HomeScreen.AccountsGridV.isChecked(): 
+                self.HomeScreen.AccountsHolder.show()
+                self.HomeScreen.AccountsHolder.raise_()
+            else: 
+                self.HomeScreen.AccountsHolder2.show()
+                self.HomeScreen.AccountsHolder2.raise_()
+            self.loginscreen.hide()
+            self.HomeScreen.show()
+            self.genpass = GenPassWindow()
+            self.settings = SettingsWindow()
+            self.nukeopt = NukeWindow()
+            self.AddStoreScreen = AddStoreWindow()
           
             self.HomeScreen.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.HomeScreen.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.HomeScreen.Nuke_Button.clicked.connect(self.Nuke_Clicked)
+            self.HomeScreen.AccountsGridV.stateChanged.connect(self.gridChecked)
+            self.HomeScreen.AccountVertV.stateChanged.connect(self.vertChecked)
             self.HomeScreen.commandLinkButton.clicked.connect(self.Add_Store_Clicked)
 
             self.genpass.Home_Button.clicked.connect(self.Home_Clicked)
@@ -149,22 +193,76 @@ class MyWindow(QtWidgets.QMainWindow):
             self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.nukeopt.pushButton.clicked.connect(self.Nuke_Info)
 
+    def gridChecked(self):
+        if self.HomeScreen.AccountsGridV.isChecked(): 
+            self.HomeScreen.AccountVertV.setCheckState(False)
+            self.HomeScreen.AccountsHolder2.hide()
+            self.HomeScreen.AccountsHolder.show()
+
+
     
+    def vertChecked(self):
+        if self.HomeScreen.AccountVertV.isChecked(): 
+            self.HomeScreen.AccountsGridV.setCheckState(False)
+            self.HomeScreen.AccountsHolder.hide()
+            self.HomeScreen.AccountsHolder2.show()
+
+    def createAccountDisplay(self):
+        
+        newLayoutG = QtWidgets.QGridLayout()
+        newLayoutV = QtWidgets.QVBoxLayout()
+        rowcount = colcount = 0
+        for item in self.account_widgetsG:
+            if colcount <=3:
+                newLayoutG.addWidget(item, rowcount, colcount)
+                colcount += 1
+            else:
+                colcount = 0
+                rowcount += 1
+                newLayoutG.addWidget(item, rowcount, colcount)
+                colcount += 1
+
+        for item in self.account_widgetsV:
+            newLayoutV.addWidget(item)
+        
+        self.HomeScreen.scrollAreaWidgetContents.setLayout(newLayoutG)
+        self.HomeScreen.AccountsHolder.hide()
+        self.HomeScreen.AccountsHolder.raise_()
+        self.HomeScreen.scrollAreaWidgetContents_2.setLayout(newLayoutV)
+        self.HomeScreen.AccountsHolder2.stackUnder(self.HomeScreen.AccountsHolder)
+        self.HomeScreen.AccountsHolder2.hide()
+
     def Create_Account_Clicked(self):
         self.CreateAccountScreen = CreateAccountWindow()
         self.CreateAccountScreen.show()
         self.loginscreen.hide()
         self.CreateAccountScreen.CreationEnter.clicked.connect(self.Account_Created)
         
-
+    def accountPopup(self, account):
+        pass
     def Account_Created(self):
-        self.username = (self.CreateAccountScreen.NewUser.toPlainText())
+        self.username = self.CreateAccountScreen.NewUser.toPlainText()
+        if self.username == "":
+            self.errorWindow("MISSING_USERNAME", self.CreateAccountScreen)
+            return
         password = self.CreateAccountScreen.NewPassword.toPlainText()
         firstname = self.CreateAccountScreen.FirstName.toPlainText()
+        if firstname == "":
+            self.errorWindow("MISSING_FIRSTNAME", self.CreateAccountScreen)
+            return
         lastname = self.CreateAccountScreen.LastName.toPlainText()
+        if lastname == "":
+            self.errorWindow("MISSING_LASTNAME", self.CreateAccountScreen)
+            return
         email = self.CreateAccountScreen.NewEmail.toPlainText()
 
-        newuser = auth.create_user_with_email_and_password(email,password)
+        try:
+            newuser = auth.create_user_with_email_and_password(email,password)
+        except requests.HTTPError as e:
+            error_json = e.args[1]
+            error = json.loads(error_json)['error']['message']
+            self.errorWindow(error, self.CreateAccountScreen)
+            return
         self.loginscreen.show()
         self.CreateAccountScreen.hide()
 
@@ -180,9 +278,9 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def Generate_Password(self):
         if self.genpass.SaveGenPassSet.isChecked():
-            data = {"Capatilization": self.genpass.CapPass.isChecked(), "Numerical": self.genpass.NumericPass.isChecked(), "SpecChar" : self.genpass.SpecCharPass.isChecked(), "CharLim" : int(self.genpass.PassCharLim.toPlainText())}
+            data = {"loweronly": self.genpass.LowerPass.isChecked(), "Capatilization": self.genpass.CapPass.isChecked(), "Numerical": self.genpass.NumericPass.isChecked(), "SpecChar" : self.genpass.SpecCharPass.isChecked(), "CharLim" : int(self.genpass.PassCharLim.value())}
             self.UserInfo.child("users").child(self.username).child("PasswordSettings").update(data)
-        self.genpass.GenPassOut.setPlainText(passwordGenerator(self.genpass.NumericPass.isChecked(), self.genpass.SpecCharPass.isChecked(), False, self.genpass.CapPass.isChecked(), self.genpass.PassCharLim.toPlainText()))
+        self.genpass.GenPassOut.setPlainText(passwordGenerator(self.genpass.NumericPass.isChecked(), self.genpass.SpecCharPass.isChecked(), self.genpass.LowerPass.isChecked(), self.genpass.CapPass.isChecked(), self.genpass.PassCharLim.value()))
 
     def Add_Store_Clicked(self):
         self.AddStoreScreen.show()
@@ -259,9 +357,6 @@ class MyWindow(QtWidgets.QMainWindow):
     
       
     
-
-
-            
 
 app = QtWidgets.QApplication(sys.argv)
 ui = MyWindow()

@@ -37,7 +37,7 @@
       <x>0</x>
       <y>0</y>
       <width>85</width>
-      <height>133</height>
+      <height>125</height>
      </rect>
     </property>
     <attribute name="label">
@@ -129,7 +129,7 @@ Option</string>
       <x>0</x>
       <y>0</y>
       <width>85</width>
-      <height>133</height>
+      <height>125</height>
      </rect>
     </property>
     <attribute name="label">
@@ -142,13 +142,88 @@ Option</string>
     <rect>
      <x>10</x>
      <y>540</y>
-     <width>331</width>
+     <width>391</width>
      <height>41</height>
     </rect>
    </property>
    <property name="text">
     <string>New store account? Click here to add it</string>
    </property>
+  </widget>
+  <widget class="QScrollArea" name="AccountsHolder">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>60</y>
+     <width>641</width>
+     <height>451</height>
+    </rect>
+   </property>
+   <property name="widgetResizable">
+    <bool>true</bool>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>639</width>
+      <height>449</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QCheckBox" name="AccountsGridV">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>30</y>
+     <width>111</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Grid Layout</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="AccountVertV">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>30</y>
+     <width>131</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vertical Layout</string>
+   </property>
+  </widget>
+  <widget class="QScrollArea" name="AccountsHolder2">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>60</y>
+     <width>641</width>
+     <height>451</height>
+    </rect>
+   </property>
+   <property name="widgetResizable">
+    <bool>true</bool>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>639</width>
+      <height>449</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
