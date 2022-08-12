@@ -103,7 +103,8 @@ class MyWindow(QtWidgets.QMainWindow):
                      "MISSING_USERNAME": "Please enter a username",
                      "INVALID_EMAIL": "Please ennter a valid email adress",
                      "MISSING_EMAIL": "Please enter an email adress",
-                     "INVALID_PASSWORD": "Pleasse enter a valid password"}
+                     "INVALID_PASSWORD": "Pleasse enter a valid password",
+                     "EMAIL_NOT_FOUND": "Email was not found"}
         q = QtWidgets.QMessageBox()
         q.setWindowTitle("Error Occured")
         q.setText(errordict[errormessage])
