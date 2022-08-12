@@ -150,13 +150,15 @@ class MyWindow(QtWidgets.QMainWindow):
             
             self.account_widgetsG = []
             self.account_widgetsV = []
-            for account in accounts.each():
-                self.newG = QtWidgets.QPushButton(account.key())
-                self.newG.clicked.connect(lambda:self.accountPopup(account.val()))
-                self.newV = QtWidgets.QPushButton(account.key())
-                self.newV.clicked.connect(lambda:self.accountPopup(account.val()))
-                self.account_widgetsG.append(self.newG)
-                self.account_widgetsV.append(self.newV)
+            try:
+                for account in accounts.each():
+                    self.newG = QtWidgets.QPushButton(account.key())
+                    self.newG.clicked.connect(lambda:self.accountPopup(account.val()))
+                    self.newV = QtWidgets.QPushButton(account.key())
+                    self.newV.clicked.connect(lambda:self.accountPopup(account.val()))
+                    self.account_widgetsG.append(self.newG)
+                    self.account_widgetsV.append(self.newV)
+            except(TypeError): pass
             self.createAccountDisplay()
             
             if self.HomeScreen.AccountsGridV.isChecked(): 
@@ -290,8 +292,8 @@ class MyWindow(QtWidgets.QMainWindow):
     def Store_Added(self):
         store = self.AddStoreScreen.textEdit.toPlainText()
         storeusername = self.AddStoreScreen.textEdit_2.toPlainText()
-        storeemail = self.AddStoreScreen.textEdit_3.toPlainText()
-        storepassword = self.AddStoreScreen.textEdit_4.toPlainText()
+        storepassword = self.AddStoreScreen.textEdit_3.toPlainText()
+        storeemail = self.AddStoreScreen.textEdit_4.toPlainText()
         data = {store:{"Email":storeemail, "Password" : storepassword, "Username" : storeusername}}
         self.UserInfo.child("users").child(self.username).child("Accounts").update(data)
         self.HomeScreen.show()
