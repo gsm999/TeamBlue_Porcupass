@@ -129,6 +129,7 @@ class MyWindow(QtWidgets.QMainWindow):
             error_json = e.args[1]
             error = json.loads(error_json)['error']['message']
             self.errorWindow(error, self.loginscreen)
+            return
                 
         LoginVerified = True
         if LoginVerified :
