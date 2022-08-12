@@ -116,6 +116,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.genpass = GenPassWindow()
             self.settings = SettingsWindow()
             self.nukeopt = NukeWindow()
+            self.AddStoreScreen = AddStoreWindow()
             userinf = auth.get_account_info(user['idToken'])
             self.userid = userinf['users'][0]['localId']
             self.username = self.UserInfo.child("users").get()
@@ -184,18 +185,17 @@ class MyWindow(QtWidgets.QMainWindow):
         self.genpass.GenPassOut.setPlainText(passwordGenerator(self.genpass.NumericPass.isChecked(), self.genpass.SpecCharPass.isChecked(), False, self.genpass.CapPass.isChecked(), self.genpass.PassCharLim.toPlainText()))
 
     def Add_Store_Clicked(self):
-        self.AddStoreScreen = AddStoreWindow()
         self.AddStoreScreen.show()
         self.HomeScreen.hide()
+        self.AddStoreScreen.pushButton.clicked.connect(self.Store_Added)
+
+    def Store_Added(self):
         store = self.AddStoreScreen.textEdit.toPlainText()
         storeusername = self.AddStoreScreen.textEdit_2.toPlainText()
         storeemail = self.AddStoreScreen.textEdit_3.toPlainText()
         storepassword = self.AddStoreScreen.textEdit_4.toPlainText()
-        data = {"Store" : store, "StoreUsername" : storeusername, "StoreEmail" : storeemail, "StorePassword" : storepassword}
-        self.UserInfo.child("users").child(self.username).child("Stores").update(data)
-        self.AddStoreScreen.pushButton.clicked.connect(self.Store_Added)
-
-    def Store_Added(self):
+        data = {store:{"Email":storeemail, "Password" : storepassword, "Username" : storeusername}}
+        self.UserInfo.child("users").child(self.username).child("Accounts").update(data)
         self.HomeScreen.show()
         self.AddStoreScreen.hide()
 
