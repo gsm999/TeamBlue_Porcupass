@@ -138,6 +138,7 @@ class MyWindow(QtWidgets.QMainWindow):
             userinf = auth.get_account_info(user['idToken'])
             self.userid = userinf['users'][0]['localId']
             self.username = self.UserInfo.child("users").get()
+            print(auth.current_user['idToken'])
             
             for user in self.username.each():
                 try:
@@ -352,7 +353,6 @@ class MyWindow(QtWidgets.QMainWindow):
         self.close_screens(self.nukeopt)
         self.nukeopt.show()
         
-    
     def Nuke_Info(self):
         self.UserInfo.child("users").child(self.username).remove()
         auth.delete_user_account(auth.current_user['idToken'])
