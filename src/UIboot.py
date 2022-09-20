@@ -14,6 +14,7 @@ from CreateAccountUI import Ui_Widget as CreateAccountUI
 from NewStoreUI import Ui_Widget as NewStoreUI
 import pyrebase
 from password_generation import *
+from email_verify import *
 
 
 # Your web app's Firebase configuration
@@ -126,6 +127,7 @@ class MyWindow(QtWidgets.QMainWindow):
         password = self.loginscreen.LoginPassword.toPlainText()
         try:
             user = auth.sign_in_with_email_and_password(email,password)
+            
         except requests.HTTPError as e:
             error_json = e.args[1]
             error = json.loads(error_json)['error']['message']
@@ -138,6 +140,7 @@ class MyWindow(QtWidgets.QMainWindow):
             userinf = auth.get_account_info(user['idToken'])
             self.userid = userinf['users'][0]['localId']
             self.username = self.UserInfo.child("users").get()
+            auth.send_password_reset_email(email)
             
             for user in self.username.each():
                 try:
@@ -271,7 +274,8 @@ class MyWindow(QtWidgets.QMainWindow):
 
         userinf = auth.get_account_info(newuser['idToken'])
         userid = userinf['users'][0]['localId']
-       
+        auth.send_email_verification(newuser['idToken'])
+        #send_email_verification_link(newuser['idToken'])       
 
         data = {self._username: {"userinfo" : {"firstname" : firstname, "lastname": lastname, "email" : email, "UID": userid}}}
         try:
