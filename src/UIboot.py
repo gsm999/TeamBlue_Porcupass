@@ -14,6 +14,7 @@ from CreateAccountUI import Ui_Widget as CreateAccountUI
 from NewStoreUI import Ui_Widget as NewStoreUI
 from PassResetUI import Ui_Widget as PassResetUI
 from PassResetSentUI import Ui_Widget as PassResetSentUI
+from VerifyEmailUI import Ui_Widget as VerifyEmailUI
 import pyrebase
 from password_generation import *
 from email_verify import *
@@ -82,7 +83,10 @@ class PassResetSentWindow(QtWidgets.QMainWindow, PassResetSentUI):
         super(PassResetSentWindow, self).__init__()
         self.setupUi(self)
 
-
+class VerifyEmailWindow(QtWidgets.QMainWindow, VerifyEmailUI):
+     def __init__(self):
+        super(VerifyEmailWindow, self).__init__()
+        self.setupUi(self)
 
 class MyWindow(QtWidgets.QMainWindow):
 
@@ -91,6 +95,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.loginscreen = LoginWindow()
         self.password_reset_screen = PassResetWindow()
         self.password_reset_sent_screen = PassResetSentWindow()
+        self.email_verify_screen = VerifyEmailWindow()
         self.loginscreen.show()
         self.loginscreen.LoginEnter.clicked.connect(self.Enter_clicked)
         self.loginscreen.CreateNewUser.clicked.connect(self.Create_Account_Clicked)
@@ -99,6 +104,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.UserInfo = firebase.database()
         self._userid = ""
         self.username = ""
+        self.EmailVerified = False
         
     @property
     def userid(self):
@@ -151,9 +157,11 @@ class MyWindow(QtWidgets.QMainWindow):
             error = json.loads(error_json)['error']['message']
             self.errorWindow(error, self.loginscreen)
             return
-                
+        userinfo = auth.get_account_info(user['idToken'])
+        self.EmailVerified = userinfo['users'][0]['emailVerified']
+
         LoginVerified = True
-        if LoginVerified :
+        if LoginVerified and self.EmailVerified:
 
             userinf = auth.get_account_info(user['idToken'])
             self.userid = userinf['users'][0]['localId']
@@ -215,6 +223,9 @@ class MyWindow(QtWidgets.QMainWindow):
             self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.nukeopt.pushButton.clicked.connect(self.Nuke_Info)
+        else:
+            self.email_verify_screen.show()
+
 
     def gridChecked(self):
         if self.HomeScreen.AccountsGridV.isChecked(): 
@@ -291,8 +302,13 @@ class MyWindow(QtWidgets.QMainWindow):
 
         userinf = auth.get_account_info(newuser['idToken'])
         userid = userinf['users'][0]['localId']
+
+        
+        
+        
         auth.send_email_verification(newuser['idToken'])
-        #send_email_verification_link(newuser['idToken'])       
+        
+
 
         data = {self._username: {"userinfo" : {"firstname" : firstname, "lastname": lastname, "email" : email, "UID": userid}}}
         try:

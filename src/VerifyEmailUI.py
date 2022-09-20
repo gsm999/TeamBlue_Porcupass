@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Widget implementation generated from reading ui file 'C:\Users\John\TeamBlue_Porcupass\res\UI Widgets\PassResetSent.ui'
+# Widget implementation generated from reading ui file 'C:\Users\John\TeamBlue_Porcupass\res\UI Widgets\VerifyEmail.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -14,18 +14,19 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Widget(object):
     def setupUi(self, Widget):
         Widget.setObjectName("Widget")
-        Widget.resize(400, 300)
+        Widget.resize(379, 161)
         self.label = QtWidgets.QLabel(Widget)
-        self.label.setGeometry(QtCore.QRect(110, 90, 181, 41))
-        self.label.setObjectName("label")
-        self.label_3 = QtWidgets.QLabel(Widget)
-        self.label_3.setGeometry(QtCore.QRect(90, 120, 241, 41))
+        self.label.setGeometry(QtCore.QRect(10, 40, 361, 41))
         font = QtGui.QFont()
+        font.setPointSize(12)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
-        self.label_3.setFont(font)
-        self.label_3.setObjectName("label_3")
+        self.label.setFont(font)
+        self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(Widget)
+        self.label_2.setGeometry(QtCore.QRect(70, 40, 281, 151))
+        self.label_2.setObjectName("label_2")
 
         self.retranslateUi(Widget)
         QtCore.QMetaObject.connectSlotsByName(Widget)
@@ -33,8 +34,8 @@ class Ui_Widget(object):
     def retranslateUi(self, Widget):
         _translate = QtCore.QCoreApplication.translate
         Widget.setWindowTitle(_translate("Widget", "Widget"))
-        self.label.setText(_translate("Widget", "A reset link has been emailed."))
-        self.label_3.setText(_translate("Widget", "Please check all folders, including spam"))
+        self.label.setText(_translate("Widget", "Please verify your email before logging in."))
+        self.label_2.setText(_translate("Widget", "Note: Verification link may be in your spam folder"))
 
 
 if __name__ == "__main__":
