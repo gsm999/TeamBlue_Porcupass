@@ -12,6 +12,8 @@ from NuclearUI import Ui_Widget as NukeUI
 from SettingsUI import Ui_Widget as SettingsUI
 from CreateAccountUI import Ui_Widget as CreateAccountUI
 from NewStoreUI import Ui_Widget as NewStoreUI
+from PassResetUI import Ui_Widget as PassResetUI
+from PassResetSentUI import Ui_Widget as PassResetSentUI
 import pyrebase
 from password_generation import *
 from email_verify import *
@@ -70,14 +72,30 @@ class SettingsWindow(QtWidgets.QMainWindow, SettingsUI):
         super(SettingsWindow, self).__init__()
         self.setupUi(self)
 
+class PassResetWindow(QtWidgets.QMainWindow, PassResetUI):
+     def __init__(self):
+        super(PassResetWindow, self).__init__()
+        self.setupUi(self)
+
+class PassResetSentWindow(QtWidgets.QMainWindow, PassResetSentUI):
+     def __init__(self):
+        super(PassResetSentWindow, self).__init__()
+        self.setupUi(self)
+
+
+
 class MyWindow(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(MyWindow, self).__init__()
         self.loginscreen = LoginWindow()
+        self.password_reset_screen = PassResetWindow()
+        self.password_reset_sent_screen = PassResetSentWindow()
         self.loginscreen.show()
         self.loginscreen.LoginEnter.clicked.connect(self.Enter_clicked)
         self.loginscreen.CreateNewUser.clicked.connect(self.Create_Account_Clicked)
+        self.loginscreen.PassReset.clicked.connect(self.PassReset_Clicked)
+        self.password_reset_screen.pushButton.clicked.connect(self.SendReset_Clicked)
         self.UserInfo = firebase.database()
         self._userid = ""
         self.username = ""
@@ -140,7 +158,6 @@ class MyWindow(QtWidgets.QMainWindow):
             userinf = auth.get_account_info(user['idToken'])
             self.userid = userinf['users'][0]['localId']
             self.username = self.UserInfo.child("users").get()
-            auth.send_password_reset_email(email)
             
             for user in self.username.each():
                 try:
@@ -360,6 +377,16 @@ class MyWindow(QtWidgets.QMainWindow):
     def Nuke_Info(self):
         self.UserInfo.child("users").child(self.username).remove()
         auth.delete_user_account(auth.current_user['idToken'])
+    
+    def PassReset_Clicked(self):
+        self.password_reset_screen.show()
+
+    def SendReset_Clicked(self):
+        email = self.password_reset_screen.textEdit.toPlainText()
+        auth.send_password_reset_email(email)
+        self.password_reset_sent_screen.show()
+        
+    
         
     
       

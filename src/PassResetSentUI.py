@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\John\TeamBlue_Porcupass\res\UI Forms\PassResetSent.ui'
+# Widget implementation generated from reading ui file 'C:\Users\John\TeamBlue_Porcupass\res\UI Widgets\PassResetSent.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -11,14 +11,14 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(400, 300)
-        self.label = QtWidgets.QLabel(Form)
+class Ui_Widget(object):
+    def setupUi(self, Widget):
+        Widget.setObjectName("Widget")
+        Widget.resize(400, 300)
+        self.label = QtWidgets.QLabel(Widget)
         self.label.setGeometry(QtCore.QRect(110, 90, 181, 41))
         self.label.setObjectName("label")
-        self.label_3 = QtWidgets.QLabel(Form)
+        self.label_3 = QtWidgets.QLabel(Widget)
         self.label_3.setGeometry(QtCore.QRect(90, 120, 241, 41))
         font = QtGui.QFont()
         font.setBold(True)
@@ -26,27 +26,22 @@ class Ui_Form(object):
         font.setWeight(75)
         self.label_3.setFont(font)
         self.label_3.setObjectName("label_3")
-        self.buttonBox_2 = QtWidgets.QDialogButtonBox(Form)
-        self.buttonBox_2.setGeometry(QtCore.QRect(30, 240, 341, 32))
-        self.buttonBox_2.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox_2.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox_2.setObjectName("buttonBox_2")
 
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        self.retranslateUi(Widget)
+        QtCore.QMetaObject.connectSlotsByName(Widget)
 
-    def retranslateUi(self, Form):
+    def retranslateUi(self, Widget):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-        self.label.setText(_translate("Form", "Your password email has been sent."))
-        self.label_3.setText(_translate("Form", "Please check all folders, including spam"))
+        Widget.setWindowTitle(_translate("Widget", "Widget"))
+        self.label.setText(_translate("Widget", "Your password email has been sent."))
+        self.label_3.setText(_translate("Widget", "Please check all folders, including spam"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
+    Widget = QtWidgets.QWidget()
+    ui = Ui_Widget()
+    ui.setupUi(Widget)
+    Widget.show()
     sys.exit(app.exec_())

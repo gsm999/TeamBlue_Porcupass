@@ -46,22 +46,6 @@
     <string>Please check all folders, including spam</string>
    </property>
   </widget>
-  <widget class="QDialogButtonBox" name="buttonBox_2">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>240</y>
-     <width>161</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>
