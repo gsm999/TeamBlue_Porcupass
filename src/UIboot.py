@@ -395,12 +395,21 @@ class MyWindow(QtWidgets.QMainWindow):
         auth.delete_user_account(auth.current_user['idToken'])
     
     def PassReset_Clicked(self):
-        self.password_reset_screen.show()
+            self.password_reset_screen.show()
+
 
     def SendReset_Clicked(self):
         email = self.password_reset_screen.textEdit.toPlainText()
-        auth.send_password_reset_email(email)
-        self.password_reset_sent_screen.show()
+        try:
+            auth.send_password_reset_email(email)
+            self.password_reset_sent_screen.show()
+        except requests.HTTPError as e:
+            error_json = e.args[1]
+            error = json.loads(error_json)['error']['message']
+            self.errorWindow(error, self.password_reset_screen)
+            return
+
+        
         
     
         
