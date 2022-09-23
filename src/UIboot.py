@@ -12,27 +12,8 @@ from NuclearUI import Ui_Widget as NukeUI
 from SettingsUI import Ui_Widget as SettingsUI
 from CreateAccountUI import Ui_Widget as CreateAccountUI
 from NewStoreUI import Ui_Widget as NewStoreUI
-import pyrebase
 from password_generation import *
-
-
-# Your web app's Firebase configuration
-# For Firebase JS SDK v7.20.0 and later, measurementId is optional
-firebaseConfig = {
-  'apiKey': "AIzaSyA1NFf0XKFE3ItD3M5LYMGv3FKbm2mQwSs",
-  'authDomain': "porcupass-1d1cb.firebaseapp.com",
-  'projectId': "porcupass-1d1cb",
-  'storageBucket': "porcupass-1d1cb.appspot.com",
-  'messagingSenderId': "798965436291",
-  'appId': "1:798965436291:web:9b33dedac329461f3670b6",
-  'measurementId': "G-SBBX0HG3XR",
-  'databaseURL': "https://porcupass-1d1cb-default-rtdb.firebaseio.com"
-}
-
-
-firebase = pyrebase.initialize_app(firebaseConfig)
-
-auth = firebase.auth()
+import DB_Functions as DB
 
 class CreateAccountWindow(QtWidgets.QMainWindow, CreateAccountUI): 
     def __init__(self):
@@ -77,9 +58,9 @@ class MyWindow(QtWidgets.QMainWindow):
         self.loginscreen.show()
         self.loginscreen.LoginEnter.clicked.connect(self.Enter_clicked)
         self.loginscreen.CreateNewUser.clicked.connect(self.Create_Account_Clicked)
-        self.UserInfo = firebase.database()
+        #self.UserInfo = firebase.database()
         self._userid = ""
-        self.username = ""
+        self._username = ""
         
     @property
     def userid(self):
@@ -125,7 +106,7 @@ class MyWindow(QtWidgets.QMainWindow):
         email = self.loginscreen.LoginUser.toPlainText()
         password = self.loginscreen.LoginPassword.toPlainText()
         try:
-            user = auth.sign_in_with_email_and_password(email,password)
+            self.user = DB.DB_Login(email, password)
         except requests.HTTPError as e:
             error_json = e.args[1]
             error = json.loads(error_json)['error']['message']
@@ -135,19 +116,10 @@ class MyWindow(QtWidgets.QMainWindow):
         LoginVerified = True
         if LoginVerified :
 
-            userinf = auth.get_account_info(user['idToken'])
-            self.userid = userinf['users'][0]['localId']
-            self.username = self.UserInfo.child("users").get()
-            
-            for user in self.username.each():
-                try:
-                    if user.val()['userinfo']['UID'] == self.userid:
-                        self.username = user.key()
-                except (KeyError):
-                    pass
+            self.userid, self.username = DB.get_id_and_username(self.user['idToken'])
 
             self.HomeScreen = AccountsWindow()
-            accounts = self.UserInfo.child("users").child(self.username).child("Accounts").get()
+            accounts = DB.get_accounts(self.username)
             
             self.account_widgetsG = []
             self.account_widgetsV = []
@@ -194,7 +166,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.nukeopt.Home_Button.clicked.connect(self.Home_Clicked)
             self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
-            self.nukeopt.pushButton.clicked.connect(self.Nuke_Info)
+            self.nukeopt.pushButton.clicked.connect(lambda:DB.nuke_info(self.user['idToken'], self.username))
 
     def gridChecked(self):
         if self.HomeScreen.AccountsGridV.isChecked(): 
@@ -243,9 +215,10 @@ class MyWindow(QtWidgets.QMainWindow):
         
     def accountPopup(self, account):
         pass
+
     def Account_Created(self):
-        self.username = self.CreateAccountScreen.NewUser.toPlainText()
-        if self.username == "":
+        newusername = self.CreateAccountScreen.NewUser.toPlainText()
+        if newusername == "":
             self.errorWindow("MISSING_USERNAME", self.CreateAccountScreen)
             return
         password = self.CreateAccountScreen.NewPassword.toPlainText()
@@ -260,7 +233,7 @@ class MyWindow(QtWidgets.QMainWindow):
         email = self.CreateAccountScreen.NewEmail.toPlainText()
 
         try:
-            newuser = auth.create_user_with_email_and_password(email,password)
+            newuser = DB.create_new_user(email,password)
         except requests.HTTPError as e:
             error_json = e.args[1]
             error = json.loads(error_json)['error']['message']
@@ -269,20 +242,20 @@ class MyWindow(QtWidgets.QMainWindow):
         self.loginscreen.show()
         self.CreateAccountScreen.hide()
 
-        userinf = auth.get_account_info(newuser['idToken'])
-        userid = userinf['users'][0]['localId']
+        self.userid, self.username = DB.get_id_and_username(newuser['idToken'])
+        print(self.userid, self.username)
        
 
-        data = {self._username: {"userinfo" : {"firstname" : firstname, "lastname": lastname, "email" : email, "UID": userid}}}
+        data = {newusername: {"userinfo" : {"firstname" : firstname, "lastname": lastname, "email" : email, "UID": self.userid}}}
         try:
-            self.UserInfo.child("users").update(data, newuser['idToken'])    
+            DB.update_user_info(data, newuser['idToken'])    
         except (JSONDecodeError):
             print("unsuccessful")
 
     def Generate_Password(self):
         if self.genpass.SaveGenPassSet.isChecked():
             data = {"loweronly": self.genpass.LowerPass.isChecked(), "Capatilization": self.genpass.CapPass.isChecked(), "Numerical": self.genpass.NumericPass.isChecked(), "SpecChar" : self.genpass.SpecCharPass.isChecked(), "CharLim" : int(self.genpass.PassCharLim.value())}
-            self.UserInfo.child("users").child(self.username).child("PasswordSettings").update(data)
+            DB.save_password_settings(data, self.username, self.user['idToken'])
         self.genpass.GenPassOut.setPlainText(passwordGenerator(self.genpass.NumericPass.isChecked(), self.genpass.SpecCharPass.isChecked(), self.genpass.LowerPass.isChecked(), self.genpass.CapPass.isChecked(), self.genpass.PassCharLim.value()))
 
     def Add_Store_Clicked(self):
@@ -296,7 +269,7 @@ class MyWindow(QtWidgets.QMainWindow):
         storepassword = self.AddStoreScreen.textEdit_3.toPlainText()
         storeemail = self.AddStoreScreen.textEdit_4.toPlainText()
         data = {store:{"Email":storeemail, "Password" : storepassword, "Username" : storeusername}}
-        self.UserInfo.child("users").child(self.username).child("Accounts").update(data)
+        DB.add_store(data, self.user['idToken'], self.username)
         self.HomeScreen.show()
         self.AddStoreScreen.hide()
 
@@ -353,9 +326,6 @@ class MyWindow(QtWidgets.QMainWindow):
         self.nukeopt.show()
         
     
-    def Nuke_Info(self):
-        self.UserInfo.child("users").child(self.username).remove()
-        auth.delete_user_account(auth.current_user['idToken'])
         
     
       
