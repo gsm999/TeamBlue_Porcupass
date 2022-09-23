@@ -55,3 +55,10 @@ def nuke_info(token, username):
 
 def save_password_settings(data, username, token):
     UserInfo.child("users").child(username).child("PasswordSettings").update(data, token)
+
+def verify_email(token):
+    auth.send_email_verification(token)
+
+def reset_password(email):
+    auth.send_password_reset_email(email)
+
