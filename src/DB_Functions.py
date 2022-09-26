@@ -17,6 +17,13 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 
 auth = firebase.auth()
 UserInfo = firebase.database()
+class startStream():
+    def __init__(self, accmethod, settmethod, username):
+        self.accstream = UserInfo.child("users").child(username).child("Accounts").stream(accmethod)
+        self.settstream = UserInfo.child("users").child(username).child("PasswordSettings").stream(settmethod)
+    def close_streams(self):
+        self.accstream.close()
+        self.settstream.close()
 
 def DB_Login(email, password):
     user = auth.sign_in_with_email_and_password(email, password)
@@ -61,4 +68,8 @@ def verify_email(token):
 
 def reset_password(email):
     auth.send_password_reset_email(email)
+    
 
+def get_new_account(path, username, token):
+    newaccount = UserInfo.child("users").child(username).child("Accounts").child(path).get(token)
+    return newaccount
