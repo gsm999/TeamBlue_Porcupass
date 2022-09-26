@@ -360,7 +360,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.loginscreen.show()
         self.CreateAccountScreen.hide()
 
-        self.userid, self.username = DB.get_id_and_username(newuser['idToken'])
+        self.userid, self.username, self.EmailVerified = DB.get_id_and_username(newuser['idToken'])
         
        
 
