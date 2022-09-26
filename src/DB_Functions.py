@@ -33,13 +33,14 @@ def get_id_and_username(token):
     userinf = auth.get_account_info(token)
     userid = userinf['users'][0]['localId']
     username = UserInfo.child("users").get()
+    emailverified = userinf['users'][0]['emailVerified']
     for user in username.each():
                 try:
                     if user.val()['userinfo']['UID'] == userid:
                         username = user.key()
                 except (KeyError):
                     pass
-    return userid, username
+    return userid, username, emailverified
 
 def get_accounts(username):
         accounts = UserInfo.child("users").child(username).child("Accounts").get()

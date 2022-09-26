@@ -88,6 +88,12 @@ class MyWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(MyWindow, self).__init__()
         self.loginscreen = LoginWindow()
+        self.password_reset_screen = PassResetWindow()
+        self.password_reset_sent_screen = PassResetSentWindow()
+        self.email_verify_screen = VerifyEmailWindow()
+        self.loginscreen.PassReset.clicked.connect(self.PassReset_Clicked)
+        self.password_reset_screen.pushButton.clicked.connect(self.SendReset_Clicked)
+        self.EmailVerified = False
         self.loginscreen.show()
         self.loginscreen.LoginEnter.clicked.connect(self.Enter_clicked)
         self.loginscreen.CreateNewUser.clicked.connect(self.Create_Account_Clicked)
@@ -200,11 +206,11 @@ class MyWindow(QtWidgets.QMainWindow):
             error = json.loads(error_json)['error']['message']
             self.errorWindow(error, self.loginscreen)
             return
-                
+        
+        self.userid, self.username, self.EmailVerified = DB.get_id_and_username(self.user['idToken'])
+        
         LoginVerified = True
-        if LoginVerified :
-
-            self.userid, self.username = DB.get_id_and_username(self.user['idToken'])
+        if LoginVerified and self.EmailVerified:
 
             self.stream = startStream(self.accstream_handler, self.settstream_handler, self.username)
 
@@ -259,6 +265,8 @@ class MyWindow(QtWidgets.QMainWindow):
             self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.nukeopt.pushButton.clicked.connect(lambda:DB.nuke_info(self.user['idToken'], self.username))
 
+        else:
+            self.email_verify_screen.show()
 
     def gridChecked(self):
         if self.HomeScreen.AccountsGridV.isChecked(): 
