@@ -68,6 +68,21 @@ class Comm(QObject):
 class Cleanup(QObject):
     signal = pyqtSignal()
 
+class PassResetWindow(QtWidgets.QMainWindow, PassResetUI):
+     def __init__(self):
+        super(PassResetWindow, self).__init__()
+        self.setupUi(self)
+
+class PassResetSentWindow(QtWidgets.QMainWindow, PassResetSentUI):
+     def __init__(self):
+        super(PassResetSentWindow, self).__init__()
+        self.setupUi(self)
+
+class VerifyEmailWindow(QtWidgets.QMainWindow, VerifyEmailUI):
+     def __init__(self):
+        super(VerifyEmailWindow, self).__init__()
+        self.setupUi(self)
+
 class MyWindow(QtWidgets.QMainWindow):
 
     def __init__(self):
