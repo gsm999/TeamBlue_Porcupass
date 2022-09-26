@@ -11,6 +11,9 @@ from PyQt5.QtCore import pyqtSignal, QObject
 from AccountUI import Ui_Widget as AccountUI
 from GenPassUI import Ui_Widget as GenPassUI
 from NuclearUI import Ui_Widget as NukeUI
+from PassResetUI import Ui_Widget as PassResetUI
+from PassResetSentUI import Ui_Widget as PassResetSentUI
+from VerifyEmailUI import Ui_Widget as VerifyEmailUI
 from SettingsUI import Ui_Widget as SettingsUI
 from CreateAccountUI import Ui_Widget as CreateAccountUI
 from NewStoreUI import Ui_Widget as NewStoreUI
