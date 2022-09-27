@@ -1,4 +1,5 @@
 
+import base64
 from collections import UserDict
 from gc import isenabled
 import requests
@@ -35,11 +36,17 @@ class AccountsWindow(QtWidgets.QMainWindow, AccountUI):
     
     def closeEvent(self, event):
         self.closeProtocol.signal.emit()
+        event.accept()
 
 class GenPassWindow(QtWidgets.QMainWindow, GenPassUI):
     def __init__(self):
         super(GenPassWindow, self).__init__()
         self.setupUi(self)
+        self.closeProtocol = Cleanup()
+    
+    def closeEvent(self, event):
+        self.closeProtocol.signal.emit()
+        event.accept()
 
 class AddStoreWindow(QtWidgets.QMainWindow, NewStoreUI):
     def __init__(self):
@@ -50,6 +57,11 @@ class NukeWindow(QtWidgets.QMainWindow, NukeUI):
     def __init__(self):
         super(NukeWindow, self).__init__()
         self.setupUi(self)
+        self.closeProtocol = Cleanup()
+    
+    def closeEvent(self, event):
+        self.closeProtocol.signal.emit()
+        event.accept()
 
 class LoginWindow(QtWidgets.QMainWindow, LoginWidget):
     def __init__(self):
@@ -60,6 +72,10 @@ class SettingsWindow(QtWidgets.QMainWindow, SettingsUI):
     def __init__(self):
         super(SettingsWindow, self).__init__()
         self.setupUi(self)
+        self.closeProtocol = Cleanup()
+    
+    def closeEvent(self, event):
+        self.closeProtocol.signal.emit()
 
 class Comm(QObject):
     accsignal = pyqtSignal()
@@ -122,28 +138,6 @@ class MyWindow(QtWidgets.QMainWindow):
         
     def accstream_handler(self, message):
         if message["event"] == "patch":
-            newaccount = list(message["data"].keys())[0]
-            print(newaccount)
-            self.account_widgetsG = self.account_widgetsV = []
-            newg = QtWidgets.QPushButton(newaccount)
-            newv = QtWidgets.QPushButton(newaccount)
-            newv.clicked.connect(lambda:self.accountPopup(newaccount.val()))
-            newg.clicked.connect(lambda:self.accountPopup(newaccount.val()))
-            self.account_widgetsG.append(newg)
-            self.account_widgetsV.append(newv)
-
-            
-            accounts = DB.get_accounts(self.userid, self.user['idToken'])
-            try:
-                for account in accounts.each():
-                    self.newG = QtWidgets.QPushButton(account.key())
-                    self.newG.clicked.connect(lambda:self.accountPopup(account.val()))
-                    self.newV = QtWidgets.QPushButton(account.key())
-                    self.newV.clicked.connect(lambda:self.accountPopup(account.val()))
-                    self.account_widgetsG.append(self.newG)
-                    self.account_widgetsV.append(self.newV)
-            except(TypeError): pass
-
             self.guiupdate.accsignal.emit()
 
     
@@ -209,6 +203,7 @@ class MyWindow(QtWidgets.QMainWindow):
 
             self.HomeScreen = AccountsWindow()
             self.HomeScreen.closeProtocol.signal.connect(self.close)
+          
 
             self.guiupdate = Comm()
             self.guiupdate.accsignal.connect(self.createAccountDisplay)
@@ -247,15 +242,18 @@ class MyWindow(QtWidgets.QMainWindow):
             self.genpass.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.genpass.Nuke_Button.clicked.connect(self.Nuke_Clicked)
             self.genpass.GeneratePass.clicked.connect(self.Generate_Password)
+            self.genpass.closeProtocol.signal.connect(self.close)
 
             self.settings.Home_Button.clicked.connect(self.Home_Clicked)
             self.settings.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.settings.Nuke_Button.clicked.connect(self.Nuke_Clicked)
+            self.settings.closeProtocol.signal.connect(self.close)
 
             self.nukeopt.Home_Button.clicked.connect(self.Home_Clicked)
             self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.nukeopt.pushButton.clicked.connect(lambda:DB.nuke_info(self.user['idToken'], self.userid))
+            self.nukeopt.closeProtocol.signal.connect(self.close)
 
         else:
             self.email_verify_screen.show()
@@ -436,7 +434,7 @@ class MyWindow(QtWidgets.QMainWindow):
     def Nuke_Clicked(self):
         self.close_screens(self.nukeopt)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(r"C:\Users\fullw\source\repos\TeamBluePorcupass\res\NukeImage.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(r"C:\Users\fullw\source\repos\TeamBluePorcupass\res\NukeImage.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.nukeopt.pushButton.setIcon(icon)
         self.nukeopt.pushButton.setIconSize(QtCore.QSize(231, 171))
         self.nukeopt.pushButton.setAutoDefault(True)
