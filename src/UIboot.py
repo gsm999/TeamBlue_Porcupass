@@ -6,7 +6,7 @@ import json
 from json import JSONDecodeError
 import sys
 from LoginUI import Ui_Widget as LoginWidget
-from PyQt5 import QtWidgets, QtCore, sip
+from PyQt5 import QtWidgets, QtCore, sip, QtGui
 from PyQt5.QtCore import pyqtSignal, QObject
 from AccountUI import Ui_Widget as AccountUI
 from GenPassUI import Ui_Widget as GenPassUI
@@ -99,7 +99,6 @@ class MyWindow(QtWidgets.QMainWindow):
         self.loginscreen.CreateNewUser.clicked.connect(self.Create_Account_Clicked)
         #self.UserInfo = firebase.database()
         self._userid = ""
-        self._username = ""
         self.newLayoutV = QtWidgets.QVBoxLayout()
         self.newLayoutG = QtWidgets.QHBoxLayout()
         self.mainLayoutV = QtWidgets.QVBoxLayout()
@@ -120,13 +119,6 @@ class MyWindow(QtWidgets.QMainWindow):
     def userid(self, new):
         self._userid = new
     
-    @property
-    def username(self):
-        return self._username
-    @username.setter
-    def username(self, new):
-        self._username = new
-    
         
     def accstream_handler(self, message):
         if message["event"] == "patch":
@@ -141,7 +133,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.account_widgetsV.append(newv)
 
             
-            accounts = DB.get_accounts(self.username)
+            accounts = DB.get_accounts(self.userid, self.user['idToken'])
             try:
                 for account in accounts.each():
                     self.newG = QtWidgets.QPushButton(account.key())
@@ -207,12 +199,12 @@ class MyWindow(QtWidgets.QMainWindow):
             self.errorWindow(error, self.loginscreen)
             return
         
-        self.userid, self.username, self.EmailVerified = DB.get_id_and_username(self.user['idToken'])
+        self.userid, self.EmailVerified = DB.get_id_and_verify(self.user['idToken'])
         
         LoginVerified = True
         if LoginVerified and self.EmailVerified:
 
-            self.stream = startStream(self.accstream_handler, self.settstream_handler, self.username)
+            self.stream = startStream(self.accstream_handler, self.settstream_handler, self.userid, self.user['idToken'])
 
 
             self.HomeScreen = AccountsWindow()
@@ -263,7 +255,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.nukeopt.Home_Button.clicked.connect(self.Home_Clicked)
             self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
-            self.nukeopt.pushButton.clicked.connect(lambda:DB.nuke_info(self.user['idToken'], self.username))
+            self.nukeopt.pushButton.clicked.connect(lambda:DB.nuke_info(self.user['idToken'], self.userid))
 
         else:
             self.email_verify_screen.show()
@@ -284,7 +276,7 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def createAccountDisplay(self):
 
-        accounts = get_accounts(self.username)
+        accounts = get_accounts(self.userid, self.user['idToken'])
         self.account_widgetsG = []
         self.account_widgetsV = []
 
@@ -360,11 +352,11 @@ class MyWindow(QtWidgets.QMainWindow):
         self.loginscreen.show()
         self.CreateAccountScreen.hide()
 
-        self.userid, self.username, self.EmailVerified = DB.get_id_and_username(newuser['idToken'])
+        self.userid, self.EmailVerified = DB.get_id_and_verify(newuser['idToken'])
         
        
 
-        data = {newusername: {"userinfo" : {"firstname" : firstname, "lastname": lastname, "email" : email, "UID": self.userid}}}
+        data = {self.userid: {"userinfo" : {"firstname" : firstname, "lastname": lastname, "email" : email}}}
         try:
             DB.update_user_info(data, newuser['idToken'])    
         except (JSONDecodeError):
@@ -375,7 +367,7 @@ class MyWindow(QtWidgets.QMainWindow):
     def Generate_Password(self):
         if self.genpass.SaveGenPassSet.isChecked():
             data = {"loweronly": self.genpass.LowerPass.isChecked(), "Capatilization": self.genpass.CapPass.isChecked(), "Numerical": self.genpass.NumericPass.isChecked(), "SpecChar" : self.genpass.SpecCharPass.isChecked(), "CharLim" : int(self.genpass.PassCharLim.value())}
-            DB.save_password_settings(data, self.username, self.user['idToken'])
+            DB.save_password_settings(data, self.userid, self.user['idToken'])
         self.genpass.GenPassOut.setPlainText(passwordGenerator(self.genpass.NumericPass.isChecked(), self.genpass.SpecCharPass.isChecked(), self.genpass.LowerPass.isChecked(), self.genpass.CapPass.isChecked(), self.genpass.PassCharLim.value()))
 
     def Add_Store_Clicked(self):
@@ -389,7 +381,7 @@ class MyWindow(QtWidgets.QMainWindow):
         storepassword = self.AddStoreScreen.textEdit_3.toPlainText()
         storeemail = self.AddStoreScreen.textEdit_4.toPlainText()
         data = {store:{"Email":storeemail, "Password" : storepassword, "Username" : storeusername}}
-        DB.add_store(data, self.user['idToken'], self.username)
+        DB.add_store(data, self.user['idToken'], self.userid)
         self.HomeScreen.show()
         self.AddStoreScreen.hide()
 
@@ -443,6 +435,14 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def Nuke_Clicked(self):
         self.close_screens(self.nukeopt)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(r"C:\Users\fullw\source\repos\TeamBluePorcupass\res\NukeImage.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.nukeopt.pushButton.setIcon(icon)
+        self.nukeopt.pushButton.setIconSize(QtCore.QSize(231, 171))
+        self.nukeopt.pushButton.setAutoDefault(True)
+        self.nukeopt.pushButton.setDefault(True)
+        self.nukeopt.pushButton.setFlat(False)
+        self.nukeopt.pushButton.setObjectName("pushButton")
         self.nukeopt.show()
         
     
