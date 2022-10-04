@@ -190,7 +190,7 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def Enter_clicked(self):
         email = self.loginscreen.LoginUser.toPlainText()
-        password = self.loginscreen.LoginPassword.toPlainText()
+        password = self.loginscreen.LoginPassword.text()
         try:
             self.user = DB.DB_Login(email, password)
         except requests.HTTPError as e:

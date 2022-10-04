@@ -10,6 +10,9 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+import os
+script_dir = os.path.dirname(__file__) 
+res_dir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'res'))
 
 class Ui_Widget(object):
     def setupUi(self, Widget):
@@ -59,8 +62,9 @@ class Ui_Widget(object):
         self.LoginPassword.setEchoMode(QtWidgets.QLineEdit.Password)
         self.PasswordToggle = QtWidgets.QPushButton(Widget)
         self.PasswordToggle.setGeometry(QtCore.QRect(320, 360, 31, 31))
+        self.PasswordToggle.setFlat(True)
         self.PasswordToggle.setText("")
-        self.PasswordToggle.setIcon(QtGui.QIcon("res/eye_visible.svg"))
+        self.PasswordToggle.setIcon(QtGui.QIcon(res_dir + "/eye_visible.svg"))
         self.PasswordToggle.setObjectName("PasswordToggle")
         self.PasswordToggle.clicked.connect(self.toggleVisibility)
         self.retranslateUi(Widget)
@@ -78,10 +82,10 @@ class Ui_Widget(object):
     def toggleVisibility(self):
         if self.LoginPassword.echoMode()==QtWidgets.QLineEdit.Normal:
             self.LoginPassword.setEchoMode(QtWidgets.QLineEdit.Password)
-            self.PasswordToggle.setIcon(QtGui.QIcon("res/eye_visible.svg"))
+            self.PasswordToggle.setIcon(QtGui.QIcon(res_dir + "/eye_visible.svg"))
         else:
             self.LoginPassword.setEchoMode(QtWidgets.QLineEdit.Normal)
-            self.PasswordToggle.setIcon(QtGui.QIcon("res/eye_hidden.svg"))
+            self.PasswordToggle.setIcon(QtGui.QIcon(res_dir + "/eye_hidden.svg"))
 
 
 if __name__ == "__main__":
