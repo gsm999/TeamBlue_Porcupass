@@ -42,20 +42,10 @@
     <string>Username:</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="LoginPassword">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>360</y>
-     <width>251</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>210</x>
      <y>340</y>
      <width>71</width>
      <height>20</height>
@@ -143,6 +133,29 @@
    </property>
    <property name="flat">
     <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="LoginPassword">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>360</y>
+     <width>251</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PasswordToggle">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>360</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>
