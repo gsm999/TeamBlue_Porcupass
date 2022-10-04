@@ -33,20 +33,46 @@ class AccountsWindow(QtWidgets.QMainWindow, AccountUI):
         super(AccountsWindow, self).__init__()
         self.setupUi(self)
         self.closeProtocol = Cleanup()
+        self.moveProtocol = WidgetMoved()
+        self.resizeProtocol = WidgetResized()
     
     def closeEvent(self, event):
         self.closeProtocol.signal.emit()
         event.accept()
+
+    def resizeEvent(self, event):
+        self.resizeProtocol.signal.emit()
+        event.accept()
+
+    def moveEvent(self, event):
+        self.moveProtocol.signal.emit()
+        event.accept()
+
+    def getGeometry(self):
+        return self.geometry()
 
 class GenPassWindow(QtWidgets.QMainWindow, GenPassUI):
     def __init__(self):
         super(GenPassWindow, self).__init__()
         self.setupUi(self)
         self.closeProtocol = Cleanup()
+        self.moveProtocol = WidgetMoved()
+        self.resizeProtocol = WidgetResized()
     
     def closeEvent(self, event):
         self.closeProtocol.signal.emit()
         event.accept()
+
+    def moveEvent(self, event):
+        self.moveProtocol.signal.emit()
+        event.accept()
+
+    def resizeEvent(self, event):
+        self.resizeProtocol.signal.emit()
+        event.accept()
+
+    def getGeometry(self):
+        return self.geometry()
 
 class AddStoreWindow(QtWidgets.QMainWindow, NewStoreUI):
     def __init__(self):
@@ -58,10 +84,23 @@ class NukeWindow(QtWidgets.QMainWindow, NukeUI):
         super(NukeWindow, self).__init__()
         self.setupUi(self)
         self.closeProtocol = Cleanup()
+        self.moveProtocol = WidgetMoved()
+        self.resizeProtocol = WidgetResized()
     
     def closeEvent(self, event):
         self.closeProtocol.signal.emit()
         event.accept()
+
+    def moveEvent(self, event):
+        self.moveProtocol.signal.emit()
+        event.accept()
+
+    def resizeEvent(self, event):
+        self.resizeProtocol.signal.emit()
+        event.accept()
+
+    def getGeometry(self):
+        return self.geometry()
 
 class LoginWindow(QtWidgets.QMainWindow, LoginWidget):
     def __init__(self):
@@ -73,9 +112,22 @@ class SettingsWindow(QtWidgets.QMainWindow, SettingsUI):
         super(SettingsWindow, self).__init__()
         self.setupUi(self)
         self.closeProtocol = Cleanup()
+        self.moveProtocol = WidgetMoved()
+        self.resizeProtocol = WidgetResized()
     
     def closeEvent(self, event):
         self.closeProtocol.signal.emit()
+
+    def moveEvent(self, event):
+        self.moveProtocol.signal.emit()
+        event.accept()
+    
+    def resizeEvent(self, event):
+        self.resizeProtocol.signal.emit()
+        event.accept()
+
+    def getGeometry(self):
+        return self.geometry()
 
 class Comm(QObject):
     accsignal = pyqtSignal()
@@ -83,6 +135,13 @@ class Comm(QObject):
 
 class Cleanup(QObject):
     signal = pyqtSignal()
+
+class WidgetMoved(QObject):
+    signal = pyqtSignal()
+
+class WidgetResized(QObject):
+    signal = pyqtSignal()
+
 
 class PassResetWindow(QtWidgets.QMainWindow, PassResetUI):
      def __init__(self):
@@ -151,10 +210,20 @@ class MyWindow(QtWidgets.QMainWindow):
                     else:
                         self.clearLayout(item.layout())
                 
+    def window_concurrency(self, widget):
+        window = widget.getGeometry()
+
+        widgets = [self.HomeScreen, self.settings, self.genpass, self.nukeopt]
         
+        for i in widgets:
+            if i != widget:
+                i.setGeometry(window)
+
+            
 
     def settstream_handler(self, message):
         pass
+
     def errorWindow(self,errormessage, window):
         errordict = {"EMAIL_EXISTS":"This email is already in use",
                      "MISSING_PASSWORD":"Please enter a password",
@@ -237,23 +306,31 @@ class MyWindow(QtWidgets.QMainWindow):
             self.HomeScreen.AccountsGridV.stateChanged.connect(self.gridChecked)
             self.HomeScreen.AccountVertV.stateChanged.connect(self.vertChecked)
             self.HomeScreen.commandLinkButton.clicked.connect(self.Add_Store_Clicked)
+            self.HomeScreen.moveProtocol.signal.connect(lambda:self.window_concurrency(self.HomeScreen))
+            self.HomeScreen.resizeProtocol.signal.connect(lambda:self.window_concurrency(self.HomeScreen))
 
             self.genpass.Home_Button.clicked.connect(self.Home_Clicked)
             self.genpass.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.genpass.Nuke_Button.clicked.connect(self.Nuke_Clicked)
             self.genpass.GeneratePass.clicked.connect(self.Generate_Password)
             self.genpass.closeProtocol.signal.connect(self.close)
+            self.genpass.moveProtocol.signal.connect(lambda:self.window_concurrency(self.genpass))
+            self.genpass.resizeProtocol.signal.connect(lambda:self.window_concurrency(self.genpass))
 
             self.settings.Home_Button.clicked.connect(self.Home_Clicked)
             self.settings.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.settings.Nuke_Button.clicked.connect(self.Nuke_Clicked)
             self.settings.closeProtocol.signal.connect(self.close)
+            self.settings.moveProtocol.signal.connect(lambda:self.window_concurrency(self.settings))
+            self.settings.resizeProtocol.signal.connect(lambda:self.window_concurrency(self.settings))
 
             self.nukeopt.Home_Button.clicked.connect(self.Home_Clicked)
             self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.nukeopt.pushButton.clicked.connect(lambda:DB.nuke_info(self.user['idToken'], self.userid))
             self.nukeopt.closeProtocol.signal.connect(self.close)
+            self.nukeopt.moveProtocol.signal.connect(lambda:self.window_concurrency(self.nukeopt))
+            self.nukeopt.resizeProtocol.signal.connect(lambda:self.window_concurrency(self.nukeopt))
 
         else:
             self.email_verify_screen.show()
