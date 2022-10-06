@@ -13,7 +13,7 @@ const recaptchaVerifier = new RecaptchaVerifier("sign-in-button", {
 }, auth);
 multiFactor(user).getSession()
     .then(function (multiFactorSession) {
-        // Specify the phone number and pass the MFA session.
+        var phoneNumber = prompt("Please enter your phone number.")
         const phoneInfoOptions = {
             phoneNumber: phoneNumber,
             session: multiFactorSession
