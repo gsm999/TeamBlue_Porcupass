@@ -459,6 +459,10 @@ class MyWindow(QtWidgets.QMainWindow):
         DB.add_store(data, self.user['idToken'], self.userid)
         self.HomeScreen.show()
         self.AddStoreScreen.hide()
+        self.AddStoreScreen.textEdit.clear()
+        self.AddStoreScreen.textEdit_2.clear()
+        self.AddStoreScreen.textEdit_3.clear()
+        self.AddStoreScreen.textEdit_4.clear()
 
     def Add_Store_Enter_Clicked(self):
         self.addstorescreen.hide()
