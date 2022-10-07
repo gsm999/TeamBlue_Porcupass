@@ -241,6 +241,7 @@ class MyWindow(QtWidgets.QMainWindow):
         finish = q.exec_()
 
     def close_screens(self, current):
+        self.genpass.GenPassOut.clear()
         if (self.HomeScreen != current and self.HomeScreen.isVisible()):
             self.HomeScreen.hide()
         elif (self.genpass != current and self.genpass.isVisible()):
@@ -294,6 +295,8 @@ class MyWindow(QtWidgets.QMainWindow):
                 self.HomeScreen.AccountsHolder2.raise_()
 
             self.loginscreen.hide()
+            self.loginscreen.LoginUser.clear()
+            self.loginscreen.LoginPassword.clear()
             self.HomeScreen.show()
             self.genpass = GenPassWindow()
             self.settings = SettingsWindow()
