@@ -430,8 +430,8 @@ class MyWindow(QtWidgets.QMainWindow):
         self.userid, self.EmailVerified = DB.get_id_and_verify(newuser['idToken'])
         
        
-
-        data = {self.userid: {"userinfo" : {"firstname" : firstname, "lastname": lastname, "email" : email}}}
+        hasKey = False
+        data = {self.userid: {"userinfo" : {"firstname" : firstname, "lastname": lastname, "email" : email, 'hasKey' : hasKey}}}
         try:
             DB.update_user_info(data, newuser['idToken'])    
         except (JSONDecodeError):
@@ -455,7 +455,8 @@ class MyWindow(QtWidgets.QMainWindow):
         storeusername = self.AddStoreScreen.textEdit_2.toPlainText()
         storepassword = self.AddStoreScreen.textEdit_3.toPlainText()
         storeemail = self.AddStoreScreen.textEdit_4.toPlainText()
-        data = {store:{"Email":storeemail, "Password" : storepassword, "Username" : storeusername}}
+        isEncrypted = False
+        data = {store:{"Email":storeemail, "Password" : storepassword, "Username" : storeusername, 'isEncrypted' : isEncrypted}}
         DB.add_store(data, self.user['idToken'], self.userid)
         self.HomeScreen.show()
         self.AddStoreScreen.hide()
