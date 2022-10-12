@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Username:</string>
+    <string>Email:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">

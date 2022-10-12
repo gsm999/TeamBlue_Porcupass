@@ -73,7 +73,7 @@ class Ui_Widget(object):
     def retranslateUi(self, Widget):
         _translate = QtCore.QCoreApplication.translate
         Widget.setWindowTitle(_translate("Widget", "Widget"))
-        self.label.setText(_translate("Widget", "Username:"))
+        self.label.setText(_translate("Widget", "Email:"))
         self.label_2.setText(_translate("Widget", "Password"))
         self.LoginEnter.setText(_translate("Widget", "Enter"))
         self.CreateNewUser.setText(_translate("Widget", "No account? Click here to create."))
