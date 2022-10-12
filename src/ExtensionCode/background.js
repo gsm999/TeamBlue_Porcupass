@@ -50,6 +50,28 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           );
         });
 });*/
+var config = {
+
+    apiKey: "AIzaSyA1NFf0XKFE3ItD3M5LYMGv3FKbm2mQwSs",
+  
+    databaseURL: "https://porcupass-1d1cb-default-rtdb.firebaseio.com",
+  
+    storageBucket: "porcupass-1d1cb.appspot.com",
+  
+  };
+  
+firebase.initializeApp(config);
+function initApp() {
+    // Listen for auth state changes.
+    firebase.auth().onAuthStateChanged(function(user) {
+      console.log('User state change detected from the Background script of the Chrome Extension:', user);
+    });
+  }
+  
+  window.onload = function() {
+    initApp();
+  };
+  
 chrome.alarms.create('testAlarm', {
 	periodInMinutes: 1,
     when: Date.now()
