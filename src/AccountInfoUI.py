@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'AccpuntInfoForm.ui'
+# Form implementation generated from reading ui file 'AccountInfoForm.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -109,6 +109,20 @@ class Ui_Widget(object):
         self.showPassword = QtWidgets.QPushButton(Widget)
         self.showPassword.setGeometry(QtCore.QRect(630, 270, 61, 61))
         self.showPassword.setObjectName("showPassword")
+        self.label_7 = QtWidgets.QLabel(Widget)
+        self.label_7.setGeometry(QtCore.QRect(140, 420, 91, 20))
+        self.label_7.setObjectName("label_7")
+        self.label_8 = QtWidgets.QLabel(Widget)
+        self.label_8.setGeometry(QtCore.QRect(560, 420, 121, 20))
+        self.label_8.setObjectName("label_8")
+        self.HIBPst = QtWidgets.QLabel(Widget)
+        self.HIBPst.setGeometry(QtCore.QRect(10, 460, 341, 61))
+        self.HIBPst.setAlignment(QtCore.Qt.AlignCenter)
+        self.HIBPst.setObjectName("HIBPst")
+        self.BFTime = QtWidgets.QLabel(Widget)
+        self.BFTime.setGeometry(QtCore.QRect(440, 460, 351, 91))
+        self.BFTime.setAlignment(QtCore.Qt.AlignCenter)
+        self.BFTime.setObjectName("BFTime")
 
         self.retranslateUi(Widget)
         QtCore.QMetaObject.connectSlotsByName(Widget)
@@ -125,6 +139,10 @@ class Ui_Widget(object):
         self.label_5.setText(_translate("Widget", "TextLabel"))
         self.label_6.setText(_translate("Widget", "TextLabel"))
         self.showPassword.setText(_translate("Widget", "Show"))
+        self.label_7.setText(_translate("Widget", "HIBP Status:"))
+        self.label_8.setText(_translate("Widget", "Brute Force Time:"))
+        self.HIBPst.setText(_translate("Widget", "TextLabel"))
+        self.BFTime.setText(_translate("Widget", "TextLabel"))
 
 
 if __name__ == "__main__":

@@ -73,7 +73,6 @@ def get_new_account(path, uid, token):
 
 def get_plaintext(uid, token):
     plaintext = UserInfo.child("users").child(uid).child("Plaintext").get(token)
-    print(plaintext.val() is None)
     if plaintext.val() is None:
         plaintext = get_plaintext(uid,token)
     return plaintext

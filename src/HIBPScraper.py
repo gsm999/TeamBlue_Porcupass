@@ -29,14 +29,14 @@ def check(password: str) -> Union[tuple, bool]:
             return (True, identified_hash, occurences)
     return False
 
-def main() -> None:
-    password = getpass.getpass()
+def HIBP(password) -> None:
+    #password = getpass.getpass()
     result = check(password)
     if isinstance(result, tuple) and result[0]:
         #print(f"Password found as hash {result[1]}")
-        print(f"Password found: {result[2]} times")
+        return (f"Password found: {result[2]} times")
     else:
-        print("Password not found.")
+        return ("Password not found.")
 
 if __name__ == "__main__":
     main()

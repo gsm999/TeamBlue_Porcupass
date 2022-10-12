@@ -3,7 +3,7 @@ from getpass import getpass
 import sys
 import re
 Run = True
-while Run == True:
+def BFtime(password):
     entropy = 0
     crack_speed = 20000000000 # Default
 
@@ -22,7 +22,6 @@ while Run == True:
                  'Numbers': 10}
 
     
-    password = getpass("Enter Password: ")
     pass_len = len(password)
 
     for char in password:
@@ -41,12 +40,12 @@ while Run == True:
 
     del password # Remove password from memory
 
-    print("\n %-25s %d\n" % ("Password length:", pass_len))
+    #print("\n %-25s %d\n" % ("Password length:", pass_len))
 
     for policy in policies.keys():
 
         num = policies[policy] if policies[policy] > 0 else '-' # Handle missing policies
-        print(" %-25s %s" % (policy + ":", str(num)))
+        #print(" %-25s %s" % (policy + ":", str(num)))
 
         if policies[policy] > 0:
             entropy += entropies[policy]
@@ -71,5 +70,5 @@ while Run == True:
         cracked = cracked / 1000
         time_ = "millennia"
 
-    print("\n Time to crack password:   {:,.2f} {}".format(cracked, time_))
-    print("\n")
+    return("Time to crack password:   {:,.2f} {}".format(cracked, time_))
+
