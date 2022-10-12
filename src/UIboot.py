@@ -295,6 +295,8 @@ class MyWindow(QtWidgets.QMainWindow):
                 self.HomeScreen.AccountsHolder2.raise_()
 
             self.loginscreen.hide()
+            self.loginscreen.LoginUser.clear()
+            self.loginscreen.LoginPassword.clear()
             self.HomeScreen.show()
             self.genpass = GenPassWindow()
             self.settings = SettingsWindow()
