@@ -1,3 +1,4 @@
+from pydoc import plain
 import pyrebase
 import json
 
@@ -67,3 +68,13 @@ def reset_password(email):
 def get_new_account(path, uid, token):
     newaccount = UserInfo.child("users").child(uid).child("Accounts").child(path).get(token)
     return newaccount
+
+
+def decrypt_password(uid, account, token):
+    UserInfo.child("users").child(uid).child("Accounts").child(account).child("isEncrypted").set(False, token)
+    plaintext = UserInfo.child("users").child(uid).child("Plaintext").get(token)
+    return plaintext.val()
+
+def decrypt_cleanup(uid, account, token):
+    UserInfo.child("users").child(uid).child("Plaintext").remove(token)
+    UserInfo.child("users").child(uid).child("Accounts").child(account).child("isEncrypted").set(True, token)
