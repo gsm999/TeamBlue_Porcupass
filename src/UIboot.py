@@ -2,6 +2,7 @@
 import base64
 from collections import UserDict
 from gc import isenabled
+import math
 import requests
 import json
 from json import JSONDecodeError
@@ -18,10 +19,12 @@ from VerifyEmailUI import Ui_Widget as VerifyEmailUI
 from SettingsUI import Ui_Widget as SettingsUI
 from CreateAccountUI import Ui_Widget as CreateAccountUI
 from NewStoreUI import Ui_Widget as NewStoreUI
+from AccountInfoUI import Ui_Widget as AccountDisplay
 from password_generation import *
 import DB_Functions as DB
 from DB_Functions import *
-
+import HIBPScraper as HIBP
+from bruteForceTime import *
 
 class CreateAccountWindow(QtWidgets.QMainWindow, CreateAccountUI): 
     def __init__(self):
@@ -128,6 +131,18 @@ class SettingsWindow(QtWidgets.QMainWindow, SettingsUI):
 
     def getGeometry(self):
         return self.geometry()
+
+class AccountInfoWindow(QtWidgets.QMainWindow, AccountDisplay):
+    def __init__(self):
+        super(AccountInfoWindow, self).__init__()
+        self.setupUi(self)
+
+    def show_password(self, plain, obf):
+        if self.label_6 == obf:
+            self.label_6.setText(plain)
+        else:
+            self.label_6.setText(obf)
+        self.repaint()
 
 class Comm(QObject):
     accsignal = pyqtSignal()
@@ -250,6 +265,8 @@ class MyWindow(QtWidgets.QMainWindow):
             self.settings.hide()
         elif (self.nukeopt != current and self.nukeopt.isVisible()):
             self.nukeopt.hide()
+        elif (self.newacc != current and self.newacc.isVisible()):
+            self.newacc.close()
 
 
     def Enter_clicked(self):
@@ -343,8 +360,6 @@ class MyWindow(QtWidgets.QMainWindow):
             self.HomeScreen.AccountVertV.setCheckState(False)
             self.HomeScreen.AccountsHolder2.hide()
             self.HomeScreen.AccountsHolder.show()
-
-
     
     def vertChecked(self):
         if self.HomeScreen.AccountVertV.isChecked(): 
@@ -355,18 +370,24 @@ class MyWindow(QtWidgets.QMainWindow):
     def createAccountDisplay(self):
 
         accounts = get_accounts(self.userid, self.user['idToken'])
+        self.account_widgetsBG = QtWidgets.QButtonGroup()
+        self.account_widgetsVG = QtWidgets.QButtonGroup()
         self.account_widgetsG = []
         self.account_widgetsV = []
-
+        c = 0
         try:
             for account in accounts.each():
-                self.newG = QtWidgets.QPushButton(account.key())
-                self.newG.clicked.connect(lambda:self.accountPopup(account.val()))
-                self.newV = QtWidgets.QPushButton(account.key())
-                self.newV.clicked.connect(lambda:self.accountPopup(account.val()))
-                self.account_widgetsG.append(self.newG)
-                self.account_widgetsV.append(self.newV)
+                newG = QtWidgets.QPushButton(account.key())
+                newV = QtWidgets.QPushButton(account.key(), objectName = account.key())
+                self.account_widgetsG.append(newG)
+                self.account_widgetsV.append(newV)
+                self.account_widgetsBG.addButton(newG, c)
+                self.account_widgetsVG.addButton(newV, c)
+                c+= 1
         except(TypeError): pass 
+
+        self.account_widgetsBG.idClicked.connect(self.accountPopup)
+        self.account_widgetsVG.idClicked.connect(self.accountPopup)
 
         self.clearLayout(self.newLayoutG)
         self.clearLayout(self.newLayoutV)
@@ -401,8 +422,33 @@ class MyWindow(QtWidgets.QMainWindow):
         self.loginscreen.hide()
         self.CreateAccountScreen.CreationEnter.clicked.connect(self.Account_Created)
         
-    def accountPopup(self, account):
-        pass
+    def accountPopup(self, id):
+        self.newacc = AccountInfoWindow()
+        name = self.account_widgetsBG.button(id).text()
+        newaccinfo = get_new_account(name, self.userid, self.user['idToken'])
+        email= newaccinfo.val()['Email']
+        username = newaccinfo.val()['Username']
+        password = decrypt_password(self.userid, name, self.user['idToken'])
+        decrypt_cleanup(self.userid, name, self.user['idToken'])
+        hiddenPassword = "\u2022" * len(password)
+        self.HIBPS = HIBP.HIBP(password)
+        self.bftime = BFtime(password)
+
+        self.newacc.BFTime.setText(self.bftime)
+        self.newacc.HIBPst.setText(self.HIBPS)
+
+        self.newacc.StoreName.setText(name)
+        self.newacc.label_4.setText(email)
+        self.newacc.label_5.setText(username)
+        self.newacc.label_6.setText(password)
+        self.newacc.showPassword.clicked.connect(lambda:self.newacc.show_password(password, hiddenPassword))
+        self.newacc.show()
+        self.HomeScreen.hide()
+        self.newacc.pushButton.clicked.connect(self.Home_Clicked)
+       
+
+    
+       
 
     def Account_Created(self):
         newusername = self.CreateAccountScreen.NewUser.toPlainText()

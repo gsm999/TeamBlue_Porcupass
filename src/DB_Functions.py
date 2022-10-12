@@ -1,4 +1,6 @@
+from asyncio.windows_events import NULL
 from pydoc import plain
+import time
 import pyrebase
 import json
 
@@ -69,10 +71,15 @@ def get_new_account(path, uid, token):
     newaccount = UserInfo.child("users").child(uid).child("Accounts").child(path).get(token)
     return newaccount
 
+def get_plaintext(uid, token):
+    plaintext = UserInfo.child("users").child(uid).child("Plaintext").get(token)
+    if plaintext.val() is None:
+        plaintext = get_plaintext(uid,token)
+    return plaintext
 
 def decrypt_password(uid, account, token):
     UserInfo.child("users").child(uid).child("Accounts").child(account).child("isEncrypted").set(False, token)
-    plaintext = UserInfo.child("users").child(uid).child("Plaintext").get(token)
+    plaintext = get_plaintext(uid, token)
     return plaintext.val()
 
 def decrypt_cleanup(uid, account, token):
