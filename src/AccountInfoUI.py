@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'AccountInfoForm.ui'
+# Form implementation generated from reading ui file 'C:\Users\John\TeamBlue_Porcupass\res\UI Forms\AccountInfoForm.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import pyperclip
 
 class Ui_Widget(object):
     def setupUi(self, Widget):
@@ -107,7 +107,7 @@ class Ui_Widget(object):
         self.line_8.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_8.setObjectName("line_8")
         self.showPassword = QtWidgets.QPushButton(Widget)
-        self.showPassword.setGeometry(QtCore.QRect(630, 270, 61, 61))
+        self.showPassword.setGeometry(QtCore.QRect(570, 270, 61, 61))
         self.showPassword.setObjectName("showPassword")
         self.label_7 = QtWidgets.QLabel(Widget)
         self.label_7.setGeometry(QtCore.QRect(140, 420, 91, 20))
@@ -123,9 +123,33 @@ class Ui_Widget(object):
         self.BFTime.setGeometry(QtCore.QRect(440, 460, 351, 91))
         self.BFTime.setAlignment(QtCore.Qt.AlignCenter)
         self.BFTime.setObjectName("BFTime")
+        self.copyPassword = QtWidgets.QPushButton(Widget)
+        self.copyPassword.setGeometry(QtCore.QRect(630, 270, 61, 61))
+        self.copyPassword.setObjectName("copyPassword")
+        self.copyPassword.clicked.connect(self.copyP)
+        self.copyUsername = QtWidgets.QPushButton(Widget)
+        self.copyUsername.setGeometry(QtCore.QRect(630, 210, 61, 61))
+        self.copyUsername.setObjectName("copyUsername")
+        self.copyUsername.clicked.connect(self.copyU)
 
         self.retranslateUi(Widget)
         QtCore.QMetaObject.connectSlotsByName(Widget)
+    
+    
+    def copyP(self):
+        password = self.label_6.text()
+        pyperclip.copy(password)
+
+
+
+    def copyU(self):
+        username = self.label_5.text()
+        pyperclip.copy(username)
+        
+
+
+
+
 
     def retranslateUi(self, Widget):
         _translate = QtCore.QCoreApplication.translate
@@ -143,6 +167,8 @@ class Ui_Widget(object):
         self.label_8.setText(_translate("Widget", "Brute Force Time:"))
         self.HIBPst.setText(_translate("Widget", "TextLabel"))
         self.BFTime.setText(_translate("Widget", "TextLabel"))
+        self.copyPassword.setText(_translate("Widget", "Copy"))
+        self.copyUsername.setText(_translate("Widget", "Copy"))
 
 
 if __name__ == "__main__":
