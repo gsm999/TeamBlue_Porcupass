@@ -304,7 +304,7 @@
   <widget class="QPushButton" name="showPassword">
    <property name="geometry">
     <rect>
-     <x>630</x>
+     <x>570</x>
      <y>270</y>
      <width>61</width>
      <height>61</height>
@@ -370,6 +370,32 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="copyPassword">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>270</y>
+     <width>61</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Copy</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="copyUsername">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>210</y>
+     <width>61</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Copy</string>
    </property>
   </widget>
  </widget>
