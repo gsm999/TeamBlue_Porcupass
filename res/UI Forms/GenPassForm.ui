@@ -10,6 +10,12 @@
     <height>600</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Corbel</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Widget</string>
   </property>
@@ -37,7 +43,7 @@
       <x>0</x>
       <y>0</y>
       <width>85</width>
-      <height>125</height>
+      <height>127</height>
      </rect>
     </property>
     <attribute name="label">
@@ -128,7 +134,7 @@ Option</string>
       <x>0</x>
       <y>0</y>
       <width>85</width>
-      <height>125</height>
+      <height>127</height>
      </rect>
     </property>
     <attribute name="label">
@@ -139,10 +145,10 @@ Option</string>
   <widget class="QTextBrowser" name="GenPassOut">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>190</y>
+     <x>200</x>
+     <y>180</y>
      <width>401</width>
-     <height>51</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="inputMethodHints">
@@ -152,17 +158,17 @@ Option</string>
   <widget class="QPushButton" name="GeneratePass">
    <property name="geometry">
     <rect>
-     <x>550</x>
-     <y>190</y>
-     <width>93</width>
-     <height>51</height>
+     <x>360</x>
+     <y>220</y>
+     <width>81</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>PushButton</string>
+    <string>Generate</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>110</x>

@@ -45,16 +45,24 @@ class Ui_Widget(object):
 "</ui>\n"
 "")
         self.Home_Button.setObjectName("Home_Button")
+        self.Home_Button.setStyleSheet("border: 2px solid #405A7C;"
+        "border-radius: 1px;" "background: #7FB4E9")
         self.GenPass_Button = QtWidgets.QPushButton(self.Dropdown)
         self.GenPass_Button.setGeometry(QtCore.QRect(0, 24, 85, 41))
         self.GenPass_Button.setFocusPolicy(QtCore.Qt.TabFocus)
         self.GenPass_Button.setObjectName("GenPass_Button")
+        self.GenPass_Button.setStyleSheet("border: 2px solid #405A7C;"
+        "border-radius: 1px;" "background: #7FB4E9")
         self.Settings_Button = QtWidgets.QPushButton(self.Dropdown)
         self.Settings_Button.setGeometry(QtCore.QRect(0, 62, 85, 29))
         self.Settings_Button.setObjectName("Settings_Button")
+        self.Settings_Button.setStyleSheet("border: 2px solid #405A7C;"
+        "border-radius: 1px;" "background: #7FB4E9")
         self.Nuke_Button = QtWidgets.QPushButton(self.Dropdown)
         self.Nuke_Button.setGeometry(QtCore.QRect(0, 88, 85, 41))
         self.Nuke_Button.setObjectName("Nuke_Button")
+        self.Nuke_Button.setStyleSheet("border: 2px solid #405A7C;"
+        "border-radius: 1px;" "background: #7FB4E9")
         self.Menu.addItem(self.Dropdown, "")
         self.page = QtWidgets.QWidget()
         self.page.setGeometry(QtCore.QRect(0, 0, 85, 125))
@@ -67,6 +75,8 @@ class Ui_Widget(object):
         self.AccountsHolder.setGeometry(QtCore.QRect(130, 60, 641, 451))
         self.AccountsHolder.setWidgetResizable(True)
         self.AccountsHolder.setObjectName("AccountsHolder")
+        self.AccountsHolder.setStyleSheet("border: 2px solid #405A7C;"
+        "border-radius: 8px;" "background: #C2ADAE")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 639, 449))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
@@ -82,6 +92,8 @@ class Ui_Widget(object):
         self.AccountsHolder2.setGeometry(QtCore.QRect(130, 60, 641, 451))
         self.AccountsHolder2.setWidgetResizable(True)
         self.AccountsHolder2.setObjectName("AccountsHolder2")
+        self.AccountsHolder2.setStyleSheet("border: 2px solid #405A7C;"
+        "border-radius: 8px;" "background: #C2ADAE")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
         self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 639, 449))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
@@ -96,11 +108,9 @@ class Ui_Widget(object):
         _translate = QtCore.QCoreApplication.translate
         Widget.setWindowTitle(_translate("Widget", "Widget"))
         self.Home_Button.setText(_translate("Widget", "Home"))
-        self.GenPass_Button.setText(_translate("Widget", "Generate \n"
-"Password"))
+        self.GenPass_Button.setText(_translate("Widget", "Generate \n""Password"))
         self.Settings_Button.setText(_translate("Widget", "Settings"))
-        self.Nuke_Button.setText(_translate("Widget", "Nuclear \n"
-"Option"))
+        self.Nuke_Button.setText(_translate("Widget", "Nuclear \n""Option"))
         self.Menu.setItemText(self.Menu.indexOf(self.Dropdown), _translate("Widget", "Menu"))
         self.Menu.setItemText(self.Menu.indexOf(self.page), _translate("Widget", "Close"))
         self.commandLinkButton.setText(_translate("Widget", "New store account? Click here to add it"))

@@ -22,15 +22,21 @@ class Ui_Widget(object):
         self.CreationEnter.setDefault(True)
         self.CreationEnter.setFlat(False)
         self.CreationEnter.setObjectName("CreationEnter")
+        self.CreationEnter.setStyleSheet("border: 2px solid #405A7C;"
+        "border-radius: 8px;" "background: #7FB4E9")
         self.NewUser = QtWidgets.QTextEdit(Widget)
         self.NewUser.setGeometry(QtCore.QRect(283, 316, 251, 31))
         self.NewUser.setObjectName("NewUser")
+        self.NewUser.setStyleSheet("border: 2px solid #405A7C;"
+        "border-radius: 15px;" "background: #FFFFFF")
         self.label = QtWidgets.QLabel(Widget)
         self.label.setGeometry(QtCore.QRect(380, 290, 71, 20))
         self.label.setObjectName("label")
         self.NewPassword = QtWidgets.QTextEdit(Widget)
         self.NewPassword.setGeometry(QtCore.QRect(280, 390, 251, 31))
         self.NewPassword.setObjectName("NewPassword")
+        self.NewPassword.setStyleSheet("border: 2px solid #405A7C;"
+        "border-radius: 15px;" "background: #FFFFFF")
         self.label_2 = QtWidgets.QLabel(Widget)
         self.label_2.setGeometry(QtCore.QRect(380, 370, 71, 20))
         self.label_2.setObjectName("label_2")
@@ -40,12 +46,18 @@ class Ui_Widget(object):
         self.NewEmail = QtWidgets.QTextEdit(Widget)
         self.NewEmail.setGeometry(QtCore.QRect(280, 250, 251, 31))
         self.NewEmail.setObjectName("NewEmail")
+        self.NewEmail.setStyleSheet("border: 2px solid #405A7C;"
+        "border-radius: 15px;" "background: #FFFFFF")
         self.LastName = QtWidgets.QTextEdit(Widget)
         self.LastName.setGeometry(QtCore.QRect(280, 190, 251, 31))
         self.LastName.setObjectName("LastName")
+        self.LastName.setStyleSheet("border: 2px solid #405A7C;"
+        "border-radius: 15px;" "background: #FFFFFF")
         self.FirstName = QtWidgets.QTextEdit(Widget)
         self.FirstName.setGeometry(QtCore.QRect(280, 130, 251, 31))
         self.FirstName.setObjectName("FirstName")
+        self.FirstName.setStyleSheet("border: 2px solid #405A7C;"
+        "border-radius: 15px;" "background: #FFFFFF")
         self.label_4 = QtWidgets.QLabel(Widget)
         self.label_4.setGeometry(QtCore.QRect(380, 100, 81, 20))
         self.label_4.setObjectName("label_4")

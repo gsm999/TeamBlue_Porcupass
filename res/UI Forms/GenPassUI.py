@@ -110,10 +110,6 @@ class Ui_Widget(object):
         self.verticalLayout.addWidget(self.SaveGenPassSet)
         self.horizontalLayout_2.addLayout(self.verticalLayout)
 
-        self.GeneratePass.setStyleSheet("border: 2px solid #405A7C;"
-        "border-radius: 8px;" "background: #7FB4E9")
-        self.GenPassOut.setStyleSheet("border: 2px solid #405A7C;"
-        "border-radius: 8px;" "background: #FFFFFF")
         self.retranslateUi(Widget)
         self.Menu.setCurrentIndex(1)
         self.Menu.layout().setSpacing(0)
