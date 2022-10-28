@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\John\TeamBlue_Porcupass\res\UI Forms\PassReset.ui'
+# Widget implementation generated from reading ui file 'C:\Users\John\TeamBlue_Porcupass\res\UI Widgets\PassReset.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -10,26 +10,37 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+#from AccountUI import Ui_Widget, Widget
+
 
 class Ui_Widget(object):
     def setupUi(self, Widget):
         Widget.setObjectName("Widget")
-        Widget.resize(447, 376)
-        self.label_4 = QtWidgets.QLabel(Widget)
-        self.label_4.setGeometry(QtCore.QRect(100, 110, 241, 41))
+        Widget.resize(375, 178)
+        self.titleLabel = QtWidgets.QLabel(Widget)
+        self.titleLabel.setGeometry(QtCore.QRect(90, 20, 181, 41))
         font = QtGui.QFont()
-        font.setPointSize(24)
-        self.label_4.setFont(font)
-        self.label_4.setObjectName("label_4")
-        self.label_3 = QtWidgets.QLabel(Widget)
-        self.label_3.setGeometry(QtCore.QRect(200, 210, 71, 20))
-        self.label_3.setObjectName("label_3")
-        self.textEdit = QtWidgets.QTextEdit(Widget)
-        self.textEdit.setGeometry(QtCore.QRect(100, 240, 231, 31))
-        self.textEdit.setObjectName("textEdit")
-        self.pushButton = QtWidgets.QPushButton(Widget)
-        self.pushButton.setGeometry(QtCore.QRect(160, 280, 101, 23))
-        self.pushButton.setObjectName("pushButton")
+        font.setFamily("Corbel")
+        font.setPointSize(21)
+        self.titleLabel.setFont(font)
+        self.titleLabel.setObjectName("titleLabel")
+        self.emailLabel = QtWidgets.QLabel(Widget)
+        self.emailLabel.setGeometry(QtCore.QRect(160, 70, 71, 20))
+        font = QtGui.QFont()
+        font.setFamily("Corbel")
+        font.setPointSize(12)
+        self.emailLabel.setFont(font)
+        self.emailLabel.setObjectName("emailLabel")
+        self.ResetEmail = QtWidgets.QTextEdit(Widget)
+        self.ResetEmail.setGeometry(QtCore.QRect(70, 100, 231, 31))
+        self.ResetEmail.setObjectName("ResetEmail")
+        self.ResetEmail.setStyleSheet("border: 2px solid black;"
+        "border-radius: 14px;" "background: #FFFFFF")
+        self.sendresetButton = QtWidgets.QPushButton(Widget)
+        self.sendresetButton.setGeometry(QtCore.QRect(130, 140, 101, 23))
+        self.sendresetButton.setObjectName("sendresetButton")
+        self.sendresetButton.setStyleSheet("border: 2px solid black;"
+        "border-radius: 8px;" "background: #7FB4E9")
 
         self.retranslateUi(Widget)
         QtCore.QMetaObject.connectSlotsByName(Widget)
@@ -37,9 +48,9 @@ class Ui_Widget(object):
     def retranslateUi(self, Widget):
         _translate = QtCore.QCoreApplication.translate
         Widget.setWindowTitle(_translate("Widget", "Widget"))
-        self.label_4.setText(_translate("Widget", "Password Reset"))
-        self.label_3.setText(_translate("Widget", "Email"))
-        self.pushButton.setText(_translate("Widget", "Send Reset Email"))
+        self.titleLabel.setText(_translate("Widget", "Password Reset"))
+        self.emailLabel.setText(_translate("Widget", "Email"))
+        self.sendresetButton.setText(_translate("Widget", "Send Reset Email"))
 
 
 if __name__ == "__main__":
@@ -49,4 +60,5 @@ if __name__ == "__main__":
     ui = Ui_Widget()
     ui.setupUi(Widget)
     Widget.show()
+    Widget.setStyleSheet("background: #C2ADAE")
     sys.exit(app.exec_())

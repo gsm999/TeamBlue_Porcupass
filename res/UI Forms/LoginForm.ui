@@ -12,7 +12,10 @@
   </property>
   <property name="font">
    <font>
-    <italic>true</italic>
+    <family>Adobe Gothic Std B</family>
+    <weight>75</weight>
+    <italic>false</italic>
+    <bold>true</bold>
     <kerning>true</kerning>
    </font>
   </property>
@@ -28,6 +31,9 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="tabChangesFocus">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
@@ -38,18 +44,36 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Corbel</family>
+     <pointsize>12</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
    <property name="text">
-    <string>Email:</string>
+    <string>Email</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>340</y>
+     <x>190</x>
+     <y>330</y>
      <width>71</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Corbel</family>
+     <pointsize>12</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+     <underline>false</underline>
+     <kerning>true</kerning>
+    </font>
    </property>
    <property name="text">
     <string>Password</string>
@@ -63,6 +87,16 @@
      <width>93</width>
      <height>29</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Corbel</family>
+     <pointsize>12</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+     <kerning>true</kerning>
+    </font>
    </property>
    <property name="text">
     <string>Enter</string>
@@ -92,7 +126,7 @@
    <property name="font">
     <font>
      <family>Segoe UI</family>
-     <pointsize>8</pointsize>
+     <pointsize>10</pointsize>
      <italic>true</italic>
      <kerning>false</kerning>
     </font>
@@ -118,6 +152,14 @@
      <width>111</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Corbel</family>
+     <weight>50</weight>
+     <bold>false</bold>
+     <underline>true</underline>
+    </font>
    </property>
    <property name="text">
     <string>Forgot Password?</string>
@@ -158,7 +200,26 @@
     <string/>
    </property>
   </widget>
+  <widget class="QGraphicsView" name="Logo">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>50</y>
+     <width>256</width>
+     <height>192</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
+ <tabstops>
+  <tabstop>LoginUser</tabstop>
+  <tabstop>LoginPassword</tabstop>
+  <tabstop>PasswordToggle</tabstop>
+  <tabstop>PassReset</tabstop>
+  <tabstop>LoginEnter</tabstop>
+  <tabstop>CreateNewUser</tabstop>
+  <tabstop>Logo</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

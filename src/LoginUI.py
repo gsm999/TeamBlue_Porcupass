@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5.QtGui import QPixmap
 import os
 script_dir = os.path.dirname(__file__) 
 res_dir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'res'))
@@ -19,30 +19,60 @@ class Ui_Widget(object):
         Widget.setObjectName("Widget")
         Widget.resize(472, 552)
         font = QtGui.QFont()
-        font.setItalic(True)
+        font.setFamily("Adobe Gothic Std B")
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
         font.setKerning(True)
         Widget.setFont(font)
-        self.LoginUser = QtWidgets.QTextEdit(Widget)
+        self.LoginUser = QtWidgets.QLineEdit(Widget)
         self.LoginUser.setGeometry(QtCore.QRect(103, 286, 251, 31))
+        #self.LoginUser.setTabChangesFocus(True)
         self.LoginUser.setObjectName("LoginUser")
+        self.LoginUser.setStyleSheet("border: 2px solid #405A7C;"
+        "border-radius: 14px;" "background: #FFFFFF")
         self.label = QtWidgets.QLabel(Widget)
         self.label.setGeometry(QtCore.QRect(200, 260, 71, 20))
+        font = QtGui.QFont()
+        font.setFamily("Corbel")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label.setFont(font)
         self.label.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(Widget)
-        self.label_2.setGeometry(QtCore.QRect(210, 340, 71, 20))
+        self.label_2.setGeometry(QtCore.QRect(190, 330, 71, 20))
+        font = QtGui.QFont()
+        font.setFamily("Corbel")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setUnderline(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
         self.LoginEnter = QtWidgets.QPushButton(Widget)
         self.LoginEnter.setGeometry(QtCore.QRect(190, 430, 93, 29))
+        font = QtGui.QFont()
+        font.setFamily("Corbel")
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        self.LoginEnter.setFont(font)
         self.LoginEnter.setCheckable(False)
         self.LoginEnter.setAutoDefault(True)
         self.LoginEnter.setDefault(True)
         self.LoginEnter.setFlat(False)
         self.LoginEnter.setObjectName("LoginEnter")
+        self.LoginEnter.setStyleSheet("border: 2px solid #405A7C;"
+        "border-radius: 8px;" "background: #7FB4E9")
         self.CreateNewUser = QtWidgets.QCommandLinkButton(Widget)
         self.CreateNewUser.setGeometry(QtCore.QRect(120, 470, 241, 41))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
-        font.setPointSize(8)
+        font.setPointSize(10)
         font.setItalic(True)
         font.setKerning(False)
         self.CreateNewUser.setFont(font)
@@ -51,15 +81,25 @@ class Ui_Widget(object):
         self.CreateNewUser.setObjectName("CreateNewUser")
         self.PassReset = QtWidgets.QPushButton(Widget)
         self.PassReset.setGeometry(QtCore.QRect(180, 400, 111, 21))
+        self.PassReset.setFlat(True);
+        font = QtGui.QFont()
+        font.setFamily("Corbel")
+        font.setBold(False)
+        font.setUnderline(True)
+        font.setWeight(50)
+        self.PassReset.setFont(font)
         self.PassReset.setCheckable(False)
         self.PassReset.setAutoDefault(True)
         self.PassReset.setDefault(True)
-        self.PassReset.setFlat(False)
+        self.PassReset.setFlat(True)
         self.PassReset.setObjectName("PassReset")
+        self.PassReset.setStyleSheet("border: 0px")
         self.LoginPassword = QtWidgets.QLineEdit(Widget)
         self.LoginPassword.setGeometry(QtCore.QRect(100, 360, 251, 31))
         self.LoginPassword.setObjectName("LoginPassword")
         self.LoginPassword.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.LoginPassword.setStyleSheet("border: 2px solid #405A7C;"
+        "border-radius: 15px;" "background: #FFFFFF")
         self.PasswordToggle = QtWidgets.QPushButton(Widget)
         self.PasswordToggle.setGeometry(QtCore.QRect(320, 360, 31, 31))
         self.PasswordToggle.setFlat(True)
@@ -67,18 +107,32 @@ class Ui_Widget(object):
         self.PasswordToggle.setIcon(QtGui.QIcon(res_dir + "/eye_visible.svg"))
         self.PasswordToggle.setObjectName("PasswordToggle")
         self.PasswordToggle.clicked.connect(self.toggleVisibility)
+        self.Logo = QtWidgets.QPushButton(Widget)
+        self.Logo.setFlat(True)
+        self.Logo.setGeometry(QtCore.QRect(110, 50, 256, 192))
+        self.Logo.setIcon(QtGui.QIcon(res_dir + "/logotp.png"))
+        self.Logo.setIconSize(QtCore.QSize(256,256))
+        
+
+
         self.retranslateUi(Widget)
         QtCore.QMetaObject.connectSlotsByName(Widget)
+        Widget.setTabOrder(self.LoginUser, self.LoginPassword)
+        Widget.setTabOrder(self.LoginPassword, self.PasswordToggle)
+        Widget.setTabOrder(self.PasswordToggle, self.PassReset)
+        Widget.setTabOrder(self.PassReset, self.LoginEnter)
+        Widget.setTabOrder(self.LoginEnter, self.CreateNewUser)
+        Widget.setTabOrder(self.CreateNewUser, self.Logo)
 
     def retranslateUi(self, Widget):
         _translate = QtCore.QCoreApplication.translate
         Widget.setWindowTitle(_translate("Widget", "Widget"))
-        self.label.setText(_translate("Widget", "Email:"))
+        self.label.setText(_translate("Widget", "Email"))
         self.label_2.setText(_translate("Widget", "Password"))
         self.LoginEnter.setText(_translate("Widget", "Enter"))
         self.CreateNewUser.setText(_translate("Widget", "No account? Click here to create."))
         self.PassReset.setText(_translate("Widget", "Forgot Password?"))
-    
+
     def toggleVisibility(self):
         if self.LoginPassword.echoMode()==QtWidgets.QLineEdit.Normal:
             self.LoginPassword.setEchoMode(QtWidgets.QLineEdit.Password)
@@ -87,12 +141,19 @@ class Ui_Widget(object):
             self.LoginPassword.setEchoMode(QtWidgets.QLineEdit.Normal)
             self.PasswordToggle.setIcon(QtGui.QIcon(res_dir + "/eye_hidden.svg"))
 
-
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
+    style = """
+        QWidget{
+            background: #C2ADAE 
+        }
+    """
+    app.setStyleSheet = (style)
     Widget = QtWidgets.QWidget()
     ui = Ui_Widget()
     ui.setupUi(Widget)
+    
     Widget.show()
+    
     sys.exit(app.exec_())

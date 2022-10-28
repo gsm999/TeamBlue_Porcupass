@@ -182,9 +182,11 @@ class MyWindow(QtWidgets.QMainWindow):
         self.password_reset_sent_screen = PassResetSentWindow()
         self.email_verify_screen = VerifyEmailWindow()
         self.loginscreen.PassReset.clicked.connect(self.PassReset_Clicked)
-        self.password_reset_screen.pushButton.clicked.connect(self.SendReset_Clicked)
+        self.password_reset_screen.sendresetButton.clicked.connect(self.SendReset_Clicked)
         self.EmailVerified = False
         self.loginscreen.show()
+        self.loginscreen.setStyleSheet("background-color: #C2ADAE")
+        #self.loginscreen.LoginUser.setStyleSheet("color: #FFFFFF")
         self.loginscreen.LoginEnter.clicked.connect(self.Enter_clicked)
         self.loginscreen.CreateNewUser.clicked.connect(self.Create_Account_Clicked)
         #self.UserInfo = firebase.database()
@@ -270,7 +272,8 @@ class MyWindow(QtWidgets.QMainWindow):
 
 
     def Enter_clicked(self):
-        email = self.loginscreen.LoginUser.toPlainText()
+        #email = self.loginscreen.LoginUser.toPlainText()
+        email = self.loginscreen.LoginUser.text()
         password = self.loginscreen.LoginPassword.text()
         try:
             self.user = DB.DB_Login(email, password)
@@ -289,6 +292,7 @@ class MyWindow(QtWidgets.QMainWindow):
 
 
             self.HomeScreen = AccountsWindow()
+            self.HomeScreen.setStyleSheet("background: #6A4F50")
             self.HomeScreen.closeProtocol.signal.connect(self.close)
           
 
@@ -296,6 +300,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.guiupdate.accsignal.connect(self.createAccountDisplay)
 
             self.createAccountDisplay()
+            
 
             self.HomeScreen.scrollAreaWidgetContents.setLayout(self.mainLayoutG)
             self.HomeScreen.AccountsHolder.hide()
@@ -319,6 +324,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.settings = SettingsWindow()
             self.nukeopt = NukeWindow()
             self.AddStoreScreen = AddStoreWindow()
+            self.AddStoreScreen.setStyleSheet("background: #C2ADAE")
           
             self.HomeScreen.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.HomeScreen.Settings_Button.clicked.connect(self.Settings_Clicked)
@@ -347,7 +353,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.nukeopt.Home_Button.clicked.connect(self.Home_Clicked)
             self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
             self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
-            self.nukeopt.pushButton.clicked.connect(lambda:DB.nuke_info(self.user['idToken'], self.userid))
+            self.nukeopt.NUKEBUTTON.clicked.connect(lambda:DB.nuke_info(self.user['idToken'], self.userid))
             self.nukeopt.closeProtocol.signal.connect(self.close)
             self.nukeopt.moveProtocol.signal.connect(lambda:self.window_concurrency(self.nukeopt))
             self.nukeopt.resizeProtocol.signal.connect(lambda:self.window_concurrency(self.nukeopt))
@@ -378,7 +384,9 @@ class MyWindow(QtWidgets.QMainWindow):
         try:
             for account in accounts.each():
                 newG = QtWidgets.QPushButton(account.key())
+                newG.setStyleSheet("background: #7FB4E9")
                 newV = QtWidgets.QPushButton(account.key(), objectName = account.key())
+                newV.setStyleSheet("background: #7FB4E9")
                 self.account_widgetsG.append(newG)
                 self.account_widgetsV.append(newV)
                 self.account_widgetsBG.addButton(newG, c)
@@ -419,6 +427,7 @@ class MyWindow(QtWidgets.QMainWindow):
     def Create_Account_Clicked(self):
         self.CreateAccountScreen = CreateAccountWindow()
         self.CreateAccountScreen.show()
+        self.CreateAccountScreen.setStyleSheet("background: #C2ADAE")
         self.loginscreen.hide()
         self.CreateAccountScreen.CreationEnter.clicked.connect(self.Account_Created)
         
@@ -562,29 +571,32 @@ class MyWindow(QtWidgets.QMainWindow):
     def GenPass_Clicked(self):
         self.close_screens(self.genpass)
         self.genpass.show()
+        self.genpass.setStyleSheet("background: #C2ADAE")
 
     def Nuke_Clicked(self):
         self.close_screens(self.nukeopt)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(r"C:\Users\fullw\source\repos\TeamBluePorcupass\res\NukeImage.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.On)
-        self.nukeopt.pushButton.setIcon(icon)
-        self.nukeopt.pushButton.setIconSize(QtCore.QSize(231, 171))
-        self.nukeopt.pushButton.setAutoDefault(True)
-        self.nukeopt.pushButton.setDefault(True)
-        self.nukeopt.pushButton.setFlat(False)
-        self.nukeopt.pushButton.setObjectName("pushButton")
+        self.nukeopt.NUKEBUTTON.setIcon(icon)
+        self.nukeopt.NUKEBUTTON.setIconSize(QtCore.QSize(231, 171))
+        self.nukeopt.NUKEBUTTON.setAutoDefault(True)
+        self.nukeopt.NUKEBUTTON.setDefault(True)
+        self.nukeopt.NUKEBUTTON.setFlat(False)
+        self.nukeopt.NUKEBUTTON.setObjectName("pushButton")
         self.nukeopt.show()
         
     
     def PassReset_Clicked(self):
             self.password_reset_screen.show()
+            self.password_reset_screen.setStyleSheet("background: #C2ADAE")
 
 
     def SendReset_Clicked(self):
-        email = self.password_reset_screen.textEdit.toPlainText()
+        email = self.password_reset_screen.ResetEmail.toPlainText()
         try:
             reset_password(email)
             self.password_reset_sent_screen.show()
+            self.password_reset_screen.setStyleSheet("background: #C2ADAE")
         except requests.HTTPError as e:
             error_json = e.args[1]
             error = json.loads(error_json)['error']['message']
