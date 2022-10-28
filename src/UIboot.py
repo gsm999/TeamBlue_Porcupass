@@ -1,15 +1,17 @@
 
 import base64
 from collections import UserDict
+from curses.ascii import isupper
 from gc import isenabled
 import math
+import string
 import requests
 import json
 from json import JSONDecodeError
 import sys
 from LoginUI import Ui_Widget as LoginWidget
 from PyQt5 import QtWidgets, QtCore, sip, QtGui
-from PyQt5.QtCore import pyqtSignal, QObject
+from PyQt5.QtCore import pyqtSignal, QObject, QPoint
 from AccountUI import Ui_Widget as AccountUI
 from GenPassUI import Ui_Widget as GenPassUI
 from NuclearUI import Ui_Widget as NukeUI
@@ -25,6 +27,9 @@ import DB_Functions as DB
 from DB_Functions import *
 import HIBPScraper as HIBP
 from bruteForceTime import *
+import pyperclip
+from colour import Color
+import re
 
 class CreateAccountWindow(QtWidgets.QMainWindow, CreateAccountUI): 
     def __init__(self):
@@ -133,16 +138,42 @@ class SettingsWindow(QtWidgets.QMainWindow, SettingsUI):
         return self.geometry()
 
 class AccountInfoWindow(QtWidgets.QMainWindow, AccountDisplay):
-    def __init__(self):
+    def __init__(self, strength, status, points):
         super(AccountInfoWindow, self).__init__()
         self.setupUi(self)
+        self.strength = strength
+        self.status = status
+        self.points = points
+        self.installEventFilter(self.Password_status_box)
+        self.installEventFilter(self.password_strength_box)
+
+    def eventFilter(self, obj, e):
+        if (obj == self.Password_status_box  and e == QtCore.QEvent.Paint):
+            painter = QtGui.QPainter()
+            painter.setPen(QtCore.Qt.black)
+            painter.setBrush(self.status)
+            self.painter.drawPolygon(self.points)
+            self.painter.end()
+            return True
+
+        if (obj == self.password_strength_box  and e == QtCore.QEvent.Paint):
+            painter = QtGui.QPainter()
+            painter.setPen(QtCore.Qt.black)
+            painter.setBrush(self.strength)
+            self.painter.drawPolygon(self.points)
+            self.painter.end()
+            return True
+
+        return super().eventFilter(obj, e)
+    
 
     def show_password(self, plain, obf):
-        if self.label_6 == obf:
+        if self.label_6.text() == obf:
             self.label_6.setText(plain)
-        else:
+            self.repaint()
+        elif self.label_6.text() == plain:
             self.label_6.setText(obf)
-        self.repaint()
+            self.repaint()
 
 class Comm(QObject):
     accsignal = pyqtSignal()
@@ -324,6 +355,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.settings = SettingsWindow()
             self.nukeopt = NukeWindow()
             self.AddStoreScreen = AddStoreWindow()
+            self.create_gradients()
             self.AddStoreScreen.setStyleSheet("background: #C2ADAE")
           
             self.HomeScreen.GenPass_Button.clicked.connect(self.GenPass_Clicked)
@@ -366,6 +398,11 @@ class MyWindow(QtWidgets.QMainWindow):
             self.HomeScreen.AccountVertV.setCheckState(False)
             self.HomeScreen.AccountsHolder2.hide()
             self.HomeScreen.AccountsHolder.show()
+
+    def create_gradients(self):
+        self.ageGradient = list(Color("green").range_to(Color("red"), 6))
+        self.strengthGradient = list(Color("red").range_to(Color("green"), 5))
+        self.hibpGradient = list(Color("green").range_to(Color("red"), 4))
     
     def vertChecked(self):
         if self.HomeScreen.AccountVertV.isChecked(): 
@@ -430,10 +467,33 @@ class MyWindow(QtWidgets.QMainWindow):
         self.CreateAccountScreen.setStyleSheet("background: #C2ADAE")
         self.loginscreen.hide()
         self.CreateAccountScreen.CreationEnter.clicked.connect(self.Account_Created)
+
+    def hibpScore(self, hibp):
+        if hibp == 0: score = 0
+        elif hibp == 1: score = 1
+        elif hibp < 5: score = 2
+        else: score = 3
+        return score
+
+    def pStrength(self, password):
+        strength = 0
+        specialcharacters= set(string.punctuation)
+        if any(x.isupper() for x in password): strength += 1
+        if any(x.islower() for x in password): strength += 1
+        if any(x.isdigit() for x in password): strength += 1
+        if any(x in specialcharacters for x in password): strength += 1
+        if password.length() < 5: strength -= 2
+        if password.length() > 15: strength += 1
+
+        return strength
+
+
+    def octagon_coordinates():
+        side1 = [QPoint((x(1)),x(1 + math.sqrt(2))) for x in [1, -1]]
+        side2 = [QPoint(x(1 + math.sqrt(2)), (x(1)) ) for x in [1,-1]]
+        return side1+side2
         
     def accountPopup(self, id):
-        self.newacc = AccountInfoWindow()
-        name = self.account_widgetsBG.button(id).text()
         newaccinfo = get_new_account(name, self.userid, self.user['idToken'])
         email= newaccinfo.val()['Email']
         username = newaccinfo.val()['Username']
@@ -442,15 +502,33 @@ class MyWindow(QtWidgets.QMainWindow):
         hiddenPassword = "\u2022" * len(password)
         self.HIBPS = HIBP.HIBP(password)
         self.bftime = BFtime(password)
+        status = self.hibpScore(self.HIBP)
+        strength = self.pStrength(password)
+        points = self.octagon_coordinates()
 
-        self.newacc.BFTime.setText(self.bftime)
-        self.newacc.HIBPst.setText(self.HIBPS)
+        self.newacc = AccountInfoWindow(self.strengthGradient[strength], self.stausGradient[status], points)
+
+        self.pLayout = QtWidgets.QVBoxLayout()
+        self.pLayout.addWidget(self.painter)
+        self.newacc.Password_status_box.setLayout(self.pLayout)
+        self.newacc.setCentralWidget(self.newacc.widget)
+        name = self.account_widgetsBG.button(id).text()
+        
+        
+        
+
+        
+        
+        #self.newacc.BFTime.setText(self.bftime)
+        #self.newacc.HIBPst.setText(self.HIBPS)
 
         self.newacc.StoreName.setText(name)
         self.newacc.label_4.setText(email)
         self.newacc.label_5.setText(username)
-        self.newacc.label_6.setText(password)
+        self.newacc.label_6.setText(hiddenPassword)
         self.newacc.showPassword.clicked.connect(lambda:self.newacc.show_password(password, hiddenPassword))
+        self.newacc.copyPassword.clicked.connect(lambda:pyperclip.copy(password))
+        self.newacc.copyUsername.clicked.connect(lambda:pyperclip.copy(username))
         self.newacc.show()
         self.HomeScreen.hide()
         self.newacc.pushButton.clicked.connect(self.Home_Clicked)
