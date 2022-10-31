@@ -138,38 +138,51 @@ class SettingsWindow(QtWidgets.QMainWindow, SettingsUI):
         return self.geometry()
 
 class AccountInfoWindow(QtWidgets.QMainWindow, AccountDisplay):
-    def __init__(self, strength, status, points):
+    def __init__(self, strength, status):
         super(AccountInfoWindow, self).__init__()
         self.setupUi(self)
         self.strength = strength
         self.status = status
-        self.points = points
+        
         
         self.Password_status_box.installEventFilter(self)
         self.password_strength_box.installEventFilter(self)
 
-        self.poly = QPolygon(points)
+        
 
     def eventFilter(self, obj, e):
 
         if (obj == self.Password_status_box  and e.type() == QtCore.QEvent.Paint):
+            points = self.oct_coord()
+            polygon = QPolygon(points)
             painter = QtGui.QPainter()
             painter.begin(obj)
             painter.setPen(QColor(0,0,0))
             painter.setBrush(QColor(self.status))
-            painter.drawPolygon(self.poly)
+            painter.drawPolygon(polygon)
             painter.end()
             return super().eventFilter(obj, e)
 
         if (obj == self.password_strength_box  and e.type() == QtCore.QEvent.Paint):
+            points = self.oct_coord()
+            polygon = QPolygon(points)
             painter = QtGui.QPainter()
             painter.begin(obj)
             painter.setPen(QColor(0,0,0))
             painter.setBrush(QColor(self.strength))
-            painter.drawPolygon(self.poly)
+            painter.drawPolygon(polygon)
             painter.end()
             return super().eventFilter(obj, e)
         return super().eventFilter(obj, e)
+
+    def oct_coord(self):
+        height = self.password_strength_box.geometry().height() - 10
+        width = self.password_strength_box.geometry().width() - 10
+        r = min(height, width) / 2 
+        height /= 2
+        width /= 2
+        points = [QPoint(width + r * math.cos(2 * math.pi * i/8), height + r * math.sin(2 * math.pi * i/8)) for i in range(8)]
+        return points
 
        
     
@@ -507,27 +520,31 @@ class MyWindow(QtWidgets.QMainWindow):
         
     def accountPopup(self, id):
         name = self.account_widgetsBG.button(id).text()
+     
         newaccinfo = get_new_account(name, self.userid, self.user['idToken'])
         email= newaccinfo.val()['Email']
         username = newaccinfo.val()['Username']
         password = decrypt_password(self.userid, name, self.user['idToken'])
         decrypt_cleanup(self.userid, name, self.user['idToken'])
         hiddenPassword = "\u2022" * len(password)
-        self.HIBPS = HIBP.HIBP(password)
+        self.HIBPS = int(HIBP.HIBP(password))
         self.bftime = BFtime(password)
         status = self.hibpScore(self.HIBPS)
         strength = self.pStrength(password)
         #points = self.octagon_coordinates()
         points = [QPoint(302,8), QPoint(227,8),QPoint(173,62),QPoint(173,138), QPoint(227,192),QPoint(302,192), QPoint(357,138), QPoint(357,62)]
 
-        self.newacc = AccountInfoWindow(self.strengthGradient[strength-1], self.hibpGradient[status], points)
-        print(self.strengthGradient[strength], self.hibpGradient[status])
+        if(strength == 0): self.newacc = AccountInfoWindow(self.strengthGradient[strength], self.hibpGradient[status])
+        else: self.newacc = AccountInfoWindow(self.strengthGradient[strength-1], self.hibpGradient[status])
+       
         
         self.newacc.setCentralWidget(self.newacc.widget)
            
         self.newacc.time_to_crack.setText(self.bftime)
-        self.newacc.Password_status_box.setText("\n\n\n\n\nPassword Breaches:\n{}".format(self.HIBPS))
-        self.newacc.password_strength_box.setText("\n\n\n\n\nStrength Score:\n{}/5".format(strength))
+        self.newacc.Password_status_box.setText("Password Breaches:\n{}".format(self.HIBPS))
+        self.newacc.password_strength_box.setText("Strength Score:\n{}/5".format(strength))
+        self.newacc.Password_status_box.setAlignment(QtCore.Qt.AlignCenter)
+        self.newacc.password_strength_box.setAlignment(QtCore.Qt.AlignCenter)
 
         self.newacc.StoreName.setText(name)
         self.newacc.label_4.setText(email)
@@ -536,8 +553,8 @@ class MyWindow(QtWidgets.QMainWindow):
         self.newacc.showPassword.clicked.connect(lambda:self.newacc.show_password(password, hiddenPassword))
         self.newacc.copyPassword.clicked.connect(lambda:pyperclip.copy(password))
         self.newacc.copyUsername.clicked.connect(lambda:pyperclip.copy(username))
-        self.newacc.password_strength_box.update()
-        self.newacc.Password_status_box.update()
+        self.newacc.password_strength_box.repaint()
+        self.newacc.Password_status_box.repaint()
         self.newacc.password_strength_box.show()
         self.newacc.Password_status_box.show()
         self.newacc.show()
