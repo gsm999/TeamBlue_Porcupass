@@ -29,7 +29,7 @@ import HIBPScraper as HIBP
 from bruteForceTime import *
 import pyperclip
 from colour import Color
-import re
+from datetime import date, datetime
 
 class CreateAccountWindow(QtWidgets.QMainWindow, CreateAccountUI): 
     def __init__(self):
@@ -138,15 +138,17 @@ class SettingsWindow(QtWidgets.QMainWindow, SettingsUI):
         return self.geometry()
 
 class AccountInfoWindow(QtWidgets.QMainWindow, AccountDisplay):
-    def __init__(self, strength, status):
+    def __init__(self, strength, status, age):
         super(AccountInfoWindow, self).__init__()
         self.setupUi(self)
         self.strength = strength
         self.status = status
+        self.age = age
         
         
         self.Password_status_box.installEventFilter(self)
         self.password_strength_box.installEventFilter(self)
+        self.password_age_box.installEventFilter(self)
 
         
 
@@ -173,6 +175,18 @@ class AccountInfoWindow(QtWidgets.QMainWindow, AccountDisplay):
             painter.drawPolygon(polygon)
             painter.end()
             return super().eventFilter(obj, e)
+
+        if (obj == self.password_age_box  and e.type() == QtCore.QEvent.Paint):
+            points = self.oct_coord()
+            polygon = QPolygon(points)
+            painter = QtGui.QPainter()
+            painter.begin(obj)
+            painter.setPen(QColor(0,0,0))
+            painter.setBrush(QColor(self.age))
+            painter.drawPolygon(polygon)
+            painter.end()
+            return super().eventFilter(obj, e)
+
         return super().eventFilter(obj, e)
 
     def oct_coord(self):
@@ -181,7 +195,7 @@ class AccountInfoWindow(QtWidgets.QMainWindow, AccountDisplay):
         r = min(height, width) / 2 
         height /= 2
         width /= 2
-        points = [QPoint(width + r * math.cos(2 * math.pi * i/8), height + r * math.sin(2 * math.pi * i/8)) for i in range(8)]
+        points = [QPoint(width + r * math.cos(2 * math.pi * i/20), height + r * math.sin(2 * math.pi * i/20)) for i in range(20)]
         return points
 
        
@@ -423,7 +437,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.HomeScreen.AccountsHolder.show()
 
     def create_gradients(self):
-        self.ageGradient = list(x.rgb for x in list(Color("green").range_to(Color("red"), 6)))
+        self.ageGradient = list(x.hex for x in list(Color("green").range_to(Color("red"), 5)))
         self.strengthGradient = list(x.hex for x in list(Color("red").range_to(Color("green"), 6)))
         self.hibpGradient = list(x.hex for x in list(Color("green").range_to(Color("red"), 4)))
     
@@ -513,10 +527,23 @@ class MyWindow(QtWidgets.QMainWindow):
         return strength
 
 
-    def octagon_coordinates(self):
-        side1 = [QPoint((x*(1)),x*(1 + math.sqrt(400))) for x in [1, -1]]
-        side2 = [QPoint(x*(1 + math.sqrt(400)), (x*(1)) ) for x in [1,-1]]
-        return side1+side2
+    def time_from(self, thenstring):
+        now = datetime.now()
+        then = datetime.strptime(thenstring, "%y %m %d")
+        age = now - then
+        return age
+
+    def age_score(self, age):
+        years = math.floor(age.days / 365)
+        months = (age.days - (years*365)) / 30
+
+        if years >= 2: return 4
+        elif years == 1:
+            if months > 6: return 3
+            else: return 2
+        else:
+            if months > 6 : return 1
+            else: return 0
         
     def accountPopup(self, id):
         name = self.account_widgetsBG.button(id).text()
@@ -524,18 +551,21 @@ class MyWindow(QtWidgets.QMainWindow):
         newaccinfo = get_new_account(name, self.userid, self.user['idToken'])
         email= newaccinfo.val()['Email']
         username = newaccinfo.val()['Username']
+        creation_date = newaccinfo.val()['Created_On']
         password = decrypt_password(self.userid, name, self.user['idToken'])
         decrypt_cleanup(self.userid, name, self.user['idToken'])
+        age = self.time_from(creation_date)
+        agescore = self.age_score(age)
         hiddenPassword = "\u2022" * len(password)
         self.HIBPS = int(HIBP.HIBP(password))
         self.bftime = BFtime(password)
         status = self.hibpScore(self.HIBPS)
         strength = self.pStrength(password)
-        #points = self.octagon_coordinates()
-        points = [QPoint(302,8), QPoint(227,8),QPoint(173,62),QPoint(173,138), QPoint(227,192),QPoint(302,192), QPoint(357,138), QPoint(357,62)]
+        years = math.floor(age.days/365)
+        months = math.floor((age.days - years * 365)/30)
 
-        if(strength == 0): self.newacc = AccountInfoWindow(self.strengthGradient[strength], self.hibpGradient[status])
-        else: self.newacc = AccountInfoWindow(self.strengthGradient[strength-1], self.hibpGradient[status])
+        if(strength == 0): self.newacc = AccountInfoWindow(self.strengthGradient[strength], self.hibpGradient[status], self.ageGradient[agescore])
+        else: self.newacc = AccountInfoWindow(self.strengthGradient[strength-1], self.hibpGradient[status], self.ageGradient[agescore])
        
         
         self.newacc.setCentralWidget(self.newacc.widget)
@@ -543,6 +573,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.newacc.time_to_crack.setText(self.bftime)
         self.newacc.Password_status_box.setText("Password Breaches:\n{}".format(self.HIBPS))
         self.newacc.password_strength_box.setText("Strength Score:\n{}/5".format(strength))
+        self.newacc.password_age_box.setText("Password Age:\n {} years, {} months".format(years, months))
         self.newacc.Password_status_box.setAlignment(QtCore.Qt.AlignCenter)
         self.newacc.password_strength_box.setAlignment(QtCore.Qt.AlignCenter)
 
@@ -580,6 +611,8 @@ class MyWindow(QtWidgets.QMainWindow):
             self.errorWindow("MISSING_LASTNAME", self.CreateAccountScreen)
             return
         email = self.CreateAccountScreen.NewEmail.toPlainText()
+
+        
 
         try:
             newuser = DB.create_new_user(email,password)
@@ -619,11 +652,13 @@ class MyWindow(QtWidgets.QMainWindow):
         storeusername = self.AddStoreScreen.textEdit_2.toPlainText()
         storepassword = self.AddStoreScreen.textEdit_3.toPlainText()
         storeemail = self.AddStoreScreen.textEdit_4.toPlainText()
+        today = date.today()
+        creation_date = today.strftime("%y %m %d")
         isEncrypted = False
-        data = {store:{"Email":storeemail, "Password" : storepassword, "Username" : storeusername, 'isEncrypted' : isEncrypted}}
+        data = {store:{"Email":storeemail, "Password" : storepassword, "Username" : storeusername, 'Created_On': creation_date, 'isEncrypted' : isEncrypted}}
         DB.add_store(data, self.user['idToken'], self.userid)
         self.HomeScreen.show()
-        self.AddStoreScreen.hide()
+        self.AddStoreScreen.hide() 
         self.AddStoreScreen.textEdit.clear()
         self.AddStoreScreen.textEdit_2.clear()
         self.AddStoreScreen.textEdit_3.clear()
