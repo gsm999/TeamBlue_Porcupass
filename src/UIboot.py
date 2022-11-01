@@ -195,7 +195,7 @@ class AccountInfoWindow(QtWidgets.QMainWindow, AccountDisplay):
         r = min(height, width) / 2 
         height /= 2
         width /= 2
-        points = [QPoint(width + r * math.cos(2 * math.pi * i/20), height + r * math.sin(2 * math.pi * i/20)) for i in range(20)]
+        points = [QPoint(int(width + r * math.cos(2 * math.pi * i/20)), int(height + r * math.sin(2 * math.pi * i/20))) for i in range(20)]
         return points
 
        
