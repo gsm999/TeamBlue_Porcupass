@@ -34,9 +34,9 @@ def HIBP(password) -> None:
     result = check(password)
     if isinstance(result, tuple) and result[0]:
         #print(f"Password found as hash {result[1]}")
-        return (f"Password found: {result[2]} times")
+        return result[2]
     else:
-        return ("Password not found.")
+        return 0
 
 if __name__ == "__main__":
     main()
