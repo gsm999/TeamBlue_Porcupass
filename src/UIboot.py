@@ -195,7 +195,7 @@ class AccountInfoWindow(QtWidgets.QMainWindow, AccountDisplay):
         r = min(height, width) / 2 
         height /= 2
         width /= 2
-        points = [QPoint(width + r * math.cos(2 * math.pi * i/20), height + r * math.sin(2 * math.pi * i/20)) for i in range(20)]
+        points = [QPoint(int(width + r * math.cos(2 * math.pi * i/20)), int(height + r * math.sin(2 * math.pi * i/20))) for i in range(20)]
         return points
 
        
@@ -278,7 +278,7 @@ class MyWindow(QtWidgets.QMainWindow):
     
         
     def accstream_handler(self, message):
-        if message["event"] == "patch":
+        if message["event"] == "patch" or "delete":
             self.guiupdate.accsignal.emit()
 
     
@@ -544,11 +544,37 @@ class MyWindow(QtWidgets.QMainWindow):
         else:
             if months > 6 : return 1
             else: return 0
+
+    def updatePassword(self, name):
+        text, ok = QtWidgets.QInputDialog().getText(self, "Update Password", "New Password:", QtWidgets.QLineEdit.Normal)
+        if ok and text:
+            now = date.today().strftime("%y %m %d")
+            update_password(self.userid, name, self.user['idToken'], text, now)
+            q = QtWidgets.QMessageBox()
+            q.setWindowTitle("Password Changed")
+            q.setText("Window closing, please reopen to see reflected changes.")
+            finish = q.exec_()
+            self.newacc.close()
+            self.HomeScreen.show()
+        else: return
+
+    def delete_Store(self, account):
+        q = QtWidgets.QMessageBox()
+        q.setWindowTitle("Delete Account")
+        q.setText("Are you sure you want to delete this account? Deleted accounts cannot be recovered.")
+        q.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+        finish = q.exec_()
+        if finish == QtWidgets.QMessageBox.Ok:
+            delete_store(self.userid, account, self.user['idToken'])
+            self.newacc.close()
+            self.HomeScreen.show()
+        else : return
         
     def accountPopup(self, id):
         name = self.account_widgetsBG.button(id).text()
      
         newaccinfo = get_new_account(name, self.userid, self.user['idToken'])
+       
         email= newaccinfo.val()['Email']
         username = newaccinfo.val()['Username']
         creation_date = newaccinfo.val()['Created_On']
@@ -584,6 +610,8 @@ class MyWindow(QtWidgets.QMainWindow):
         self.newacc.showPassword.clicked.connect(lambda:self.newacc.show_password(password, hiddenPassword))
         self.newacc.copyPassword.clicked.connect(lambda:pyperclip.copy(password))
         self.newacc.copyUsername.clicked.connect(lambda:pyperclip.copy(username))
+        self.newacc.update_password.clicked.connect(lambda:self.updatePassword(name))
+        self.newacc.storeDelete.clicked.connect(lambda:self.delete_Store(name))
         self.newacc.password_strength_box.repaint()
         self.newacc.Password_status_box.repaint()
         self.newacc.password_strength_box.show()
