@@ -85,3 +85,10 @@ def decrypt_password(uid, account, token):
 def decrypt_cleanup(uid, account, token):
     UserInfo.child("users").child(uid).child("Plaintext").remove(token)
     UserInfo.child("users").child(uid).child("Accounts").child(account).child("isEncrypted").set(True, token)
+
+def update_password(uid, account, token, newpassword, now):
+    data = {"Created_On" : now, "Password": newpassword, "isEncrypted" : False}
+    UserInfo.child("users").child(uid).child("Accounts").child(account).update(data, token)
+
+def delete_store(uid, account, token):
+    UserInfo.child("users").child(uid).child("Accounts").child(account).remove(token)
