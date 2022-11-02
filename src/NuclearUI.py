@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\John\TeamBlue_Porcupass\res\UI Forms\NukeForm.ui'
+# Form implementation generated from reading ui file 'NukeForm.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -18,59 +18,48 @@ class Ui_Widget(object):
         font = QtGui.QFont()
         font.setFamily("Corbel")
         Widget.setFont(font)
+        Widget.setStyleSheet("background-color: rgb(194, 173, 174);")
         self.Menu = QtWidgets.QToolBox(Widget)
         self.Menu.setGeometry(QtCore.QRect(40, 20, 85, 171))
+        self.Menu.setStyleSheet("color: rgb(0, 0, 0);\n"
+"background-color: rgb(64, 90, 124);")
         self.Menu.setLineWidth(1)
         self.Menu.setObjectName("Menu")
         self.Dropdown = QtWidgets.QWidget()
-        self.Dropdown.setGeometry(QtCore.QRect(0, 0, 85, 129))
+        self.Dropdown.setGeometry(QtCore.QRect(0, 0, 85, 115))
         self.Dropdown.setObjectName("Dropdown")
-        self.Home_Button = QtWidgets.QPushButton(self.Dropdown)
-        self.Home_Button.setGeometry(QtCore.QRect(0, -2, 85, 29))
+        self.widget = QtWidgets.QWidget(self.Dropdown)
+        self.widget.setGeometry(QtCore.QRect(0, -2, 82, 86))
+        self.widget.setObjectName("widget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.widget)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.Home_Button = QtWidgets.QPushButton(self.widget)
         font = QtGui.QFont()
         font.setFamily("Corbel")
         self.Home_Button.setFont(font)
-        self.Home_Button.setStyleSheet("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-"<ui version=\"4.0\">\n"
-" <widget name=\"__qt_fake_top_level\">\n"
-"  <widget class=\"QPushButton\" name=\"pushButton_2\">\n"
-"   <property name=\"geometry\">\n"
-"    <rect>\n"
-"     <x>0</x>\n"
-"     <y>0</y>\n"
-"     <width>85</width>\n"
-"     <height>29</height>\n"
-"    </rect>\n"
-"   </property>\n"
-"   <property name=\"text\">\n"
-"    <string>PushButton</string>\n"
-"   </property>\n"
-"  </widget>\n"
-" </widget>\n"
-" <resources/>\n"
-"</ui>\n"
-"")
+        self.Home_Button.setStyleSheet("color: rgb(0, 0, 0);\n"
+"background-color: rgb(127, 180, 233);")
         self.Home_Button.setObjectName("Home_Button")
-        self.GenPass_Button = QtWidgets.QPushButton(self.Dropdown)
-        self.GenPass_Button.setGeometry(QtCore.QRect(0, 50, 85, 41))
+        self.verticalLayout.addWidget(self.Home_Button)
+        self.GenPass_Button = QtWidgets.QPushButton(self.widget)
         self.GenPass_Button.setFocusPolicy(QtCore.Qt.TabFocus)
+        self.GenPass_Button.setStyleSheet("color: rgb(0, 0, 0);\n"
+"background-color: rgb(127, 180, 233);")
         self.GenPass_Button.setObjectName("GenPass_Button")
-        self.Settings_Button = QtWidgets.QPushButton(self.Dropdown)
-        self.Settings_Button.setGeometry(QtCore.QRect(0, 90, 85, 29))
-        self.Settings_Button.setObjectName("Settings_Button")
-        self.Accounts_Button = QtWidgets.QPushButton(self.Dropdown)
-        self.Accounts_Button.setGeometry(QtCore.QRect(0, 20, 85, 31))
-        self.Accounts_Button.setObjectName("Accounts_Button")
+        self.verticalLayout.addWidget(self.GenPass_Button)
         self.Menu.addItem(self.Dropdown, "")
         self.page = QtWidgets.QWidget()
-        self.page.setGeometry(QtCore.QRect(0, 0, 85, 129))
+        self.page.setGeometry(QtCore.QRect(0, 0, 85, 115))
         self.page.setObjectName("page")
         self.Menu.addItem(self.page, "")
         self.NUKEBUTTON = QtWidgets.QPushButton(Widget)
         self.NUKEBUTTON.setGeometry(QtCore.QRect(270, 280, 281, 171))
+        self.NUKEBUTTON.setStyleSheet("color: rgb(0, 0, 0);\n"
+"background-color: rgb(127, 180, 233);")
         self.NUKEBUTTON.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("C:\\Users\\John\\TeamBlue_Porcupass\\res\\UI Forms\\../NukeImage.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../NukeImage.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.NUKEBUTTON.setIcon(icon)
         self.NUKEBUTTON.setIconSize(QtCore.QSize(231, 171))
         self.NUKEBUTTON.setAutoDefault(True)
@@ -78,11 +67,13 @@ class Ui_Widget(object):
         self.NUKEBUTTON.setFlat(False)
         self.NUKEBUTTON.setObjectName("NUKEBUTTON")
         self.warningTXT = QtWidgets.QTextEdit(Widget)
-        self.warningTXT.setGeometry(QtCore.QRect(210, 160, 411, 71))
+        self.warningTXT.setGeometry(QtCore.QRect(210, 140, 411, 121))
         font = QtGui.QFont()
         font.setFamily("Corbel")
         font.setPointSize(12)
         self.warningTXT.setFont(font)
+        self.warningTXT.setStyleSheet("color: rgb(0, 0, 0);\n"
+"background-color: rgb(255, 255, 255);")
         self.warningTXT.setObjectName("warningTXT")
 
         self.retranslateUi(Widget)
@@ -96,12 +87,10 @@ class Ui_Widget(object):
         self.Home_Button.setText(_translate("Widget", "Home"))
         self.GenPass_Button.setText(_translate("Widget", "Generate \n"
 "Password"))
-        self.Settings_Button.setText(_translate("Widget", "Settings"))
-        self.Accounts_Button.setText(_translate("Widget", "Accounts"))
         self.Menu.setItemText(self.Menu.indexOf(self.Dropdown), _translate("Widget", "Menu"))
         self.Menu.setItemText(self.Menu.indexOf(self.page), _translate("Widget", "Close"))
         self.warningTXT.setHtml(_translate("Widget", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Corbel\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:600; text-decoration: underline;\">WARNING</span><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt;\">: </span></p>\n"

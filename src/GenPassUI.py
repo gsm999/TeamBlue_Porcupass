@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\John\TeamBlue_Porcupass\res\UI Forms\GenPassForm.ui'
+# Form implementation generated from reading ui file 'GenPassForm.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -19,60 +19,96 @@ class Ui_Widget(object):
         font.setFamily("Corbel")
         font.setPointSize(12)
         Widget.setFont(font)
-        self.Menu = QtWidgets.QToolBox(Widget)
-        self.Menu.setGeometry(QtCore.QRect(30, 20, 85, 181))
+        self.widget = QtWidgets.QWidget(Widget)
+        self.widget.setGeometry(QtCore.QRect(10, 10, 781, 571))
+        self.widget.setObjectName("widget")
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.widget)
+        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.splitter_2 = QtWidgets.QSplitter(self.widget)
+        self.splitter_2.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter_2.setObjectName("splitter_2")
+        self.widget1 = QtWidgets.QWidget(self.splitter_2)
+        self.widget1.setObjectName("widget1")
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.widget1)
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.Menu = QtWidgets.QToolBox(self.widget1)
+        self.Menu.setStyleSheet("color: rgb(0, 0, 0);\n"
+"background-color: rgb(64, 90, 124);")
         self.Menu.setLineWidth(1)
         self.Menu.setObjectName("Menu")
         self.Dropdown = QtWidgets.QWidget()
-        self.Dropdown.setGeometry(QtCore.QRect(0, 0, 85, 127))
+        self.Dropdown.setGeometry(QtCore.QRect(0, 0, 125, 83))
         self.Dropdown.setObjectName("Dropdown")
-        self.Home_Button = QtWidgets.QPushButton(self.Dropdown)
-        self.Home_Button.setGeometry(QtCore.QRect(0, 0, 85, 31))
+        self.widget2 = QtWidgets.QWidget(self.Dropdown)
+        self.widget2.setGeometry(QtCore.QRect(0, 0, 82, 106))
+        self.widget2.setObjectName("widget2")
+        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.widget2)
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_6.setSpacing(0)
+        self.verticalLayout_6.setObjectName("verticalLayout_6")
+        self.Home_Button = QtWidgets.QPushButton(self.widget2)
         self.Home_Button.setFocusPolicy(QtCore.Qt.TabFocus)
+        self.Home_Button.setStyleSheet("color: rgb(0, 0, 0);\n"
+"background-color: rgb(127, 180, 233);")
         self.Home_Button.setObjectName("Home_Button")
-        self.Settings_Button = QtWidgets.QPushButton(self.Dropdown)
-        self.Settings_Button.setGeometry(QtCore.QRect(0, 60, 85, 29))
-        self.Settings_Button.setObjectName("Settings_Button")
-        self.Nuke_Button = QtWidgets.QPushButton(self.Dropdown)
-        self.Nuke_Button.setGeometry(QtCore.QRect(0, 88, 85, 41))
+        self.verticalLayout_6.addWidget(self.Home_Button)
+        self.Nuke_Button = QtWidgets.QPushButton(self.widget2)
+        self.Nuke_Button.setStyleSheet("color: rgb(0, 0, 0);\n"
+"background-color: rgb(127, 180, 233);")
         self.Nuke_Button.setObjectName("Nuke_Button")
-        self.Accounts_Button = QtWidgets.QPushButton(self.Dropdown)
-        self.Accounts_Button.setGeometry(QtCore.QRect(0, 30, 85, 29))
-        self.Accounts_Button.setStyleSheet("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-"<ui version=\"4.0\">\n"
-" <widget name=\"__qt_fake_top_level\">\n"
-"  <widget class=\"QPushButton\" name=\"pushButton_2\">\n"
-"   <property name=\"geometry\">\n"
-"    <rect>\n"
-"     <x>0</x>\n"
-"     <y>0</y>\n"
-"     <width>85</width>\n"
-"     <height>29</height>\n"
-"    </rect>\n"
-"   </property>\n"
-"   <property name=\"text\">\n"
-"    <string>PushButton</string>\n"
-"   </property>\n"
-"  </widget>\n"
-" </widget>\n"
-" <resources/>\n"
-"</ui>\n"
-"")
-        self.Accounts_Button.setObjectName("Accounts_Button")
+        self.verticalLayout_6.addWidget(self.Nuke_Button)
         self.Menu.addItem(self.Dropdown, "")
         self.page = QtWidgets.QWidget()
-        self.page.setGeometry(QtCore.QRect(0, 0, 85, 127))
+        self.page.setGeometry(QtCore.QRect(0, 0, 125, 83))
         self.page.setObjectName("page")
         self.Menu.addItem(self.page, "")
-        self.GenPassOut = QtWidgets.QTextBrowser(Widget)
-        self.GenPassOut.setGeometry(QtCore.QRect(200, 180, 401, 31))
+        self.verticalLayout_4.addWidget(self.Menu)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem1)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacerItem2)
+        self.splitter = QtWidgets.QSplitter(self.splitter_2)
+        self.splitter.setOrientation(QtCore.Qt.Vertical)
+        self.splitter.setObjectName("splitter")
+        self.widget3 = QtWidgets.QWidget(self.splitter)
+        self.widget3.setObjectName("widget3")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.widget3)
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.label_2 = QtWidgets.QLabel(self.widget3)
+        font = QtGui.QFont()
+        font.setFamily("Corbel")
+        font.setPointSize(25)
+        self.label_2.setFont(font)
+        self.label_2.setStyleSheet("color: rgb(0, 0, 0);")
+        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_2.setObjectName("label_2")
+        self.verticalLayout_3.addWidget(self.label_2)
+        self.GenPassOut = QtWidgets.QTextBrowser(self.widget3)
+        self.GenPassOut.setMinimumSize(QtCore.QSize(0, 35))
+        self.GenPassOut.setMaximumSize(QtCore.QSize(16777215, 35))
+        self.GenPassOut.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"color: rgb(0, 0, 0);")
         self.GenPassOut.setInputMethodHints(QtCore.Qt.ImhNone)
         self.GenPassOut.setObjectName("GenPassOut")
-        self.GeneratePass = QtWidgets.QPushButton(Widget)
-        self.GeneratePass.setGeometry(QtCore.QRect(360, 220, 81, 21))
+        self.verticalLayout_3.addWidget(self.GenPassOut)
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem3)
+        self.GeneratePass = QtWidgets.QPushButton(self.widget3)
+        self.GeneratePass.setStyleSheet("color: rgb(0, 0, 0);\n"
+"background-color: rgb(127, 180, 233);")
         self.GeneratePass.setObjectName("GeneratePass")
-        self.layoutWidget = QtWidgets.QWidget(Widget)
-        self.layoutWidget.setGeometry(QtCore.QRect(110, 268, 591, 191))
+        self.horizontalLayout_3.addWidget(self.GeneratePass)
+        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem4)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_3)
+        self.layoutWidget = QtWidgets.QWidget(self.splitter)
         self.layoutWidget.setObjectName("layoutWidget")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -80,15 +116,19 @@ class Ui_Widget(object):
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.NumericPass = QtWidgets.QCheckBox(self.layoutWidget)
+        self.NumericPass.setStyleSheet("color: rgb(0, 0, 0);")
         self.NumericPass.setObjectName("NumericPass")
         self.verticalLayout_2.addWidget(self.NumericPass)
         self.LowerPass = QtWidgets.QCheckBox(self.layoutWidget)
+        self.LowerPass.setStyleSheet("color: rgb(0, 0, 0);")
         self.LowerPass.setObjectName("LowerPass")
         self.verticalLayout_2.addWidget(self.LowerPass)
         self.CapPass = QtWidgets.QCheckBox(self.layoutWidget)
+        self.CapPass.setStyleSheet("color: rgb(0, 0, 0);")
         self.CapPass.setObjectName("CapPass")
         self.verticalLayout_2.addWidget(self.CapPass)
         self.SpecCharPass = QtWidgets.QCheckBox(self.layoutWidget)
+        self.SpecCharPass.setStyleSheet("color: rgb(0, 0, 0);")
         self.SpecCharPass.setObjectName("SpecCharPass")
         self.verticalLayout_2.addWidget(self.SpecCharPass)
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
@@ -97,23 +137,24 @@ class Ui_Widget(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.PassCharLim = QtWidgets.QSpinBox(self.layoutWidget)
+        self.PassCharLim.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"color: rgb(0, 0, 0);")
         self.PassCharLim.setMinimum(15)
         self.PassCharLim.setObjectName("PassCharLim")
         self.horizontalLayout.addWidget(self.PassCharLim)
         self.label = QtWidgets.QLabel(self.layoutWidget)
+        self.label.setStyleSheet("color: rgb(0, 0, 0);")
         self.label.setObjectName("label")
         self.horizontalLayout.addWidget(self.label)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.SaveGenPassSet = QtWidgets.QCheckBox(self.layoutWidget)
         self.SaveGenPassSet.setMouseTracking(False)
+        self.SaveGenPassSet.setStyleSheet("color: rgb(0, 0, 0);")
         self.SaveGenPassSet.setObjectName("SaveGenPassSet")
         self.verticalLayout.addWidget(self.SaveGenPassSet)
         self.horizontalLayout_2.addLayout(self.verticalLayout)
+        self.verticalLayout_5.addWidget(self.splitter_2)
 
-        self.GeneratePass.setStyleSheet("border: 2px solid #405A7C;"
-        "border-radius: 8px;" "background: #7FB4E9")
-        self.GenPassOut.setStyleSheet("border: 2px solid #405A7C;"
-        "border-radius: 8px;" "background: #FFFFFF")
         self.retranslateUi(Widget)
         self.Menu.setCurrentIndex(1)
         self.Menu.layout().setSpacing(0)
@@ -123,15 +164,14 @@ class Ui_Widget(object):
         _translate = QtCore.QCoreApplication.translate
         Widget.setWindowTitle(_translate("Widget", "Widget"))
         self.Home_Button.setText(_translate("Widget", "Home"))
-        self.Settings_Button.setText(_translate("Widget", "Settings"))
         self.Nuke_Button.setText(_translate("Widget", "Nuclear \n"
 "Option"))
-        self.Accounts_Button.setText(_translate("Widget", "Accounts"))
         self.Menu.setItemText(self.Menu.indexOf(self.Dropdown), _translate("Widget", "Menu"))
         self.Menu.setItemText(self.Menu.indexOf(self.page), _translate("Widget", "Close"))
+        self.label_2.setText(_translate("Widget", "Generate Password"))
         self.GeneratePass.setText(_translate("Widget", "Generate"))
         self.NumericPass.setText(_translate("Widget", " Numbers "))
-        self.LowerPass.setText(_translate("Widget", "Lowecase Only"))
+        self.LowerPass.setText(_translate("Widget", "Lowercase Only"))
         self.CapPass.setText(_translate("Widget", "Uppercase Only"))
         self.SpecCharPass.setText(_translate("Widget", "Special Characters"))
         self.label.setText(_translate("Widget", "Character Limit"))

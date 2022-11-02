@@ -30,16 +30,22 @@ from bruteForceTime import *
 import pyperclip
 from colour import Color
 from datetime import date, datetime
+import os
+
+script_dir = os.path.dirname(__file__) 
+res_dir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'res'))
 
 class CreateAccountWindow(QtWidgets.QMainWindow, CreateAccountUI): 
     def __init__(self):
         super(CreateAccountWindow, self).__init__()
         self.setupUi(self)
+        self.setCentralWidget(self.widget)
 
 class AccountsWindow(QtWidgets.QMainWindow, AccountUI):
     def __init__(self):
         super(AccountsWindow, self).__init__()
         self.setupUi(self)
+        self.setCentralWidget(self.widget_2)
         self.closeProtocol = Cleanup()
         self.moveProtocol = WidgetMoved()
         self.resizeProtocol = WidgetResized()
@@ -63,9 +69,11 @@ class GenPassWindow(QtWidgets.QMainWindow, GenPassUI):
     def __init__(self):
         super(GenPassWindow, self).__init__()
         self.setupUi(self)
+        self.setCentralWidget(self.widget)
         self.closeProtocol = Cleanup()
         self.moveProtocol = WidgetMoved()
         self.resizeProtocol = WidgetResized()
+       
     
     def closeEvent(self, event):
         self.closeProtocol.signal.emit()
@@ -86,6 +94,7 @@ class AddStoreWindow(QtWidgets.QMainWindow, NewStoreUI):
     def __init__(self):
         super(AddStoreWindow, self).__init__()
         self.setupUi(self)
+        self.setCentralWidget(self.widget)
 
 class NukeWindow(QtWidgets.QMainWindow, NukeUI):
     def __init__(self):
@@ -314,9 +323,10 @@ class MyWindow(QtWidgets.QMainWindow):
                      "MISSING_USERNAME": "Please enter a username",
                      "INVALID_EMAIL": "Please ennter a valid email adress",
                      "MISSING_EMAIL": "Please enter an email adress",
-                     "INVALID_PASSWORD": "Pleasse enter a valid password",
+                     "INVALID_PASSWORD": "Please enter a valid password",
                      "EMAIL_NOT_FOUND": "Email was not found",
-                     "WEAK_PASSWORD : Password should be at least 6 characters": "Password must be at leat 6 characters"}
+                     "WEAK_PASSWORD : Password should be at least 6 characters": "Password must be at leat 6 characters",
+                     "MISSING_STORE" : "Please enter an account name"}
         q = QtWidgets.QMessageBox()
         q.setWindowTitle("Error Occured")
         q.setText(errordict[errormessage])
@@ -338,7 +348,7 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def Enter_clicked(self):
         #email = self.loginscreen.LoginUser.toPlainText()
-        email = self.loginscreen.LoginUser.text()
+        email = self.loginscreen.LoginUser.toPlainText()
         password = self.loginscreen.LoginPassword.text()
         try:
             self.user = DB.DB_Login(email, password)
@@ -396,7 +406,6 @@ class MyWindow(QtWidgets.QMainWindow):
 
           
             self.HomeScreen.GenPass_Button.clicked.connect(self.GenPass_Clicked)
-            self.HomeScreen.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.HomeScreen.Nuke_Button.clicked.connect(self.Nuke_Clicked)
             self.HomeScreen.AccountsGridV.stateChanged.connect(self.gridChecked)
             self.HomeScreen.AccountVertV.stateChanged.connect(self.vertChecked)
@@ -405,7 +414,7 @@ class MyWindow(QtWidgets.QMainWindow):
             self.HomeScreen.resizeProtocol.signal.connect(lambda:self.window_concurrency(self.HomeScreen))
 
             self.genpass.Home_Button.clicked.connect(self.Home_Clicked)
-            self.genpass.Settings_Button.clicked.connect(self.Settings_Clicked)
+
             self.genpass.Nuke_Button.clicked.connect(self.Nuke_Clicked)
             self.genpass.GeneratePass.clicked.connect(self.Generate_Password)
             self.genpass.closeProtocol.signal.connect(self.close)
@@ -421,7 +430,6 @@ class MyWindow(QtWidgets.QMainWindow):
 
             self.nukeopt.Home_Button.clicked.connect(self.Home_Clicked)
             self.nukeopt.GenPass_Button.clicked.connect(self.GenPass_Clicked)
-            self.nukeopt.Settings_Button.clicked.connect(self.Settings_Clicked)
             self.nukeopt.NUKEBUTTON.clicked.connect(lambda:DB.nuke_info(self.user['idToken'], self.userid))
             self.nukeopt.closeProtocol.signal.connect(self.close)
             self.nukeopt.moveProtocol.signal.connect(lambda:self.window_concurrency(self.nukeopt))
@@ -461,6 +469,10 @@ class MyWindow(QtWidgets.QMainWindow):
                 newG.setStyleSheet("background: #7FB4E9")
                 newV = QtWidgets.QPushButton(account.key(), objectName = account.key())
                 newV.setStyleSheet("background: #7FB4E9")
+                newG.setFont(QtGui.QFont('Segoe UI', 16))
+                newV.setFont(QtGui.QFont('Segoe UI', 16))
+                newG.setMinimumSize(50, 50)
+                newV.setMinimumSize(50, 50)
                 self.account_widgetsG.append(newG)
                 self.account_widgetsV.append(newV)
                 self.account_widgetsBG.addButton(newG, c)
@@ -673,13 +685,25 @@ class MyWindow(QtWidgets.QMainWindow):
     def Add_Store_Clicked(self):
         self.AddStoreScreen.show()
         self.HomeScreen.hide()
-        self.AddStoreScreen.pushButton.clicked.connect(self.Store_Added)
+        self.AddStoreScreen.pushCreate.clicked.connect(self.Store_Added)
 
     def Store_Added(self):
         store = self.AddStoreScreen.textEdit.toPlainText()
+        if store == "":
+            self.errorWindow("MISSING_STORE", self.AddStoreScreen)
+            return
         storeusername = self.AddStoreScreen.textEdit_2.toPlainText()
+        if storeusername == "":
+            self.errorWindow("MISSING_USERNAME", self.AddStoreScreen)
+            return
         storepassword = self.AddStoreScreen.textEdit_3.toPlainText()
+        if storepassword == "":
+            self.errorWindow("MISSING_PASSWORD", self.AddStoreScreen)
+            return
         storeemail = self.AddStoreScreen.textEdit_4.toPlainText()
+        if storeemail == "":
+            self.errorWindow("MISSING_EMAIL", self.AddStoreScreen)
+            return
         today = date.today()
         creation_date = today.strftime("%y %m %d")
         isEncrypted = False
@@ -745,7 +769,7 @@ class MyWindow(QtWidgets.QMainWindow):
     def Nuke_Clicked(self):
         self.close_screens(self.nukeopt)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(r"C:\Users\fullw\source\repos\TeamBluePorcupass\res\NukeImage.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon.addPixmap(QtGui.QPixmap(res_dir + "/NukeImage.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.nukeopt.NUKEBUTTON.setIcon(icon)
         self.nukeopt.NUKEBUTTON.setIconSize(QtCore.QSize(231, 171))
         self.nukeopt.NUKEBUTTON.setAutoDefault(True)

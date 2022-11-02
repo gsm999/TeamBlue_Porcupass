@@ -18,6 +18,9 @@
   <property name="windowTitle">
    <string>Widget</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(194, 173, 174);</string>
+  </property>
   <widget class="QToolBox" name="Menu">
    <property name="geometry">
     <rect>
@@ -26,6 +29,10 @@
      <width>85</width>
      <height>171</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(64, 90, 124);</string>
    </property>
    <property name="lineWidth">
     <number>1</number>
@@ -42,94 +49,54 @@
       <x>0</x>
       <y>0</y>
       <width>85</width>
-      <height>129</height>
+      <height>115</height>
      </rect>
     </property>
     <attribute name="label">
      <string>Menu</string>
     </attribute>
-    <widget class="QPushButton" name="Home_Button">
+    <widget class="QWidget" name="">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>-2</y>
-       <width>85</width>
-       <height>29</height>
+       <width>82</width>
+       <height>86</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>Corbel</family>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;ui version=&quot;4.0&quot;&gt;
- &lt;widget name=&quot;__qt_fake_top_level&quot;&gt;
-  &lt;widget class=&quot;QPushButton&quot; name=&quot;pushButton_2&quot;&gt;
-   &lt;property name=&quot;geometry&quot;&gt;
-    &lt;rect&gt;
-     &lt;x&gt;0&lt;/x&gt;
-     &lt;y&gt;0&lt;/y&gt;
-     &lt;width&gt;85&lt;/width&gt;
-     &lt;height&gt;29&lt;/height&gt;
-    &lt;/rect&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;text&quot;&gt;
-    &lt;string&gt;PushButton&lt;/string&gt;
-   &lt;/property&gt;
-  &lt;/widget&gt;
- &lt;/widget&gt;
- &lt;resources/&gt;
-&lt;/ui&gt;
-</string>
-     </property>
-     <property name="text">
-      <string>Home</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="GenPass_Button">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>50</y>
-       <width>85</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::TabFocus</enum>
-     </property>
-     <property name="text">
-      <string>Generate 
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QPushButton" name="Home_Button">
+        <property name="font">
+         <font>
+          <family>Corbel</family>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(127, 180, 233);</string>
+        </property>
+        <property name="text">
+         <string>Home</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="GenPass_Button">
+        <property name="focusPolicy">
+         <enum>Qt::TabFocus</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(127, 180, 233);</string>
+        </property>
+        <property name="text">
+         <string>Generate 
 Password</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="Settings_Button">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>90</y>
-       <width>85</width>
-       <height>29</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Settings</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="Accounts_Button">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>20</y>
-       <width>85</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Accounts</string>
-     </property>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </widget>
    <widget class="QWidget" name="page">
@@ -138,7 +105,7 @@ Password</string>
       <x>0</x>
       <y>0</y>
       <width>85</width>
-      <height>129</height>
+      <height>115</height>
      </rect>
     </property>
     <attribute name="label">
@@ -154,6 +121,10 @@ Password</string>
      <width>281</width>
      <height>171</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(127, 180, 233);</string>
    </property>
    <property name="text">
     <string/>
@@ -182,9 +153,9 @@ Password</string>
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>160</y>
+     <y>140</y>
      <width>411</width>
-     <height>71</height>
+     <height>121</height>
     </rect>
    </property>
    <property name="font">
@@ -193,9 +164,13 @@ Password</string>
      <pointsize>12</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);</string>
+   </property>
    <property name="html">
     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Corbel'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:600; text-decoration: underline;&quot;&gt;WARNING&lt;/span&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt;&quot;&gt;: &lt;/span&gt;&lt;/p&gt;
