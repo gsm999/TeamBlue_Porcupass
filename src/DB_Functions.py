@@ -51,7 +51,10 @@ def update_user_info(data, token):
 
 
 def add_store(data, token, uid):
-    UserInfo.child("users").child(uid).child("Accounts").update(data, token)
+    try:
+        UserInfo.child("users").child(uid).child("Accounts").update(data, token)
+    except:
+        pass
 
 def nuke_info(token, uid):
     UserInfo.child("users").child(uid).remove(token)

@@ -6,224 +6,238 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>817</width>
+    <height>594</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <widget class="QToolBox" name="Menu">
+  <widget class="QWidget" name="widget_2" native="true">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>85</width>
-     <height>181</height>
+     <x>11</x>
+     <y>11</y>
+     <width>791</width>
+     <height>591</height>
     </rect>
    </property>
-   <property name="lineWidth">
-    <number>1</number>
-   </property>
-   <property name="currentIndex">
-    <number>1</number>
-   </property>
-   <property name="tabSpacing">
-    <number>0</number>
-   </property>
-   <widget class="QWidget" name="Dropdown">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>85</width>
-      <height>125</height>
-     </rect>
-    </property>
-    <attribute name="label">
-     <string>Menu</string>
-    </attribute>
-    <widget class="QPushButton" name="Home_Button">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>-2</y>
-       <width>85</width>
-       <height>29</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;ui version=&quot;4.0&quot;&gt;
- &lt;widget name=&quot;__qt_fake_top_level&quot;&gt;
-  &lt;widget class=&quot;QPushButton&quot; name=&quot;pushButton_2&quot;&gt;
-   &lt;property name=&quot;geometry&quot;&gt;
-    &lt;rect&gt;
-     &lt;x&gt;0&lt;/x&gt;
-     &lt;y&gt;0&lt;/y&gt;
-     &lt;width&gt;85&lt;/width&gt;
-     &lt;height&gt;29&lt;/height&gt;
-    &lt;/rect&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;text&quot;&gt;
-    &lt;string&gt;PushButton&lt;/string&gt;
-   &lt;/property&gt;
-  &lt;/widget&gt;
- &lt;/widget&gt;
- &lt;resources/&gt;
-&lt;/ui&gt;
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QSplitter" name="splitter_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QSplitter" name="splitter">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <widget class="QWidget" name="">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QToolBox" name="Menu">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>150</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(64, 90, 124);</string>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <property name="tabSpacing">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="Dropdown">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>99</width>
+              <height>113</height>
+             </rect>
+            </property>
+            <attribute name="label">
+             <string>Menu</string>
+            </attribute>
+            <widget class="QWidget" name="">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>82</width>
+               <height>107</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <widget class="QPushButton" name="GenPass_Button">
+                <property name="focusPolicy">
+                 <enum>Qt::TabFocus</enum>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(127, 180, 233);
 </string>
-     </property>
-     <property name="text">
-      <string>Home</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="GenPass_Button">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>24</y>
-       <width>85</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::TabFocus</enum>
-     </property>
-     <property name="text">
-      <string>Generate 
+                </property>
+                <property name="text">
+                 <string>Generate 
 Password</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="Settings_Button">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>62</y>
-       <width>85</width>
-       <height>29</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Settings</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="Nuke_Button">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>88</y>
-       <width>85</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Nuclear 
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="Nuke_Button">
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(127, 180, 233);
+</string>
+                </property>
+                <property name="text">
+                 <string>Nuclear 
 Option</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="page">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>85</width>
-      <height>125</height>
-     </rect>
-    </property>
-    <attribute name="label">
-     <string>Close</string>
-    </attribute>
-   </widget>
-  </widget>
-  <widget class="QCommandLinkButton" name="commandLinkButton">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>540</y>
-     <width>391</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>New store account? Click here to add it</string>
-   </property>
-  </widget>
-  <widget class="QScrollArea" name="AccountsHolder">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>60</y>
-     <width>641</width>
-     <height>451</height>
-    </rect>
-   </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
-   </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>639</width>
-      <height>449</height>
-     </rect>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QCheckBox" name="AccountsGridV">
-   <property name="geometry">
-    <rect>
-     <x>490</x>
-     <y>30</y>
-     <width>111</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Grid Layout</string>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="AccountVertV">
-   <property name="geometry">
-    <rect>
-     <x>620</x>
-     <y>30</y>
-     <width>131</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Vertical Layout</string>
-   </property>
-  </widget>
-  <widget class="QScrollArea" name="AccountsHolder2">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>60</y>
-     <width>641</width>
-     <height>451</height>
-    </rect>
-   </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
-   </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents_2">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>639</width>
-      <height>449</height>
-     </rect>
-    </property>
-   </widget>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+           <widget class="QWidget" name="page">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>99</width>
+              <height>113</height>
+             </rect>
+            </property>
+            <attribute name="label">
+             <string>Close</string>
+            </attribute>
+           </widget>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="">
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget" native="true"/>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QCheckBox" name="AccountsGridV">
+               <property name="text">
+                <string>Grid Layout</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="AccountVertV">
+               <property name="text">
+                <string>Vertical Layout</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QScrollArea" name="AccountsHolder2">
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
+           <widget class="QWidget" name="scrollAreaWidgetContents_2">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>659</width>
+              <height>236</height>
+             </rect>
+            </property>
+           </widget>
+          </widget>
+         </item>
+         <item>
+          <widget class="QScrollArea" name="AccountsHolder">
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
+           <widget class="QWidget" name="scrollAreaWidgetContents">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>659</width>
+              <height>236</height>
+             </rect>
+            </property>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QCommandLinkButton" name="commandLinkButton">
+       <property name="text">
+        <string>New store account? Click here to add it</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

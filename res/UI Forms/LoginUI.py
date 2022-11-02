@@ -9,9 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import os
-script_dir = os.path.dirname(__file__) 
-res_dir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'res'))
+
 
 class Ui_Widget(object):
     def setupUi(self, Widget):
@@ -79,8 +77,6 @@ class Ui_Widget(object):
         icon.addPixmap(QtGui.QPixmap("../eye_visible.svg"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.PasswordToggle.setIcon(icon)
         self.PasswordToggle.setObjectName("PasswordToggle")
-        self.PasswordToggle.setIcon(QtGui.QIcon(res_dir + "/eye_visible.svg"))
-        self.PasswordToggle.clicked.connect(self.toggleVisibility)
         self.horizontalLayout.addWidget(self.PasswordToggle)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.PassReset = QtWidgets.QPushButton(self.widget)
@@ -127,13 +123,8 @@ class Ui_Widget(object):
         self.CreateNewUser.setCheckable(False)
         self.CreateNewUser.setObjectName("CreateNewUser")
         self.verticalLayout.addWidget(self.CreateNewUser)
-        self.Logo = QtWidgets.QPushButton(Widget)
-        self.Logo.setFlat(True)
-        self.Logo.setGeometry(QtCore.QRect(110, 50, 256, 192))
-        self.Logo.setIcon(QtGui.QIcon(res_dir + "/logotp.png"))
-        self.Logo.setIconSize(QtCore.QSize(256,256))
-        self.retranslateUi(Widget)
 
+        self.retranslateUi(Widget)
         QtCore.QMetaObject.connectSlotsByName(Widget)
         Widget.setTabOrder(self.LoginUser, self.LoginPassword)
         Widget.setTabOrder(self.LoginPassword, self.PassReset)
@@ -149,14 +140,6 @@ class Ui_Widget(object):
         self.PassReset.setText(_translate("Widget", "Forgot Password?"))
         self.LoginEnter.setText(_translate("Widget", "Enter"))
         self.CreateNewUser.setText(_translate("Widget", "No account? Click here to create."))
-
-    def toggleVisibility(self):
-        if self.LoginPassword.echoMode()==QtWidgets.QLineEdit.Normal:
-            self.LoginPassword.setEchoMode(QtWidgets.QLineEdit.Password)
-            self.PasswordToggle.setIcon(QtGui.QIcon(res_dir + "/eye_visible.svg"))
-        else:
-            self.LoginPassword.setEchoMode(QtWidgets.QLineEdit.Normal)
-            self.PasswordToggle.setIcon(QtGui.QIcon(res_dir + "/eye_hidden.svg"))
 
 
 if __name__ == "__main__":
